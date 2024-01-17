@@ -11,7 +11,7 @@
             <a href="#" class="text-sm text-purple-700 hover:text-purple-700">Sign Up</a>
           </p>
         </div>
-        <div class="space-y-6">
+        <div class="space-y-4">
           <div class="">
             <CInput placeholder="username"></CInput>
           </div>
@@ -25,12 +25,10 @@
             </div>
           </div>
           <div>
-            <button
-              type="submit"
-              class="w-full flex justify-center bg-purple-800 hover:bg-purple-700 text-gray-100 p-3 rounded-lg tracking-wide font-semibold cursor-pointer transition ease-in duration-500"
-            >
-              Sign in
-            </button>
+            <CButton
+              text="Sign in"
+              classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold"
+            ></CButton>
           </div>
           <div class="flex items-center justify-center space-x-2 my-5">
             <span class="h-px w-16 bg-gray-100"></span>
@@ -38,8 +36,15 @@
             <span class="h-px w-16 bg-gray-100"></span>
           </div>
           <div class="flex justify-center gap-5 w-full">
-            <CButton text="Google" icon="logo-google"></CButton>
-            <CButton text="Facebook"></CButton>
+            <CButton
+              text="Google"
+              icon="logo-google"
+              classes="transition ease-in duration-200 hover:border-gray-900 hover:bg-gray-900"
+            ></CButton>
+            <CButton
+              text="Facebook"
+              classes="transition ease-in duration-200 hover:border-gray-900 hover:bg-gray-900"
+            ></CButton>
           </div>
         </div>
         <div class="mt-7 text-center text-gray-300 text-xs">
@@ -63,4 +68,18 @@
   </div>
 </template>
 
-<script lang='ts'></script>
+<script lang='ts'>
+
+export default {
+  name: 'Login',
+  props: {
+  },
+  methods: {},
+  setup(props) {
+    // test env
+    const publicEnvVar = import.meta.env.VITE_HOST;
+    console.log('publicEnvVar', publicEnvVar);
+    
+  }
+}
+</script>

@@ -1,12 +1,12 @@
 <template>
   <button
     :type="type"
-    class="w-full flex items-center justify-center mb-6 md:mb-0 border border-gray-300 hover:border-gray-900 hover:bg-gray-900 text-sm text-gray-500 p-3 rounded-lg tracking-wide font-medium cursor-pointer transition ease-in duration-200"
+    class="w-full flex items-center justify-center border border-gray-300 text-sm text-gray-500 p-3 rounded-lg tracking-wide cursor-pointer"
     :class="[classes]"
     @click="handleClick"
   >
     <CIcon :name="icon" v-if="!!icon"></CIcon>
-    <span>{{ text }}</span>
+    {{ text }}
   </button>
 </template>
 
