@@ -13,10 +13,10 @@
         </div>
         <div class="space-y-4">
           <div class="">
-            <CInput placeholder="username"></CInput>
+            <CInput v-model="loginData.username" placeholder="username"></CInput>
           </div>
           <div class="relative">
-            <CInput placeholder="password" type="password"></CInput>
+            <CInput v-model="loginData.password" placeholder="password" type="password"></CInput>
           </div>
 
           <div class="flex items-center justify-between">
@@ -28,6 +28,7 @@
             <CButton
               text="Sign in"
               classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold"
+              @clickCButton="login(loginData)"
             ></CButton>
           </div>
           <div class="flex items-center justify-center space-x-2 my-5">
@@ -69,17 +70,30 @@
 </template>
 
 <script lang='ts'>
+import AuthRepository from '@/repositories/AuthRepository'
+import AuthService from '@/services/AuthService'
 
 export default {
   name: 'Login',
-  props: {
+  props: {},
+  methods: {
+    login(payload: any) {
+      AuthRepository.login(payload)
+        .then((res: any) => {
+          AuthService.saveToLocalStorage(res.data)
+        })
+        .catch((err: any) => {
+          console.log('err', err)
+        })
+    }
   },
-  methods: {},
   setup(props) {
-    // test env
-    const publicEnvVar = import.meta.env.VITE_HOST;
-    console.log('publicEnvVar', publicEnvVar);
-    
+    const loginData = {
+      username: '',
+      password: ''
+    }
+
+    return { loginData }
   }
 }
 </script>
