@@ -10,8 +10,17 @@ let api = axios.create({
     }
 })
 
-// Xử lý call API gặp lỗi 401 hoặc 403
-api.interceptors.response.use((response) => response, (error) => {
+api.interceptors.response.use((response) => {
+    const status = response.data.status;
+    const data = response.data;
+    if (status == '200') {
+        return data;
+    }
+
+    return Promise.reject(data);
+}, (error) => {
+    console.log('error', error);
+
     if (error && error.response && [401, 403].includes(error.response.status)) {
         // handle error
     }

@@ -8,38 +8,42 @@
         :type="type"
         @input="updateInput"
       />
+      <div class="text-sm text-rose-600">{{ errors[0] }}</div>
     </label>
   </div>
 </template>
 
 <script lang='ts'>
-
 export default {
-  name: "CInput",
+  name: 'CInput',
   props: {
     label: {
       type: String,
-      default: "",
+      default: ''
     },
     placeholder: {
-      type: String, 
-      default: "",
+      type: String,
+      default: ''
     },
     type: {
       type: String,
-      default: "text",
+      default: 'text'
     },
     modelValue: {
       type: [String, Number],
-      default: "",
+      default: ''
     },
+    errors: {
+      type: [Array],
+      default: []
+    }
   },
   methods: {
     updateInput(event) {
-      this.$emit("update:modelValue", event.target.value);
+      this.$emit('update:modelValue', event.target.value)
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

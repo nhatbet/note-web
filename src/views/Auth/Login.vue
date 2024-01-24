@@ -13,10 +13,19 @@
         </div>
         <div class="space-y-4">
           <div class="">
-            <CInput v-model="loginData.username" placeholder="username"></CInput>
+            <CInput
+              v-model="loginData.username"
+              :errors="loginErrors?.username"
+              placeholder="username"
+            ></CInput>
           </div>
           <div class="relative">
-            <CInput v-model="loginData.password" placeholder="password" type="password"></CInput>
+            <CInput
+              v-model="loginData.password"
+              :errors="loginErrors?.password"
+              placeholder="password"
+              type="password"
+            ></CInput>
           </div>
 
           <div class="flex items-center justify-between">
@@ -70,6 +79,7 @@
 </template>
 
 <script lang='ts'>
+import { ref } from 'vue'
 import AuthRepository from '@/repositories/AuthRepository'
 import AuthService from '@/services/AuthService'
 
@@ -80,20 +90,25 @@ export default {
     login(payload: any) {
       AuthRepository.login(payload)
         .then((res: any) => {
-          AuthService.saveToLocalStorage(res.data)
+          AuthService.saveToLS(res.data)
+          this.loginErrors = {}
         })
         .catch((err: any) => {
-          console.log('err', err)
+          if (err?.status == '422') {
+            this.loginErrors = err.data
+          }
+          AuthService.LSClearAuth()
         })
     }
   },
   setup(props) {
-    const loginData = {
+    const loginData = ref({
       username: '',
       password: ''
-    }
+    })
+    const loginErrors = ref({})
 
-    return { loginData }
+    return { loginData, loginErrors }
   }
 }
 </script>
