@@ -86,6 +86,15 @@ import AuthService from '@/services/AuthService'
 export default {
   name: 'Login',
   props: {},
+  setup(props) {
+    const loginData = ref({
+      username: '',
+      password: ''
+    })
+    const loginErrors = ref({})
+
+    return { loginData, loginErrors }
+  },
   methods: {
     login(payload: any) {
       AuthRepository.login(payload)
@@ -101,14 +110,9 @@ export default {
         })
     }
   },
-  setup(props) {
-    const loginData = ref({
-      username: '',
-      password: ''
-    })
-    const loginErrors = ref({})
-
-    return { loginData, loginErrors }
+  watch: {
+  },
+  computed: {
   }
 }
 </script>
