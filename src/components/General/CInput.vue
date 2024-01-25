@@ -2,6 +2,9 @@
   <div class="">
     <label>
       <span>{{ label }}</span>
+      <span v-show="required" class="text-rose-600 text-xs">
+        <FontAwesomeIcon icon="fa-solid fa-asterisk" />
+      </span>
       <input
         class="w-full text-sm px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
         :placeholder="placeholder"
@@ -36,6 +39,10 @@ export default {
     errors: {
       type: [Array],
       default: []
+    },
+    required: {
+      type: Boolean,
+      default: false,
     }
   },
   methods: {
