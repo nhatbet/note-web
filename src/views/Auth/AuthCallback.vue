@@ -7,11 +7,11 @@
 </template>
 
 <script lang='ts'>
-import { ref } from 'vue'
 import AuthRepository from '@/repositories/AuthRepository'
+import LocalStorageService from '@/services/LocalStorageService'
 
 export default {
-  name: 'Callback',
+  name: 'AuthCallback',
   props: {},
 
   setup(props) {},
@@ -25,8 +25,7 @@ export default {
     loginWithGoogle(provider: string) {
       AuthRepository.loginWithProvider(provider, this.$route.query)
         .then((res: any) => {
-          console.log('res', res)
-
+          LocalStorageService.saveAuthInfo(res.data)
           this.$router.push({ name: 'Home' })
         })
         .catch((err: any) => {

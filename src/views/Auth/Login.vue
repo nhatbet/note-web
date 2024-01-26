@@ -85,7 +85,7 @@
 <script lang='ts'>
 import { ref } from 'vue'
 import AuthRepository from '@/repositories/AuthRepository'
-import AuthService from '@/services/AuthService'
+import LocalStorageService from '@/services/LocalStorageService'
 
 export default {
   name: 'Login',
@@ -113,14 +113,15 @@ export default {
     login(payload: any) {
       AuthRepository.login(payload)
         .then((res: any) => {
-          AuthService.saveToLS(res.data)
+          LocalStorageService.saveAuthInfo(res.data)
           this.loginErrors = {}
+          this.$router.push({ name: 'Home' })
         })
         .catch((err: any) => {
           if (err?.status == '422') {
             this.loginErrors = err.data
           }
-          AuthService.LSClearAuth()
+          LocalStorageService.clearAuthInfo()
         })
     },
     getUrlsGoogleSignIn() {

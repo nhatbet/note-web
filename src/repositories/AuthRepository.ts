@@ -12,6 +12,10 @@ class AuthRepository extends BaseRepository {
         return APIConfig.post(`${this.controller}/login`, payload);
     }
 
+    public logout() {
+        return APIConfig.post(`${this.controller}/logout`);
+    }
+
     public getUrlsGoogleSignIn() {
         return APIConfig.get(`${this.controller}/url-sign-in/google`);
     }

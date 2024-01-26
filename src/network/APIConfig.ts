@@ -1,4 +1,5 @@
 import axios from 'axios';
+import LocalStorageService from '@/services/LocalStorageService';
 
 const baseURL = import.meta.env.VITE_HOST + '/api';
 
@@ -7,7 +8,8 @@ let api = axios.create({
     timeout: 7000,
     headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': LocalStorageService.getBearerToken()
     }
 })
 
