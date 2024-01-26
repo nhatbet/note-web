@@ -17,7 +17,6 @@ export default {
   methods: {},
   setup(props) {
     const icon = ref(CIcons[props.name])
-    console.log(icon)
 
     return { icon }
   }

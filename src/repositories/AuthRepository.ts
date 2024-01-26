@@ -8,6 +8,10 @@ class AuthRepository extends BaseRepository {
         this.controller = '';
     }
 
+    public register(payload: any) {
+        return APIConfig.post(`${this.controller}/register`, payload);
+    }
+
     public login(payload: any) {
         return APIConfig.post(`${this.controller}/login`, payload);
     }

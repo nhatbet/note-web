@@ -8,7 +8,7 @@
           <h3 class="font-semibold text-2xl text-gray-800">Sign In</h3>
           <p class="text-gray-400">
             Don't have an account?
-            <a href="#" class="text-sm text-purple-700 hover:text-purple-700">Sign Up</a>
+            <a href="#" @click.prevent="$router.push({ name: 'Register' })" class="text-sm text-purple-700 hover:text-purple-700">Sign Up</a>
           </p>
         </div>
         <div class="space-y-4">
