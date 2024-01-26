@@ -106,7 +106,13 @@ export default {
     register(payload: any) {
       AuthRepository.register(payload)
         .then((res: any) => {
-          // this.$router.push({ name: 'Login' })
+          this.registerErrors = {};
+          this.$notify({
+            group: "success",
+            title: "success",
+            text: res.message
+          }, 4000)
+          this.$router.push({ name: 'Login' })
         })
         .catch((err: any) => {
           if (err?.status == '422') {

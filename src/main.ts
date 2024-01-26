@@ -15,8 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 /* import specific icons */
 import { faUserSecret, faAsterisk } from '@fortawesome/free-solid-svg-icons'
-// import axios from 'axios'
-// import VueAxios from 'vue-axios'
+import Notifications from 'notiwind'
 
 /* add icons to the library */
 library.add({faUserSecret, faAsterisk})
@@ -25,6 +24,7 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
+app.use(Notifications)
 // app.use(VueAxios, axios)
 
 app.component('CInput', CInput);
