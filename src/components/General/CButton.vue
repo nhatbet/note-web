@@ -1,13 +1,13 @@
 <template>
-  <button
-    :type="type"
+  <a
     class="w-full flex items-center justify-center border border-gray-300 text-sm text-gray-500 p-3 rounded-lg tracking-wide cursor-pointer"
     :class="[classes]"
     @click="handleClick"
+    :href="href"
   >
     <CIcon :name="icon" v-if="!!icon"></CIcon>
     {{ text }}
-  </button>
+  </a>
 </template>
 
 <script lang='ts'>
@@ -22,13 +22,13 @@ export default {
       type: String,
       default: ''
     },
-    type: {
-      type: String,
-      default: ''
-    },
     classes: {
       type: String,
       default: ''
+    },
+    href: {
+      type: String,
+      default: '#'
     },
   },
   methods: {

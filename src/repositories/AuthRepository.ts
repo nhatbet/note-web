@@ -11,6 +11,14 @@ class AuthRepository extends BaseRepository {
     public login(payload: any) {
         return APIConfig.post(`${this.controller}/login`, payload);
     }
+
+    public getUrlsGoogleSignIn() {
+        return APIConfig.get(`${this.controller}/url-sign-in/google`);
+    }
+
+    public loginWithProvider(provider: string, params: any) {
+        return APIConfig.get(`${this.controller}/login/${provider}/callback`, { params: params });
+    }
 }
 
 export default new AuthRepository();

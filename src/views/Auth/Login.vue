@@ -50,10 +50,14 @@
               text="Google"
               icon="logo-google"
               classes="transition ease-in duration-200 hover:border-gray-900 hover:bg-gray-900"
+              :href="socialLoginUrls.google"
+              v-show="socialLoginUrls.google"
             ></CButton>
             <CButton
               text="Facebook"
               classes="transition ease-in duration-200 hover:border-gray-900 hover:bg-gray-900"
+              :href="socialLoginUrls.facebook"
+              v-show="socialLoginUrls.facebook"
             ></CButton>
           </div>
         </div>
@@ -86,15 +90,25 @@ import AuthService from '@/services/AuthService'
 export default {
   name: 'Login',
   props: {},
+
   setup(props) {
     const loginData = ref({
       username: '',
       password: ''
     })
+    const socialLoginUrls = ref({
+      google: null,
+      facebook: null
+    })
     const loginErrors = ref({})
 
-    return { loginData, loginErrors }
+    return { loginData, loginErrors, socialLoginUrls }
   },
+
+  mounted() {
+    this.getUrlsGoogleSignIn()
+  },
+
   methods: {
     login(payload: any) {
       AuthRepository.login(payload)
@@ -108,11 +122,19 @@ export default {
           }
           AuthService.LSClearAuth()
         })
+    },
+    getUrlsGoogleSignIn() {
+      AuthRepository.getUrlsGoogleSignIn()
+        .then((res: any) => {
+          this.socialLoginUrls.google = res.data.url
+        })
+        .catch((err: any) => {
+          this.socialLoginUrls.google = null
+        })
     }
   },
-  watch: {
-  },
-  computed: {
-  }
+
+  watch: {},
+  computed: {}
 }
 </script>

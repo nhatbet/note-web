@@ -4,6 +4,7 @@ const baseURL = import.meta.env.VITE_HOST + '/api';
 
 let api = axios.create({
     baseURL: baseURL,
+    timeout: 7000,
     headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
