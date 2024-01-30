@@ -107,6 +107,7 @@ import LocalStorageService from '@/services/LocalStorageService'
 import CookieService from '@/services/CookieService'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import type { Account, AccountError } from '@/types/TUser'
 
 export default {
   name: 'VLogin',
@@ -115,16 +116,19 @@ export default {
   setup(props) {
     library.add({ faEye, faEyeSlash })
 
-    const loginData = ref({
+    const loginData = ref<Account>({
       username: '',
       password: '',
-      remember: false as Boolean
+      remember: false
     })
     const socialLoginUrls = ref({
       google: null,
       facebook: null
     })
-    const loginErrors = ref({})
+    const loginErrors = ref<AccountError>({
+      username: [],
+      password: [],
+    })
     const passwordVisibility = ref(false)
 
     return { loginData, loginErrors, socialLoginUrls, passwordVisibility }
@@ -146,7 +150,7 @@ export default {
           if (this.loginData.remember) {
             CookieService.rememberMe(payload.username, payload.password)
           }
-          this.loginErrors = {}
+          this.loginErrors = {} as AccountError
           this.$router.push({ name: 'VHome' })
         })
         .catch((err: any) => {

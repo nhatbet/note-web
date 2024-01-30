@@ -82,20 +82,27 @@
 <script lang='ts'>
 import { ref } from 'vue'
 import AuthRepository from '@/repositories/AuthRepository'
+import type { AccountRegister, AccountRegisterError } from '@/types/TUser'
 
 export default {
   name: 'VRegister',
   props: {},
 
   setup(props) {
-    const registerData = ref({
+    const registerData = ref<AccountRegister>({
       email: '',
       name: '',
       username: '',
       password: '',
       password_confirmation: ''
     })
-    const registerErrors = ref({})
+    const registerErrors = ref<AccountRegisterError>({
+      email: [],
+      name: [],
+      username: [],
+      password: [],
+      password_confirmation: [],
+    })
 
     return { registerData, registerErrors }
   },
@@ -106,7 +113,7 @@ export default {
     register(payload: any) {
       AuthRepository.register(payload)
         .then((res: any) => {
-          this.registerErrors = {};
+          this.registerErrors = {} as AccountRegisterError;
           this.$notify({
             group: "success",
             title: "success",
