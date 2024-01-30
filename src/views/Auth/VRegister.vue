@@ -8,7 +8,7 @@
           <h3 class="font-semibold text-2xl text-gray-800">Sign Up</h3>
           <p class="text-gray-400">
             Do have an account?
-            <a href="#" @click.prevent="$router.push({ name: 'Login' })" class="text-sm text-purple-700 hover:text-purple-700">Sign In</a>
+            <a href="#" @click.prevent="$router.push({ name: 'VLogin' })" class="text-sm text-purple-700 hover:text-purple-700">Sign In</a>
           </p>
         </div>
         <div class="space-y-4">
@@ -84,7 +84,7 @@ import { ref } from 'vue'
 import AuthRepository from '@/repositories/AuthRepository'
 
 export default {
-  name: 'Register',
+  name: 'VRegister',
   props: {},
 
   setup(props) {
@@ -112,7 +112,7 @@ export default {
             title: "success",
             text: res.message
           }, 4000)
-          this.$router.push({ name: 'Login' })
+          this.$router.push({ name: 'VLogin' })
         })
         .catch((err: any) => {
           if (err?.status == '422') {

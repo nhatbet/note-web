@@ -10,7 +10,7 @@ import LocalStorageService from '@/services/LocalStorageService'
 import AuthRepository from '@/repositories/AuthRepository'
 
 export default {
-  name: 'Home',
+  name: 'VHome',
   props: {},
 
   setup(props) {},
@@ -19,7 +19,7 @@ export default {
     logout() {
       AuthRepository.logout().finally(() => {
         LocalStorageService.clearAuthInfo();
-        this.$router.push({ name: 'Login' })
+        this.$router.push({ name: 'VLogin' })
       })
     }
   },

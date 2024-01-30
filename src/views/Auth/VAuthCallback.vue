@@ -11,7 +11,7 @@ import AuthRepository from '@/repositories/AuthRepository'
 import LocalStorageService from '@/services/LocalStorageService'
 
 export default {
-  name: 'AuthCallback',
+  name: 'VAuthCallback',
   props: {},
 
   setup(props) {},
@@ -26,10 +26,10 @@ export default {
       AuthRepository.loginWithProvider(provider, this.$route.query)
         .then((res: any) => {
           LocalStorageService.saveAuthInfo(res.data)
-          this.$router.push({ name: 'Home' })
+          this.$router.push({ name: 'VHome' })
         })
         .catch((err: any) => {
-          this.$router.push({ name: 'Login' })
+          this.$router.push({ name: 'VLogin' })
         })
     }
   }

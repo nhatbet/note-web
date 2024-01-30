@@ -10,7 +10,7 @@
             Don't have an account?
             <a
               href="#"
-              @click.prevent="$router.push({ name: 'Register' })"
+              @click.prevent="$router.push({ name: 'VRegister' })"
               class="text-sm text-purple-700 hover:text-purple-700"
               >Sign Up</a
             >
@@ -109,7 +109,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
 export default {
-  name: 'Login',
+  name: 'VLogin',
   props: {},
 
   setup(props) {
@@ -147,7 +147,7 @@ export default {
             CookieService.rememberMe(payload.username, payload.password)
           }
           this.loginErrors = {}
-          this.$router.push({ name: 'Home' })
+          this.$router.push({ name: 'VHome' })
         })
         .catch((err: any) => {
           if (err?.status == '422') {
