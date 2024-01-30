@@ -54,7 +54,7 @@ export default {
     library.add({ faAsterisk })
   },
   methods: {
-    updateInput(event) {
+    updateInput(event: any) {
       this.$emit('update:modelValue', event.target.value)
     }
   }
