@@ -8,7 +8,12 @@
           <h3 class="font-semibold text-2xl text-gray-800">Sign In</h3>
           <p class="text-gray-400">
             Don't have an account?
-            <a href="#" @click.prevent="$router.push({ name: 'Register' })" class="text-sm text-purple-700 hover:text-purple-700">Sign Up</a>
+            <a
+              href="#"
+              @click.prevent="$router.push({ name: 'Register' })"
+              class="text-sm text-purple-700 hover:text-purple-700"
+              >Sign Up</a
+            >
           </p>
         </div>
         <div class="space-y-4">
@@ -24,13 +29,26 @@
               v-model="loginData.password"
               :errors="loginErrors?.password"
               placeholder="password"
-              type="password"
-            ></CInput>
+              :type="passwordVisibility ? 'text' : 'password'"
+            >
+              <template v-slot:RIcon>
+                <span
+                  class="absolute top-1/2 -translate-y-1/2 right-2 text-[#9ca3af]"
+                  @click.stop="togglePassword()"
+                >
+                  <FontAwesomeIcon v-show="passwordVisibility" :icon="['fas', 'eye']" />
+                  <FontAwesomeIcon v-show="!passwordVisibility" :icon="['fas', 'eye-slash']" />
+                </span>
+              </template>
+            </CInput>
           </div>
+          <CCheckBox v-model="loginData.remember" label="Remember me ?"></CCheckBox>
 
           <div class="flex items-center justify-between">
             <div class="text-sm ml-auto">
-              <a href="#" class="text-purple-700 hover:text-purple-600"> Forgot your password? </a>
+              <a href="#" class="text-purple-700 hover:text-purple-600 select-none">
+                Forgot your password?
+              </a>
             </div>
           </div>
           <div>
@@ -86,34 +104,48 @@
 import { ref } from 'vue'
 import AuthRepository from '@/repositories/AuthRepository'
 import LocalStorageService from '@/services/LocalStorageService'
+import CookieService from '@/services/CookieService'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
 export default {
   name: 'Login',
   props: {},
 
   setup(props) {
+    library.add({ faEye, faEyeSlash })
+
     const loginData = ref({
       username: '',
-      password: ''
+      password: '',
+      remember: false as Boolean
     })
     const socialLoginUrls = ref({
       google: null,
       facebook: null
     })
     const loginErrors = ref({})
+    const passwordVisibility = ref(false)
 
-    return { loginData, loginErrors, socialLoginUrls }
+    return { loginData, loginErrors, socialLoginUrls, passwordVisibility }
   },
 
   mounted() {
+    this.setLoginData()
     this.getUrlsGoogleSignIn()
   },
 
   methods: {
+    togglePassword() {
+      this.passwordVisibility = !this.passwordVisibility
+    },
     login(payload: any) {
       AuthRepository.login(payload)
         .then((res: any) => {
           LocalStorageService.saveAuthInfo(res.data)
+          if (this.loginData.remember) {
+            CookieService.rememberMe(payload.username, payload.password)
+          }
           this.loginErrors = {}
           this.$router.push({ name: 'Home' })
         })
@@ -132,6 +164,15 @@ export default {
         .catch((err: any) => {
           this.socialLoginUrls.google = null
         })
+    },
+    setLoginData() {
+      const account = CookieService.getRememberMe()
+      if (account.username) {
+        this.loginData.username = account.username
+      }
+      if (account.password) {
+        this.loginData.password = account.password
+      }
     }
   },
 
