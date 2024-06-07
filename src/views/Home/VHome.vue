@@ -9,8 +9,12 @@
             <span class="line line2"></span>
             <span class="line line3"></span>
           </div>
-          <div class="logo">
-            <h1>Navbar</h1>
+          <div class="navbar-right content-center">
+            <CButton
+              text="Sign in"
+              classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold w-18 h-8"
+              @clickCButton=""
+            ></CButton>
           </div>
         </div>
       </div>
@@ -18,15 +22,12 @@
     <div class="body">
       <div class="menu">
         <div class="menu-items">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">about</a></li>
-          <li><a href="#">blogs</a></li>
-          <li><a href="#">portfolio</a></li>
-          <li><a href="#">contact</a></li>
+          <UPanelMenu />
         </div>
       </div>
       <div class="main">
-        content
+        home
+        <RouterView />
       </div>
     </div>
 
@@ -49,6 +50,7 @@ import Avatar from 'primevue/avatar';
 import InputText from 'primevue/inputtext';
 import Badge from 'primevue/badge';
 import { ref } from 'vue'
+import UPanelMenu from '../Units/UPanelMenu.vue';
 
 export default {
   name: 'VHome',
@@ -57,7 +59,8 @@ export default {
     Menubar,
     Avatar,
     InputText,
-    Badge
+    Badge,
+    UPanelMenu
   },
 
   setup(props) { },
@@ -76,9 +79,12 @@ export default {
 }
 </script>
 
-<style lang="scss">
-body {
-  font-family: "Poppins", sans-serif;
+<style lang="scss" scoped>
+
+.navbar-right {
+  position: absolute;
+  right: 15px;
+  height: 100%;
 }
 
 .container {
@@ -99,30 +105,10 @@ body {
   height: 62px;
 }
 
-.navbar .menu-items {
-  display: flex;
-}
-
-.navbar .nav-container li {
-  list-style: none;
-}
-
-.navbar .nav-container a {
-  text-decoration: none;
-  color: #0e2431;
-  font-weight: 500;
-  font-size: 1.2rem;
-  padding: 0.7rem;
-}
-
-.navbar .nav-container a:hover {
-  font-weight: bolder;
-}
-
 .nav-container {
   display: block;
   position: relative;
-  height: 60px;
+  height: 56px;
 }
 
 .nav-container .checkbox {
@@ -155,7 +141,7 @@ body {
   height: 4px;
   width: 100%;
   border-radius: 10px;
-  background: #0e2431;
+  background: #979797;
 }
 
 .nav-container .hamburger-lines .line1 {
@@ -170,14 +156,6 @@ body {
 .nav-container .hamburger-lines .line3 {
   transform-origin: 0% 100%;
   transition: transform 0.4s ease-in-out;
-}
-
-.logo {
-  position: absolute;
-  top: 5px;
-  right: 15px;
-  font-size: 1.2rem;
-  color: #0e2431;
 }
 
 .nav-container input[type="checkbox"]:checked~.menu-items {
@@ -200,7 +178,7 @@ body {
 .main {
   // width: 1080px;
   width: 100%;
-  border: 1px solid black;
+  // border: 1px solid black;
   z-index: 1;
   background-color: white;
 }
@@ -213,6 +191,7 @@ body {
 }
 .menu-items {
   width: 300px;
+  padding: 10px;
 }
 
 .body {
@@ -220,7 +199,7 @@ body {
   margin: 0 auto;
   max-width: 1360px;
   transition: max-width 0.3s ease-in-out;
-  border: 1px solid black;
+  // border: 1px solid black;
   height: 100vh;
 }
 
@@ -231,6 +210,7 @@ body {
       transition: transform 0.3s ease-in-out;
       transition: width 0.3s ease-in-out;
       width: 300px;
+      z-index: 1;
     }
   }
 
