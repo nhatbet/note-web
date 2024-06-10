@@ -13,7 +13,7 @@
             <CButton
               text="Sign in"
               classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold w-18 h-8"
-              @clickCButton=""
+              @click="visibleLogin = !visibleLogin"
             ></CButton>
           </div>
         </div>
@@ -31,39 +31,34 @@
       </div>
     </div>
 
-
-
-
-
-
+    <!-- List Dialog -->
+    <UDialogLogin v-model="visibleLogin" />
   </div>
 </template>
 
 <script lang='ts'>
 import { RouterLink, RouterView } from 'vue-router'
-import Button from 'primevue/button';
-import Dialog from 'primevue/dialog';
 import LocalStorageService from '@/services/LocalStorageService'
 import AuthRepository from '@/repositories/AuthRepository'
 import Menubar from 'primevue/menubar'
-import Avatar from 'primevue/avatar';
-import InputText from 'primevue/inputtext';
-import Badge from 'primevue/badge';
 import { ref } from 'vue'
-import UPanelMenu from '../Units/UPanelMenu.vue';
+import UPanelMenu from '../Units/UPanelMenu.vue'
+import UDialogLogin from '../Units/UDialogLogin.vue'
 
 export default {
   name: 'VHome',
   props: {},
   components: {
     Menubar,
-    Avatar,
-    InputText,
-    Badge,
-    UPanelMenu
+    UPanelMenu,
+    UDialogLogin
   },
 
-  setup(props) { },
+  setup(props) {
+    const visibleLogin = ref<Boolean>(false)
+
+    return { visibleLogin }
+  },
 
   methods: {
     logout() {
@@ -80,7 +75,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .navbar-right {
   position: absolute;
   right: 15px;
@@ -158,19 +152,19 @@ export default {
   transition: transform 0.4s ease-in-out;
 }
 
-.nav-container input[type="checkbox"]:checked~.menu-items {
+.nav-container input[type='checkbox']:checked ~ .menu-items {
   transform: translateX(0);
 }
 
-.nav-container input[type="checkbox"]:checked~.hamburger-lines .line1 {
+.nav-container input[type='checkbox']:checked ~ .hamburger-lines .line1 {
   transform: rotate(45deg);
 }
 
-.nav-container input[type="checkbox"]:checked~.hamburger-lines .line2 {
+.nav-container input[type='checkbox']:checked ~ .hamburger-lines .line2 {
   transform: scaleY(0);
 }
 
-.nav-container input[type="checkbox"]:checked~.hamburger-lines .line3 {
+.nav-container input[type='checkbox']:checked ~ .hamburger-lines .line3 {
   transform: rotate(-45deg);
 }
 
@@ -203,7 +197,7 @@ export default {
   height: 100vh;
 }
 
-.app:has(input[type="checkbox"]:checked) {
+.app:has(input[type='checkbox']:checked) {
   .body {
     .menu {
       transform: translateX(0);
@@ -215,13 +209,13 @@ export default {
   }
 
   .navbar .container {
-    transition: max-width .3s ease-in-out;
+    transition: max-width 0.3s ease-in-out;
   }
 }
 
-.app:has(input[type="checkbox"]:not(:checked)) {
+.app:has(input[type='checkbox']:not(:checked)) {
   .menu {
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
   }
 
   .body {
@@ -230,7 +224,7 @@ export default {
 
   .navbar .container {
     max-width: 1080px;
-    transition: max-width .3s ease-in-out;
+    transition: max-width 0.3s ease-in-out;
   }
 }
 </style>

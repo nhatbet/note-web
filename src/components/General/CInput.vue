@@ -9,11 +9,10 @@
         class="w-full text-sm px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
         :placeholder="placeholder"
         :type="type"
-        @input="updateInput"
-        :value="modelValue"
+        v-model="model"
       />
       <slot name="RIcon"/><slot />
-      <div class="text-sm text-rose-600">{{ errors[0] }}</div>
+      <small class="text-sm text-rose-600">{{ errors[0] }}</small>
     </label>
   </div>
 </template>
@@ -21,10 +20,15 @@
 <script lang='ts'>
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faAsterisk } from '@fortawesome/free-solid-svg-icons'
+import { computed } from 'vue'
 
 export default {
   name: 'CInput',
   props: {
+    modelValue: {
+      type: [String, Number],
+      default: ''
+    },
     label: {
       type: String,
       default: ''
@@ -37,27 +41,29 @@ export default {
       type: String,
       default: 'text'
     },
-    modelValue: {
-      type: [String, Number],
-      default: ''
-    },
     errors: {
       type: [Array],
       default: []
     },
     required: {
       type: Boolean,
-      default: false,
+      default: false
     }
   },
-  setup(props) {
+  components: {},
+  setup(props, { emit }) {
     library.add({ faAsterisk })
+    const model = computed({
+      get: () => props.modelValue,
+      set: (value) => {
+        emit('update:modelValue', value)
+      }
+    })
+
+    return { model }
   },
-  methods: {
-    updateInput(event: any) {
-      this.$emit('update:modelValue', event.target.value)
-    }
-  }
+
+  methods: {}
 }
 </script>
 
