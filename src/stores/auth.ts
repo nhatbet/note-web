@@ -1,20 +1,21 @@
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
-  state: () => {
-    return {
-      isAuthenticated: false,
-      profile: {}
-    }
+  state: () => ({
+    isAuthenticated: false,
+    profile: {}
+  }),
+
+  getters: {
+    // doubleCount: (state) => state.counter * 2
   },
 
-  getters: {},
   actions: {
     setIsAuthenticated(auth = true) {
-      this.isAuthenticated = auth;
+      this.isAuthenticated = auth
     },
     setProfile(profile = {}) {
       this.profile = profile
     }
   }
-});
+})

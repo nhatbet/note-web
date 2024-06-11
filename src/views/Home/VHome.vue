@@ -10,11 +10,16 @@
             <span class="line line3"></span>
           </div>
           <div class="navbar-right content-center">
-            <CButton
-              text="Sign in"
-              classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold w-18 h-8"
-              @click="visibleLogin = !visibleLogin"
-            ></CButton>
+            <div v-if="authStore.isAuthenticated">
+              <CButton
+                text="Sign in"
+                classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold w-18 h-8"
+                @click="visibleLogin = !visibleLogin"
+              ></CButton>
+            </div>
+            <div v-else>
+              <Avatar icon="pi pi-user" class="" shape="circle" />
+            </div>
           </div>
         </div>
       </div>
@@ -44,11 +49,14 @@ import Menubar from 'primevue/menubar'
 import { ref } from 'vue'
 import UPanelMenu from '../Units/UPanelMenu.vue'
 import UDialogLogin from '../Units/UDialogLogin.vue'
+import { useAuthStore } from '@/stores/auth'
+import Avatar from 'primevue/avatar';
 
 export default {
   name: 'VHome',
   props: {},
   components: {
+    Avatar,
     Menubar,
     UPanelMenu,
     UDialogLogin
@@ -56,8 +64,9 @@ export default {
 
   setup(props) {
     const visibleLogin = ref<Boolean>(false)
+    const authStore = useAuthStore();
 
-    return { visibleLogin }
+    return { visibleLogin, authStore }
   },
 
   methods: {

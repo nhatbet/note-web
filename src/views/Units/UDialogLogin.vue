@@ -91,6 +91,7 @@ import LocalStorageService from '@/services/LocalStorageService'
 import CookieService from '@/services/CookieService'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
+import { useAuthStore } from '@/stores/auth'
 
 export default {
   name: 'UDialogLogin',
@@ -106,7 +107,7 @@ export default {
   },
   setup(props, { emit }) {
     library.add({ faEye, faEyeSlash })
-
+    const authStore = useAuthStore();
     const canShow = computed({
       get: () => props.modelValue,
       set: (value) => {
@@ -132,7 +133,7 @@ export default {
 
     const passwordVisibility = ref(false)
 
-    return { canShow, loginData, socialLoginUrls, loginErrors, passwordVisibility }
+    return { canShow, loginData, socialLoginUrls, loginErrors, passwordVisibility, authStore }
   },
   methods: {
     togglePassword() {
@@ -142,6 +143,9 @@ export default {
       AuthRepository.login(payload)
         .then((res: any) => {
           LocalStorageService.saveAuthInfo(res.data)
+          this.authStore.setIsAuthenticated(true)
+          this.authStore.setProfile(res.data)
+          
           if (this.loginData.remember) {
             CookieService.rememberMe(payload.username, payload.password)
           }

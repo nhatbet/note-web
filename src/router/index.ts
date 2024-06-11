@@ -5,6 +5,8 @@ import VLogin from '../views/Auth/VLogin.vue'
 import VAuthCallback from '../views/Auth/VAuthCallback.vue'
 import VHome from '../views/Home/VHome.vue'
 import TestView from '../views/TestView.vue'
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,10 +40,19 @@ const router = createRouter({
           path: '/home/test',
           name: 'TestView',
           component: TestView
-        },
+        }
       ]
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+  const { isAuthenticated } = storeToRefs(authStore)
+  // handle router
+  // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+  // else next()
+  next()
 })
 
 export default router
