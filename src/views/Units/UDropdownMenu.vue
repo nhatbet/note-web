@@ -80,7 +80,7 @@
             </li>
         </ul>
     </div>
-    <div class="view-opacity" :class="{ hidden: !isShowMenu }" @click="isShowMenu = false"></div>
+    <CCloak :visible="isShowMenu" @clickCloak="isShowMenu = false"></CCloak>
 </template>
 
 <script lang='ts'>
@@ -89,12 +89,14 @@ import { faUser, faBell, faBookmark, faReply } from '@fortawesome/free-solid-svg
 import Avatar from 'primevue/avatar'
 import { ref } from 'vue'
 import { useWindowSize } from 'vue-window-size';
+import CCloak from '@/components/General/CCloak.vue'
 
 export default {
     name: 'CInput',
     props: {},
     components: {
-        Avatar
+        Avatar,
+        CCloak
     },
     setup(props, { emit }) {
         library.add({ faUser, faBell, faBookmark, faReply })
@@ -160,16 +162,5 @@ export default {
         right: -100%;
         opacity: 0;
     }
-    .view-opacity {
-        background: rgba(189, 189, 189, 0.3);
-    }
-}
-.view-opacity {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 5;
 }
 </style>

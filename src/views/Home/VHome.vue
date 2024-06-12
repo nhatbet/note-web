@@ -3,7 +3,7 @@
         <nav>
             <div class="navbar">
                 <div class="container nav-container">
-                    <input class="checkbox" type="checkbox" name="" id="" />
+                    <input class="checkbox" type="checkbox" name="" id="" v-model="visibleMenubar" />
                     <div class="hamburger-lines">
                         <span class="line line1"></span>
                         <span class="line line2"></span>
@@ -38,6 +38,7 @@
 
         <!-- List Dialog -->
         <UDialogLogin v-model="visibleLogin" />
+        <CCloak :visible="visibleMenubar" @clickCloak="visibleMenubar = false"></CCloak>
     </div>
 </template>
 
@@ -51,11 +52,13 @@ import UPanelMenu from '../Units/UPanelMenu.vue'
 import UDialogLogin from '../Units/UDialogLogin.vue'
 import { useAuthStore } from '@/stores/auth'
 import UDropdownMenu from '../Units/UDropdownMenu.vue'
+import CCloak from '@/components/General/CCloak.vue'
 
 export default {
     name: 'VHome',
     props: {},
     components: {
+        CCloak,
         Menubar,
         UPanelMenu,
         UDialogLogin,
@@ -65,8 +68,9 @@ export default {
     setup(props) {
         const visibleLogin = ref<Boolean>(false)
         const authStore = useAuthStore()
+        const visibleMenubar = ref(false)
 
-        return { visibleLogin, authStore }
+        return { visibleLogin, authStore, visibleMenubar }
     },
 
     methods: {
@@ -243,14 +247,17 @@ export default {
 
 @media (max-width: 768px) {
     .menu {
+        background: white;
         position: fixed;
+        top: 0;
         left: -100%;
         z-index: 10 !important;
         max-width: 90vw;
+        transition: all 0.3s ease-in-out;
+        height: 100vh;
     }
     .app:has(input[type='checkbox']:checked) {
         .menu {
-            transition: left 0.3s ease-in-out;
             left: 0;
         }
     }
