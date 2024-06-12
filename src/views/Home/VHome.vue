@@ -18,9 +18,6 @@
               ></CButton>
             </div>
             <div class="navbar-avatar" v-else>
-              <div class="w-[43px] h-[43px] content-center text-center border-solid border-t border-r border-l border-slate-300">
-                <Avatar icon="pi pi-user" class="" shape="circle" />
-              </div>
               <UDropdownMenu></UDropdownMenu>
             </div>
           </div>
@@ -53,14 +50,12 @@ import { ref } from 'vue'
 import UPanelMenu from '../Units/UPanelMenu.vue'
 import UDialogLogin from '../Units/UDialogLogin.vue'
 import { useAuthStore } from '@/stores/auth'
-import Avatar from 'primevue/avatar';
 import UDropdownMenu from '../Units/UDropdownMenu.vue'
 
 export default {
   name: 'VHome',
   props: {},
   components: {
-    Avatar,
     Menubar,
     UPanelMenu,
     UDialogLogin,
@@ -244,8 +239,5 @@ export default {
 
 .navbar-avatar {
   position: relative;
-  .dropdown-menu {
-    position: absolute;
-  }
 }
 </style>
