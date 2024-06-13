@@ -55,7 +55,7 @@
             <li class="menu-icon h-[43px] content-center text-center">
                 <div class="relative h-full content-center">
                     <span class="text-zinc-400 text-base cursor-pointer"
-                        ><FontAwesomeIcon :icon="['fas', 'bookmark']"
+                        ><FontAwesomeIcon :icon="['fas', 'comment']"
                     /></span>
                     <input
                         type="radio"
@@ -85,7 +85,7 @@
 
 <script lang='ts'>
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faBell, faBookmark, faReply } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faBell, faBookmark, faReply, faComment } from '@fortawesome/free-solid-svg-icons'
 import Avatar from 'primevue/avatar'
 import { ref } from 'vue'
 import { useWindowSize } from 'vue-window-size';
@@ -99,11 +99,10 @@ export default {
         CCloak
     },
     setup(props, { emit }) {
-        library.add({ faUser, faBell, faBookmark, faReply })
+        library.add({ faUser, faBell, faBookmark, faReply, faComment })
         const isShowMenu = ref(false)
         const { width, height } = useWindowSize();
         
-
         return { isShowMenu, width }
     },
 
@@ -115,7 +114,7 @@ export default {
 .dropdown-menu {
     position: absolute;
     z-index: 10;
-    background: white;
+    background: var(--background-color-1);
     ul {
         border: 1px solid rgb(209, 209, 209);
         .dropdown-content {
@@ -123,7 +122,7 @@ export default {
             max-width: 100vh;
             border: 1px solid rgb(209, 209, 209);
             min-height: calc(100% + 2px);
-            background: white;
+            background: var(--background-color-1);
         }
     }
 }

@@ -187,7 +187,7 @@ export default {
     width: 100%;
     // border: 1px solid black;
     z-index: 1;
-    background-color: white;
+    background-color: var(--background-color-1);
 }
 
 .menu {
@@ -247,7 +247,7 @@ export default {
 
 @media (max-width: 768px) {
     .menu {
-        background: white;
+        background: var(--background-color-1);
         position: fixed;
         top: 0;
         left: -100%;
