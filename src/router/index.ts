@@ -5,6 +5,7 @@ import VLogin from '../views/Auth/VLogin.vue'
 import VAuthCallback from '../views/Auth/VAuthCallback.vue'
 import VHome from '../views/Home/VHome.vue'
 import TestView from '../views/TestView.vue'
+import VArticleIndex from '@/views/Article/VArticleIndex.vue'
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 
@@ -37,9 +38,9 @@ const router = createRouter({
       component: VHome,
       children: [
         {
-          path: '/home/test',
-          name: 'TestView',
-          component: TestView
+          path: '/home',
+          name: 'VArticleIndex',
+          component: VArticleIndex
         }
       ]
     }

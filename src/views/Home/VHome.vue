@@ -30,8 +30,7 @@
                     <UPanelMenu />
                 </div>
             </div>
-            <div class="main">
-                home
+            <div class="main p-3">
                 <RouterView />
             </div>
         </div>
