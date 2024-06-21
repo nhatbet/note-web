@@ -3,7 +3,7 @@ import LocalStorageService from '@/services/LocalStorageService';
 
 const baseURL = import.meta.env.VITE_HOST + '/api';
 
-let api = axios.create({
+const api = axios.create({
     baseURL: baseURL,
     timeout: 7000,
     headers: {

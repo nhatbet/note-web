@@ -12,7 +12,7 @@ class LocalStorageService {
     }
 
     public getBearerToken(): string {
-        var accessToken = localStorage.getItem('access_token');
+        const accessToken = localStorage.getItem('access_token');
         if (accessToken) {
             return `Bearer ${accessToken}`;
         }
