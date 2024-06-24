@@ -6,6 +6,7 @@ import VAuthCallback from '../views/Auth/VAuthCallback.vue'
 import VHome from '../views/Home/VHome.vue'
 import TestView from '../views/TestView.vue'
 import VArticleIndex from '@/views/Article/VArticleIndex.vue'
+import VArticleCreate from '@/views/Article/VArticleCreate.vue'
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 
@@ -41,6 +42,11 @@ const router = createRouter({
           path: '/home',
           name: 'VArticleIndex',
           component: VArticleIndex
+        },
+        {
+          path: '/home/article/create',
+          name: 'VArticleCreate',
+          component: VArticleCreate
         }
       ]
     }
