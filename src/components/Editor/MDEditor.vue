@@ -1,5 +1,6 @@
 <template>
-    <md-editor
+    <MdEditor
+        ref="editorRef"
         v-model="model"
         @onChange="onChange"
         @onUploadImg="onUploadImg"
@@ -11,16 +12,19 @@
         :previewTheme="previewTheme"
         :toolbars="toolbars"
         :placeholder="placeholder"
-        :footers="['markdownTotal', '=', 'scrollSwitch']"
+        :footers="footers"
         :maxLength="maxLength"
         :autoDetectCode="true"
     />
 </template>
 
-<script lang='ts'>
-import { computed, ref } from 'vue'
+<script setup lang="ts">
+import { ref, onMounted, computed } from 'vue'
 import { MdEditor, config } from 'md-editor-v3'
+import type { ExposeParam } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
+import MediaRepository from '@/repositories/MediaRepository'
+
 config({
     editorConfig: {
         languageUserDefined: {
@@ -109,95 +113,110 @@ config({
         }
     }
 })
-export default {
-    name: 'MDEditor',
-    components: {
-        MdEditor
+const toolbars = ref([
+    'revoke',
+    'next',
+    'save',
+    '-',
+    'bold',
+    'underline',
+    'italic',
+    '-',
+    'title',
+    'strikeThrough',
+    'sub',
+    'sup',
+    'quote',
+    'unorderedList',
+    'orderedList',
+    'task',
+    '-',
+    'codeRow',
+    'code',
+    'link',
+    'image',
+    'table',
+    'mermaid',
+    'katex',
+    '=',
+    'pageFullscreen',
+    'fullscreen',
+    'preview',
+    'previewOnly',
+    'htmlPreview',
+    'catalog'
+])
+const props = defineProps({
+    modelValue: {
+        type: [String, Number],
+        default: ''
     },
-    props: {
-        modelValue: {
-            type: [String, Number],
-            default: ''
-        },
-        theme: {
-            type: String,
-            default: 'light'
-        },
-        language: {
-            type: String,
-            default: 'en-US'
-        },
-        showCodeRowNumber: {
-            type: Boolean,
-            default: true
-        },
-        previewTheme: {
-            type: String,
-            default: 'default'
-        },
-        placeholder: {
-            type: String,
-            default: 'placeholder'
-        },
-        maxLength: {
-            type: Number,
-            default: 10000
-        }
+    theme: {
+        type: String,
+        default: 'light'
     },
-
-    setup(props, { emit }) {
-        const model = computed({
-            get: () => props.modelValue,
-            set: (value) => {
-                emit('update:modelValue', value)
-            }
-        })
-
-        const toolbars = ref([
-            'revoke',
-            'next',
-            'save',
-            '-',
-            'bold',
-            'underline',
-            'italic',
-            '-',
-            'title',
-            'strikeThrough',
-            'sub',
-            'sup',
-            'quote',
-            'unorderedList',
-            'orderedList',
-            'task',
-            '-',
-            'codeRow',
-            'code',
-            'link',
-            'image',
-            'table',
-            'mermaid',
-            'katex',
-            '=',
-            'pageFullscreen',
-            'fullscreen',
-            'preview',
-            'previewOnly',
-            'htmlPreview',
-            'catalog'
-        ])
-
-        return { model, toolbars }
+    language: {
+        type: String,
+        default: 'en-US'
     },
-
-    methods: {
-        onChange(val) {
-            this.$emit('update:modelValue', val)
-        },
-        onUploadImg(files) {
-            console.log('upload', files)
-            console.log(Array.from(files))
-        }
+    showCodeRowNumber: {
+        type: Boolean,
+        default: true
+    },
+    previewTheme: {
+        type: String,
+        default: 'default'
+    },
+    placeholder: {
+        type: String,
+        default: 'placeholder'
+    },
+    maxLength: {
+        type: Number,
+        default: 10000
+    },
+    footers: {
+        type: Array,
+        default: ['markdownTotal', '=', 'scrollSwitch']
     }
+})
+const emit = defineEmits(['update:modelValue'])
+const model = computed({
+    get: () => props.modelValue,
+    set: (value) => {
+        emit('update:modelValue', value)
+    }
+})
+
+const editorRef = ref<ExposeParam>()
+
+onMounted(() => {
+    editorRef.value?.on('catalog', console.log)
+})
+
+const onChange = (val: string) => {
+    console.log('change', val)
+}
+
+const onUploadImg = async (files, callback) => {
+    const res = await Promise.all(
+        files.map((file) => {
+            return new Promise((rev, rej) => {
+                const form = new FormData()
+                form.append('file', file)
+                MediaRepository.upload({ collection: 'article-image', file: file })
+                    .then((res: any) => rev(res))
+                    .catch((err: any) => rej(err))
+            })
+        })
+    )
+
+    callback(
+        res.map((item: any) => ({
+            url: item.data.original_url,
+            alt: item.data.name
+            // title: item.data.file_name
+        }))
+    )
 }
 </script>
