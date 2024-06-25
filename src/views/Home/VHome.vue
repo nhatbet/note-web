@@ -209,7 +209,7 @@ export default {
     height: 100vh;
 }
 
-.app:has(input[type='checkbox']:checked) {
+.app:has(input[type='checkbox'].checkbox:checked) {
     .body {
         .menu {
             transform: translateX(0);

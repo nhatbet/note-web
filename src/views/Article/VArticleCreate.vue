@@ -1,12 +1,13 @@
 <template>
     <div>
-        <MDEditor v-model="content"></MDEditor>
+        <MDEditor v-model="articleData.content"></MDEditor>
     </div>
 </template>
 
 <script lang='ts'>
 import { ref } from 'vue'
 import MDEditor from '@/components/Editor/MDEditor.vue'
+import type { ArticleStore } from '@/types/TArticle'
 
 export default {
     name: 'VArticleCreate',
@@ -15,9 +16,13 @@ export default {
         MDEditor
     },
     setup(props, { emit }) {
-        const content = ref('# ok')
+        const articleData = ref<ArticleStore>({
+            title: '',
+            content: '',
+            tags: []
+        })
 
-        return { content }
+        return { articleData }
     },
 
     methods: {}
