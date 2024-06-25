@@ -1,12 +1,12 @@
 <template>
-  <div class="">
+  <div class="text-base">
     <label>
-      <span>{{ label }}</span>
+      <span >{{ label }}</span>
       <span v-show="required" class="text-rose-600 text-xs">
         <FontAwesomeIcon :icon="['fas', 'asterisk']" />
       </span>
       <input
-        class="w-full text-sm px-4 py-3 bg-gray-200 focus:bg-gray-100 border border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
+        class="w-full text-sm px-2 py-2 border border-gray-200 rounded-sm focus:outline-none focus:border-purple-400"
         :placeholder="placeholder"
         :type="type"
         v-model="model"

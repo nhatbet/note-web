@@ -16,6 +16,7 @@
         :maxLength="maxLength"
         :autoDetectCode="true"
     />
+    <small class="text-sm text-rose-600">{{ errors[0] }}</small>
 </template>
 
 <script setup lang="ts">
@@ -178,7 +179,11 @@ const props = defineProps({
     footers: {
         type: Array,
         default: ['markdownTotal', '=', 'scrollSwitch']
-    }
+    },
+    errors: {
+        type: [Array],
+        default: []
+    },
 })
 const emit = defineEmits(['update:modelValue'])
 const model = computed({
