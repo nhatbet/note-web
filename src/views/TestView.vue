@@ -1,6 +1,11 @@
 <template>
     <main>
-        <div>{{ username }}</div>
+        <div>username: {{ test }}</div>
+        <div>local_storage: {{ local_storage }}</div>
+        <div>session_storage: {{ session_storage }}</div>
+        <div>count_session:
+            {{ count_session }}
+        </div>
     </main>
 </template>
 <script lang='ts'>
@@ -13,10 +18,12 @@ export default {
         console.log('test')
         const { cookies } = useCookies()
 
-        cookies.set('username', '123@123')
-        const username = cookies.get('username')
+        const test = cookies.get('test')
+        const local_storage = localStorage.getItem('local_storage')
+        const session_storage = sessionStorage.getItem('session_storage')
+        const count_session = sessionStorage.length
 
-        return { username }
+        return { test, local_storage, session_storage, count_session }
     },
     methods: {}
 }

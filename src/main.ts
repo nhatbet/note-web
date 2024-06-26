@@ -8,6 +8,7 @@ import App from './App.vue'
 import router from './router'
 import CInput from '@/components/General/CInput.vue'
 import CButton from '@/components/General/CButton.vue'
+import CSelect from '@/components/General/CSelect.vue'
 import CIcon from '@/components/General/CIcon.vue'
 import CCheckBox from '@/components/General/CCheckBox.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -22,6 +23,7 @@ app.use(Notifications)
 // Define component
 app.component('CInput', CInput)
 app.component('CButton', CButton)
+app.component('CSelect', CSelect)
 app.component('CIcon', CIcon)
 app.component('CCheckBox', CCheckBox)
 app.component('FontAwesomeIcon', FontAwesomeIcon)

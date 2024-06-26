@@ -8,6 +8,9 @@
         ></CInput>
     </div>
     <div>
+        <CSelect :options="articleStatus"></CSelect>
+    </div>
+    <div>
         <MDEditor v-model="articleData.content" :errors="articleErrors?.content"></MDEditor>
     </div>
 </template>
@@ -16,6 +19,7 @@
 import { ref } from 'vue'
 import MDEditor from '@/components/Editor/MDEditor.vue'
 import type { ArticleStore } from '@/types/TArticle'
+import { SelectionService } from '@/services/SelectionService'
 
 export default {
     name: 'VArticleCreate',
@@ -24,6 +28,9 @@ export default {
         MDEditor
     },
     setup(props, { emit }) {
+        const selection = SelectionService()
+        const articleStatus = selection.articleStatus
+
         const articleData = ref<ArticleStore>({
             title: '',
             content: '',
@@ -35,7 +42,7 @@ export default {
             tags: []
         })
 
-        return { articleData, articleErrors }
+        return { articleData, articleErrors, articleStatus }
     },
 
     methods: {}
