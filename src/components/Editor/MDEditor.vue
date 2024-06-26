@@ -183,7 +183,7 @@ const props = defineProps({
     errors: {
         type: [Array],
         default: []
-    },
+    }
 })
 const emit = defineEmits(['update:modelValue'])
 const model = computed({
@@ -225,3 +225,9 @@ const onUploadImg = async (files, callback) => {
     )
 }
 </script>
+
+<style lang="scss" scoped>
+.md-editor {
+    height: calc(100vh - 170px);
+}
+</style>

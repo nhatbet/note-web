@@ -1,20 +1,16 @@
 <template>
   <div class="panel-menu">
-    <PanelMenu :model="items" multiple class="w-full md:w-20rem" />
   </div>
 </template>
 
 <script lang='ts'>
-import PanelMenu from 'primevue/panelmenu'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 export default {
   name: 'UPanelMenu',
   props: {},
-  components: {
-    PanelMenu
-  },
+  components: {},
 
   setup(props) {
     const router = useRouter()

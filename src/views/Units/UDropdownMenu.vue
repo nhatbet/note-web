@@ -4,7 +4,11 @@
         :class="{ 'border-solid border-t border-r border-l border-slate-300': isShowMenu }"
         @click="isShowMenu = !isShowMenu"
     >
-        <Avatar icon="pi pi-user" shape="circle" />
+        <img
+            src="https://picsum.photos/300/300"
+            class="w-[30px] h-[30px] rounded-full mx-1"
+            alt="avatar"
+        />
     </div>
     <div class="dropdown-menu w-[43px]" :class="{ 'hidden-dropdown-menu': !isShowMenu }">
         <ul class="pt-2 relative">
@@ -80,29 +84,27 @@
             </li>
         </ul>
     </div>
-    <CCloak :visible="isShowMenu" @clickCloak="isShowMenu = false"></CCloak>
+    <CCloak v-model="isShowMenu"></CCloak>
 </template>
 
 <script lang='ts'>
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser, faBell, faBookmark, faReply, faComment } from '@fortawesome/free-solid-svg-icons'
-import Avatar from 'primevue/avatar'
 import { ref } from 'vue'
-import { useWindowSize } from 'vue-window-size';
+import { useWindowSize } from 'vue-window-size'
 import CCloak from '@/components/General/CCloak.vue'
 
 export default {
     name: 'CInput',
     props: {},
     components: {
-        Avatar,
         CCloak
     },
     setup(props, { emit }) {
         library.add({ faUser, faBell, faBookmark, faReply, faComment })
         const isShowMenu = ref(false)
-        const { width, height } = useWindowSize();
-        
+        const { width, height } = useWindowSize()
+
         return { isShowMenu, width }
     },
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="text-base">
+  <div class="text-base" :class="[classes]">
     <label>
       <span >{{ label }}</span>
       <span v-show="required" class="text-rose-600 text-xs">
@@ -48,6 +48,10 @@ export default {
     required: {
       type: Boolean,
       default: false
+    },
+    classes: {
+      type: String,
+      default: ''
     }
   },
   components: {},

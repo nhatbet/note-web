@@ -3,7 +3,7 @@
         <nav>
             <div class="navbar">
                 <div class="container nav-container">
-                    <input class="checkbox" type="checkbox" name="" id="" v-model="visibleMenubar" />
+                    <input class="checkbox" type="checkbox" v-model="visibleMenubar" />
                     <div class="hamburger-lines">
                         <span class="line line1"></span>
                         <span class="line line2"></span>
@@ -37,7 +37,7 @@
 
         <!-- List Dialog -->
         <UDialogLogin v-model="visibleLogin" />
-        <CCloak :visible="visibleMenubar" @clickCloak="visibleMenubar = false"></CCloak>
+        <CCloak v-model="visibleMenubar"></CCloak>
     </div>
 </template>
 
@@ -45,7 +45,6 @@
 import { RouterLink, RouterView } from 'vue-router'
 import LocalStorageService from '@/services/LocalStorageService'
 import AuthRepository from '@/repositories/AuthRepository'
-import Menubar from 'primevue/menubar'
 import { ref } from 'vue'
 import UPanelMenu from '../Units/UPanelMenu.vue'
 import UDialogLogin from '../Units/UDialogLogin.vue'
@@ -58,7 +57,6 @@ export default {
     props: {},
     components: {
         CCloak,
-        Menubar,
         UPanelMenu,
         UDialogLogin,
         UDropdownMenu

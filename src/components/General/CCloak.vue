@@ -1,24 +1,28 @@
 <template>
-    <div class="cloak" :class="{ hidden: !visible }" @click="handleClick"></div>
+    <div class="cloak" :class="{ hidden: !canShow }" @click="canShow = false"></div>
 </template>
 
 <script lang='ts'>
+import { computed } from 'vue'
 export default {
     name: 'CCloak',
     props: {
-        visible: {
+        modelValue: {
             type: Boolean,
             default: false
         }
     },
     setup(props, { emit }) {
-        return {}
+        const canShow = computed({
+            get: () => props.modelValue,
+            set: (value) => {
+                emit('update:modelValue', value)
+            }
+        })
+
+        return { canShow }
     },
-    methods: {
-        handleClick(event: Event) {
-            this.$emit('clickCloak')
-        }
-    }
+    methods: {}
 }
 </script>
 
