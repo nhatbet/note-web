@@ -1,7 +1,5 @@
 /* @import './reset.css'; */
 @import './base.css';
-@import 'primevue/resources/themes/aura-light-green/theme.css';
-@import 'primeicons/primeicons.css';
 
 #app {
   /* max-width: 1280px;

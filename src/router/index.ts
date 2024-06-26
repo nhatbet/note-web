@@ -19,6 +19,11 @@ const router = createRouter({
       component: HomeView
     },
     {
+      path: '/test',
+      name: 'test',
+      component: TestView
+    },
+    {
       path: '/register',
       name: 'VRegister',
       component: VRegister
