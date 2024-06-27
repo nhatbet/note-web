@@ -1,18 +1,23 @@
 <template>
-    <div class="mb-5">
-        <CInput
-            v-model="articleData.title"
-            :errors="articleErrors?.title"
-            placeholder="username"
-            label="Title"
-        ></CInput>
-    </div>
-    <div>
-        <CSelect :options="articleStatus"></CSelect>
-    </div>
-    <div>
-        <MDEditor v-model="articleData.content" :errors="articleErrors?.content"></MDEditor>
-    </div>
+    <CInput
+        v-model="articleData.title"
+        :errors="articleErrors?.title"
+        placeholder="username"
+        label="Title"
+        classes="mb-2"
+    ></CInput>
+    <CSelect
+        v-model="articleData.status"
+        :options="selection.article_status"
+        classes="mb-2"
+        label="Status"
+    ></CSelect>
+    <MDEditor v-model="articleData.content" :errors="articleErrors?.content"></MDEditor>
+    <CButton
+        text="Create"
+        classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold w-[100px] my-5"
+        @clickCButton="submitCreateArticle()"
+    ></CButton>
 </template>
 
 <script lang='ts'>
@@ -29,22 +34,27 @@ export default {
     },
     setup(props, { emit }) {
         const selection = SelectionService()
-        const articleStatus = selection.articleStatus
-
         const articleData = ref<ArticleStore>({
             title: '',
             content: '',
+            status: 1,
             tags: []
         })
         const articleErrors = ref({
             title: [],
             content: [],
+            status: [],
             tags: []
         })
 
-        return { articleData, articleErrors, articleStatus }
+        return { articleData, articleErrors, selection }
     },
 
-    methods: {}
+    methods: {
+        submitCreateArticle() {
+            console.log('form:', this.articleData);
+            
+        }
+    }
 }
 </script>

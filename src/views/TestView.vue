@@ -1,6 +1,6 @@
 <template>
     <main>
-        <div>username: {{ test }}</div>
+        <div>cookie: {{ test }}</div>
         <div>local_storage: {{ local_storage }}</div>
         <div>session_storage: {{ session_storage }}</div>
         <div>count_session:

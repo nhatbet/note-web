@@ -1,28 +1,28 @@
 <template>
-    <div>
-        <label for="small" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >{{ label }}
-
+    <div :class="[classes]">
+        <label class="block mb-2 text-sm">
+            <span class="text-base">{{ label }}</span>
             <select
-                id="small"
-                class="block w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="block w-full p-2 border border-gray-200 rounded-sm focus:outline-none focus:border-purple-400"
+                @change="model = $event.target.value"
             >
-                <option v-show="visibleOptionFirst" :value="null">Nothing selected.</option>
+                <option v-show="visibleOptionFirst" :value="null">Nothing selected</option>
                 <option
-                    :selected="option?.value == value"
+                    :selected="option?.value == model"
                     v-for="(option, index) in options"
                     :key="index"
-                    :value="option"
+                    :value="option?.value"
                 >
                     {{ option?.label }}
                 </option>
             </select>
+            <small class="text-sm text-rose-600">{{ errors[0] }}</small>
         </label>
     </div>
 </template>
 
 <script lang='ts'>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 export default {
     name: 'CSelect',
@@ -35,18 +35,33 @@ export default {
             type: String,
             default: null
         },
-        value: {
+        modelValue: {
             type: [String, Number],
-            default: null
+            default: false
         },
         options: {
             type: Array,
+            default: []
+        },
+        classes: {
+            type: String,
+            default: ''
+        },
+        errors: {
+            type: [Array],
             default: []
         }
     },
     methods: {},
     setup(props, { emit }) {
-        return {}
+        const model = computed({
+            get: () => props.modelValue,
+            set: (value) => {
+                emit('update:modelValue', value)
+            }
+        })
+
+        return { model }
     }
 }
 </script>
