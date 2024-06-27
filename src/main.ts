@@ -11,6 +11,7 @@ import CButton from '@/components/General/CButton.vue'
 import CSelect from '@/components/General/CSelect.vue'
 import CIcon from '@/components/General/CIcon.vue'
 import CCheckBox from '@/components/General/CCheckBox.vue'
+import CSelectSearch from '@/components/General/CSelectSearch.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Notifications from 'notiwind'
 
@@ -26,6 +27,7 @@ app.component('CButton', CButton)
 app.component('CSelect', CSelect)
 app.component('CIcon', CIcon)
 app.component('CCheckBox', CCheckBox)
+app.component('CSelectSearch', CSelectSearch)
 app.component('FontAwesomeIcon', FontAwesomeIcon)
 
 app.mount('#app')

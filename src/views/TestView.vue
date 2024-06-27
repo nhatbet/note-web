@@ -1,10 +1,13 @@
 <template>
-    <main>
-        <div>cookie: {{ test }}</div>
-        <div>local_storage: {{ local_storage }}</div>
-        <div>session_storage: {{ session_storage }}</div>
-        <div>count_session:
-            {{ count_session }}
+    <main class="flex justify-center">
+        <div class="w-[100px]">
+            <CButton text="Login" classes="w-[100px] my-5" href="/login"></CButton>
+            <CButton text="signup" classes="w-[100px] my-5" href="/login?page=signup"></CButton>
+            <CButton
+                text="confirm signup"
+                classes="w-[150px] my-5"
+                href="/login?page=confirmsignup"
+            ></CButton>
         </div>
     </main>
 </template>
@@ -24,6 +27,18 @@ export default {
 
         return { test, local_storage, session_storage, count_session }
     },
-    methods: {}
+    methods: {
+        gotoLogin() {
+            this.$router.push({ path: '/login/' })
+        }
+        // gotoSignup() {
+        //     // this.$router.push({ name: 'VLogin', params: { page: 'signup' } })
+        //     this.$router.push({ path: '/login?page=signup' })
+        // },
+        // gotoConfirmSignup() {
+        //     // this.$router.push({ name: 'VLogin', params: { page: 'confirmsignup' } })
+        //     this.$router.push({ path: '/login?page=confirmsignup' })
+        // }
+    }
 }
 </script>

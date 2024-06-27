@@ -2,7 +2,7 @@
     <CInput
         v-model="articleData.title"
         :errors="articleErrors?.title"
-        placeholder="username"
+        placeholder="Username"
         label="Title"
         classes="mb-2"
     ></CInput>
@@ -12,10 +12,17 @@
         classes="mb-2"
         label="Status"
     ></CSelect>
-    <MDEditor v-model="articleData.content" :errors="articleErrors?.content"></MDEditor>
+    <CSelectSearch
+        v-model="articleData.tags"
+        :multipleSelect="true"
+        label="Tags"
+        :options="selection.article_status"
+        placeholder="Select tag"
+    ></CSelectSearch>
+    <!-- <MDEditor v-model="articleData.content" :errors="articleErrors?.content"></MDEditor> -->
     <CButton
         text="Create"
-        classes="w-[100px] my-5"
+        classes="w-[100px] my-5 mt-[200px]"
         @clickCButton="submitCreateArticle()"
     ></CButton>
 </template>
@@ -39,7 +46,7 @@ export default {
             title: '',
             content: '',
             status: 1,
-            tags: []
+            tags: null
         })
         const articleErrors = ref({
             title: [],
@@ -47,8 +54,9 @@ export default {
             status: [],
             tags: []
         })
+        const selectSearch = ref(1)
 
-        return { articleData, articleErrors, selection }
+        return { articleData, articleErrors, selection, selectSearch }
     },
 
     methods: {
@@ -66,8 +74,8 @@ export default {
                     // this.$router.push({ name: 'VLogin' })
                 })
                 .catch((err: any) => {
-                    console.log('err', err);
-                    
+                    console.log('err', err)
+
                     if (err?.status == '422') {
                         this.articleErrors = err.data
                     }
