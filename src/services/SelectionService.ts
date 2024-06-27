@@ -9,7 +9,6 @@ export const SelectionService = () => {
     const fetchSelection = async () => {
         await SelectionRepository.index()
             .then((res: any) => {
-                console.log('res', res.data);
                 selectionData.article_status = res.data.article_status
                 selectionStore.setData(selectionData)
             })

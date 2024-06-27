@@ -1,6 +1,6 @@
 <template>
   <a
-    class="w-full flex items-center justify-center border border-gray-300 text-sm text-gray-500 p-3 rounded-lg tracking-wide cursor-pointer inline-block"
+    class="w-full flex items-center justify-center border border-purple-700 text-sm p-2 rounded-md cursor-pointer inline-block hover:bg-purple-700 hover:text-white transition-all"
     :class="[classes]"
     @click="handleClick"
     :href="href"

@@ -15,7 +15,6 @@ export default {
     name: 'CCloak',
     props: {},
     setup(props, { emit }) {
-        console.log('test')
         const { cookies } = useCookies()
 
         const test = cookies.get('test')

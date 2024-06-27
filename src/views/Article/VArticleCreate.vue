@@ -15,7 +15,7 @@
     <MDEditor v-model="articleData.content" :errors="articleErrors?.content"></MDEditor>
     <CButton
         text="Create"
-        classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold w-[100px] my-5"
+        classes="w-[100px] my-5"
         @clickCButton="submitCreateArticle()"
     ></CButton>
 </template>
@@ -25,6 +25,7 @@ import { ref } from 'vue'
 import MDEditor from '@/components/Editor/MDEditor.vue'
 import type { ArticleStore } from '@/types/TArticle'
 import { SelectionService } from '@/services/SelectionService'
+import ArticleRepository from '@/repositories/ArticleRepository'
 
 export default {
     name: 'VArticleCreate',
@@ -52,8 +53,25 @@ export default {
 
     methods: {
         submitCreateArticle() {
-            console.log('form:', this.articleData);
-            
+            ArticleRepository.store(this.articleData)
+                .then((res: any) => {
+                    this.$notify(
+                        {
+                            group: 'success',
+                            title: 'success',
+                            text: res.message
+                        },
+                        4000
+                    )
+                    // this.$router.push({ name: 'VLogin' })
+                })
+                .catch((err: any) => {
+                    console.log('err', err);
+                    
+                    if (err?.status == '422') {
+                        this.articleErrors = err.data
+                    }
+                })
         }
     }
 }

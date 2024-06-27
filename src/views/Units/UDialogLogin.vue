@@ -1,5 +1,5 @@
 <template>
-    <div class="dialog" v-if="canShow" @click="canShow = false">
+    <div class="dialog" v-if="canShow" @click.self="canShow = false">
         <div class="content">
             <h2 class="text-lg py-3">Login</h2>
             <div class="space-y-4">
@@ -142,6 +142,7 @@ export default {
                     if (this.loginData.remember) {
                         CookieService.rememberMe(payload.username, payload.password)
                     }
+                    this.canShow = false
                     this.loginErrors = {} as AccountError
                     this.$router.push({ name: 'VHome' })
                 })

@@ -18,8 +18,19 @@ api.interceptors.response.use(
     (response) => {
         const status = response.data.status
         const data = response.data
-        if (status == '200') {
-            return data
+
+        switch (status) {
+            case 200:
+                return data
+            case 401:
+                const authStore = useAuthStore()
+                authStore.setIsAuthenticated(false)
+                break
+            case 403:
+            //TODO: handle permission
+
+            default:
+            // code block
         }
 
         return Promise.reject(data)
@@ -32,8 +43,6 @@ api.interceptors.response.use(
             if (error.response.status) {
                 switch (error.response.status) {
                     case 401:
-                        const authStore = useAuthStore()
-                        authStore.setIsAuthenticated(true)
                         break
                     case 403:
                         // handle permission

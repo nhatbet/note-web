@@ -10,10 +10,10 @@
                         <span class="line line3"></span>
                     </div>
                     <div class="navbar-right content-center">
-                        <div v-if="authStore.isAuthenticated">
+                        <div v-if="!authStore.isAuthenticated">
                             <CButton
                                 text="Sign in"
-                                classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold w-18 h-8"
+                                classes="w-18 h-8 p-3"
                                 @click="visibleLogin = !visibleLogin"
                             ></CButton>
                         </div>
