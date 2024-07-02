@@ -3,27 +3,14 @@
         <div class="content">
             <h2 class="text-lg py-3">Login</h2>
             <div class="space-y-4">
-                <CInput
-                    v-model="loginData.username"
-                    :errors="loginErrors?.username"
-                    placeholder="username"
-                ></CInput>
-                <CInput
-                    v-model="loginData.password"
-                    :errors="loginErrors?.password"
-                    placeholder="password"
-                    :type="passwordVisibility ? 'text' : 'password'"
-                >
+                <CInput v-model="loginData.username" :errors="loginErrors?.username" placeholder="username"></CInput>
+                <CInput v-model="loginData.password" :errors="loginErrors?.password" placeholder="password" class="relative"
+                    :type="passwordVisibility ? 'text' : 'password'">
                     <template v-slot:RIcon>
-                        <span
-                            class="absolute top-1/2 -translate-y-1/2 right-2 text-[#9ca3af]"
-                            @click.stop="togglePassword()"
-                        >
+                        <span class="absolute top-1/2 -translate-y-1/2 right-2 text-[#9ca3af]"
+                            @click.stop="togglePassword()">
                             <FontAwesomeIcon v-show="passwordVisibility" :icon="['fas', 'eye']" />
-                            <FontAwesomeIcon
-                                v-show="!passwordVisibility"
-                                :icon="['fas', 'eye-slash']"
-                            />
+                            <FontAwesomeIcon v-show="!passwordVisibility" :icon="['fas', 'eye-slash']" />
                         </span>
                     </template>
                 </CInput>
@@ -36,44 +23,27 @@
                         </a>
                     </div>
                 </div>
-                <CButton
-                    text="Sign in"
-                    classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold"
-                    @clickCButton="login(loginData)"
-                ></CButton>
+                <CButton text="Sign in" classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold"
+                    @clickCButton="login(loginData)"></CButton>
                 <div class="flex items-center justify-center space-x-2 my-5">
                     <span class="h-px w-16 bg-gray-100"></span>
                     <span class="text-gray-300 font-normal">or</span>
                     <span class="h-px w-16 bg-gray-100"></span>
                 </div>
                 <div class="flex justify-center gap-5 w-full">
-                    <CButton
-                        text="Google"
-                        icon="logo-google"
+                    <CButton text="Google" icon="logo-google"
                         classes="transition ease-in duration-200 hover:border-gray-900 hover:bg-gray-900"
-                        :href="socialLoginUrls.google"
-                        v-show="socialLoginUrls.google"
-                    ></CButton>
-                    <CButton
-                        text="Facebook"
+                        :href="socialLoginUrls.google" v-show="socialLoginUrls.google"></CButton>
+                    <CButton text="Facebook"
                         classes="transition ease-in duration-200 hover:border-gray-900 hover:bg-gray-900"
-                        :href="socialLoginUrls.facebook"
-                        v-show="socialLoginUrls.facebook"
-                    ></CButton>
+                        :href="socialLoginUrls.facebook" v-show="socialLoginUrls.facebook"></CButton>
                 </div>
             </div>
             <div class="mt-7 text-center text-gray-300 text-xs">
                 <span>
                     Copyright © 2021-2024
-                    <a
-                        href="https://codepen.io/uidesignhub"
-                        rel=""
-                        target="_blank"
-                        title="Codepen aji"
-                        class="text-purple-500 hover:text-purple-600"
-                        >AJI</a
-                    ></span
-                >
+                    <a href="https://codepen.io/uidesignhub" rel="" target="_blank" title="Codepen aji"
+                        class="text-purple-500 hover:text-purple-600">AJI</a></span>
             </div>
         </div>
     </div>
@@ -88,6 +58,7 @@ import CookieService from '@/services/CookieService'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { useAuthStore } from '@/stores/auth'
+import BaseApi from '@/network/BaseApi'
 
 export default {
     name: 'UDialogLogin',
@@ -133,7 +104,7 @@ export default {
             this.passwordVisibility = !this.passwordVisibility
         },
         login(payload: any) {
-            AuthRepository.login(payload)
+            BaseApi.post('login', payload)
                 .then((res: any) => {
                     LocalStorageService.saveAuthInfo(res.data)
                     this.authStore.setIsAuthenticated(true)
@@ -147,7 +118,7 @@ export default {
                     this.$router.push({ name: 'VHome' })
                 })
                 .catch((err: any) => {
-                    if (err?.status == '422') {
+                    if (err?.status == 422) {
                         this.loginErrors = err.data
                     }
                     LocalStorageService.clearAuthInfo()
@@ -193,7 +164,7 @@ export default {
         opacity: 1;
         transform: translate(-50%, -50%);
         background: white;
-        padding: 10px;
+        padding: 30px;
         border-radius: 10px;
     }
 }

@@ -1,30 +1,16 @@
 <template>
-    <CInput
-        v-model="articleData.title"
-        :errors="articleErrors?.title"
-        placeholder="Username"
-        label="Title"
-        classes="mb-2"
-    ></CInput>
-    <CSelect
-        v-model="articleData.status"
-        :options="selection.article_status"
-        classes="mb-2"
-        label="Status"
-    ></CSelect>
-    <CSelectSearch
+    <CInput v-model="articleData.title" :errors="articleErrors?.title" placeholder="Username" label="Title"
+        classes="mb-2"></CInput>
+    <CSelect v-model="articleData.status" :options="selection.article_status" classes="mb-2" label="Status"></CSelect>
+    <!-- <CSelectSearch
         v-model="articleData.tags"
         :multipleSelect="true"
         label="Tags"
         :options="selection.article_status"
         placeholder="Select tag"
-    ></CSelectSearch>
+    ></CSelectSearch> -->
     <MDEditor v-model="articleData.content" :errors="articleErrors?.content"></MDEditor>
-    <CButton
-        text="Create"
-        classes="w-[100px] my-5 mt-[200px]"
-        @clickCButton="submitCreateArticle()"
-    ></CButton>
+    <CButton text="Create" classes="!w-[100px] my-5 mt-[200px]" @clickCButton="submitCreateArticle()"></CButton>
 </template>
 
 <script lang='ts'>
@@ -33,6 +19,7 @@ import MDEditor from '@/components/Editor/MDEditor.vue'
 import type { ArticleStore } from '@/types/TArticle'
 import { SelectionService } from '@/services/SelectionService'
 import ArticleRepository from '@/repositories/ArticleRepository'
+import BaseApi from '@/network/BaseApi'
 
 export default {
     name: 'VArticleCreate',
@@ -46,7 +33,7 @@ export default {
             title: '',
             content: '',
             status: 1,
-            tags: null
+            tags: []
         })
         const articleErrors = ref({
             title: [],
@@ -60,18 +47,10 @@ export default {
     },
 
     methods: {
-        submitCreateArticle() {
-            ArticleRepository.store(this.articleData)
+        async submitCreateArticle() {
+            await BaseApi.setAuth().post('articles', this.articleData)
                 .then((res: any) => {
-                    this.$notify(
-                        {
-                            group: 'success',
-                            title: 'success',
-                            text: res.message
-                        },
-                        4000
-                    )
-                    // this.$router.push({ name: 'VLogin' })
+                    console.log('ress', res);
                 })
                 .catch((err: any) => {
                     console.log('err', err)
