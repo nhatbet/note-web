@@ -131,10 +131,10 @@ export default {
 .checkbox-wrapper-33 .checkbox__textwrapper {
   margin: 0;
 }
-.checkbox-wrapper-33 .checkbox__trigger:checked + .checkbox__symbol:after {
-  -webkit-animation: ripple-33 1.5s var(--e-out);
-  animation: ripple-33 1.5s var(--e-out);
-}
+// .checkbox-wrapper-33 .checkbox__trigger:checked + .checkbox__symbol:after {
+//   -webkit-animation: ripple-33 1.5s var(--e-out);
+//   animation: ripple-33 1.5s var(--e-out);
+// }
 .checkbox-wrapper-33 .checkbox__trigger:checked + .checkbox__symbol .icon-checkbox path {
   transition: stroke-dashoffset var(--t-base) var(--e-out);
   stroke-dashoffset: 0px;

@@ -1,7 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import VRegister from '../views/Auth/VRegister.vue'
-import VLogin from '../views/Auth/VLogin.vue'
 import VAuthCallback from '../views/Auth/VAuthCallback.vue'
 import VHome from '../views/Home/VHome.vue'
 import TestView from '../views/TestView.vue'
@@ -23,16 +21,6 @@ const router = createRouter({
       path: '/test',
       name: 'test',
       component: TestView
-    },
-    {
-      path: '/register',
-      name: 'VRegister',
-      component: VRegister
-    },
-    {
-      path: '/login',
-      name: 'VLogin',
-      component: VLogin
     },
     {
       path: '/login/:provider/callback',

@@ -52,7 +52,6 @@
 <script lang='ts'>
 import { computed, ref } from 'vue'
 import type { Account, AccountError } from '@/types/TUser'
-import AuthRepository from '@/repositories/AuthRepository'
 import LocalStorageService from '@/services/LocalStorageService'
 import CookieService from '@/services/CookieService'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
@@ -125,7 +124,7 @@ export default {
                 })
         },
         getUrlsGoogleSignIn() {
-            AuthRepository.getUrlsGoogleSignIn()
+            BaseApi.get('url-sign-in/google')
                 .then((res: any) => {
                     this.socialLoginUrls.google = res.data.url
                 })

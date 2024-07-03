@@ -44,13 +44,13 @@
 <script lang='ts'>
 import { RouterLink, RouterView } from 'vue-router'
 import LocalStorageService from '@/services/LocalStorageService'
-import AuthRepository from '@/repositories/AuthRepository'
 import { ref } from 'vue'
 import UPanelMenu from '../Units/UPanelMenu.vue'
 import UDialogLogin from '../Units/UDialogLogin.vue'
 import { useAuthStore } from '@/stores/auth'
 import UDropdownMenu from '../Units/UDropdownMenu.vue'
 import CCloak from '@/components/General/CCloak.vue'
+import BaseApi from '@/network/BaseApi'
 
 export default {
     name: 'VHome',
@@ -71,8 +71,8 @@ export default {
     },
 
     methods: {
-        logout() {
-            AuthRepository.logout().finally(() => {
+        async logout() {
+            await BaseApi.setAuth().post('logout').finally(() => {
                 LocalStorageService.clearAuthInfo()
                 this.$router.push({ name: 'VLogin' })
             })

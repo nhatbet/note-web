@@ -1,5 +1,6 @@
 import axios from "axios";
 import LocalStorageService from '@/services/LocalStorageService'
+import { useAuthStore } from '@/stores/auth'
 
 class BaseApi {
     public baseURL: string = import.meta.env.VITE_HOST + '/api'
@@ -15,7 +16,13 @@ class BaseApi {
     public url: any = null
 
     setHeader(headers: object) {
-        this.headers = headers
+        this.headers = headers;
+
+        return this;
+    }
+
+    resetHeader() {
+        this.headers = {};
 
         return this;
     }
@@ -26,15 +33,18 @@ class BaseApi {
         return this;
     }
 
-    post(url: string, data: any) {
+    post(url: string, data: any = null) {
         this.url = url;
-        this.data = data;
         this.method = 'post';
+        if (data) {
+            this.data = data;
+        }
 
         return this.execute();
     }
 
-    get(params: any) {
+    get(url: string, params: any = null) {
+        this.url = url;
         if (params) {
             this.params = params;
         }
@@ -55,11 +65,24 @@ class BaseApi {
                     params: this.params,
                     data: this.data
                 }).then(async response => {
-                    if (response.data?.status == 200) {
-                        resolve(response.data);
-                    } else {
-                        reject(response.data);
+                    const status = response.data?.status
+                    const data = response.data
+                    switch (status) {
+                        case 200:
+                            resolve(response.data);
+                            break
+                        case 401:
+                            const authStore = useAuthStore()
+                            authStore.setIsAuthenticated(false)
+                            break
+                        case 403:
+                        //TODO: handle permission
+
+                        default:
+                        // code block
                     }
+
+                    reject(data);
                 }).catch(error => {
                     reject(error);
                 });

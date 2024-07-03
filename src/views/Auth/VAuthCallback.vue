@@ -7,7 +7,7 @@
 </template>
 
 <script lang='ts'>
-import AuthRepository from '@/repositories/AuthRepository'
+import BaseApi from '@/network/BaseApi';
 import LocalStorageService from '@/services/LocalStorageService'
 
 export default {
@@ -17,13 +17,12 @@ export default {
   setup(props) {},
 
   mounted() {
-    const provider = this.$route.params.provider
-    this.loginWithGoogle(provider)
+    this.loginWithGoogle()
   },
 
   methods: {
-    loginWithGoogle(provider: string) {
-      AuthRepository.loginWithProvider(provider, this.$route.query)
+    loginWithGoogle() {
+      BaseApi.get(`login/${this.$route.params.provider}/callback`, this.$route.query)
         .then((res: any) => {
           LocalStorageService.saveAuthInfo(res.data)
           this.$router.push({ name: 'VHome' })

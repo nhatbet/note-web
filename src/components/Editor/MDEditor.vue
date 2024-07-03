@@ -24,7 +24,7 @@ import { ref, onMounted, computed } from 'vue'
 import { MdEditor, config } from 'md-editor-v3'
 import type { ExposeParam } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
-import MediaRepository from '@/repositories/MediaRepository'
+import BaseApi from '@/network/BaseApi'
 
 config({
     editorConfig: {
@@ -209,7 +209,7 @@ const onUploadImg = async (files, callback) => {
             return new Promise((rev, rej) => {
                 const form = new FormData()
                 form.append('file', file)
-                MediaRepository.upload({ collection: 'article-image', file: file })
+                BaseApi.setAuth().post('upload', { collection: 'article-image', file: file })
                     .then((res: any) => rev(res))
                     .catch((err: any) => rej(err))
             })

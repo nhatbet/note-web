@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import SelectionRepository from '@/repositories/SelectionRepository'
 
 export const useSelectionStore = defineStore('selection', {
     state: () => ({

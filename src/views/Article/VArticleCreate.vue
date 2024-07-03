@@ -18,7 +18,6 @@ import { ref } from 'vue'
 import MDEditor from '@/components/Editor/MDEditor.vue'
 import type { ArticleStore } from '@/types/TArticle'
 import { SelectionService } from '@/services/SelectionService'
-import ArticleRepository from '@/repositories/ArticleRepository'
 import BaseApi from '@/network/BaseApi'
 
 export default {
