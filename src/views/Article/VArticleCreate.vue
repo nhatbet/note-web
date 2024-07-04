@@ -19,7 +19,7 @@
         :options="selection.article_status"
         placeholder="Select tag"
     ></CSelectSearch>
-    <!-- <MDEditor v-model="articleData.content" :errors="articleErrors?.content"></MDEditor> -->
+    <MDEditor v-model="articleData.content" :errors="articleErrors?.content"></MDEditor>
     <CButton
         text="Create"
         classes="w-[100px] my-5 mt-[200px]"

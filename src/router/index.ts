@@ -9,6 +9,7 @@ import VArticleIndex from '@/views/Article/VArticleIndex.vue'
 import VArticleCreate from '@/views/Article/VArticleCreate.vue'
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
+import VArticleShow from '@/views/Article/VArticleShow.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,7 +53,12 @@ const router = createRouter({
           path: '/home/article/create',
           name: 'VArticleCreate',
           component: VArticleCreate
-        }
+        },
+        {
+          path: '/home/article/show',
+          name: 'VArticleShow',
+          component: VArticleShow
+        },
       ]
     }
   ]
