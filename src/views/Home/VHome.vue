@@ -37,7 +37,7 @@
 
         <!-- List Dialog -->
         <UDialogLogin v-model="visibleLogin" />
-        <CCloak v-model="visibleMenubar"></CCloak>
+        <CCloak v-model="visibleMenubar" v-if="widthIsMaxMD()"></CCloak>
     </div>
 </template>
 
@@ -51,6 +51,8 @@ import { useAuthStore } from '@/stores/auth'
 import UDropdownMenu from '../Units/UDropdownMenu.vue'
 import CCloak from '@/components/General/CCloak.vue'
 import BaseApi from '@/network/BaseApi'
+import { useScreenSize } from '@/stores/ScreenSize'
+import { storeToRefs } from 'pinia'
 
 export default {
     name: 'VHome',
@@ -66,8 +68,11 @@ export default {
         const visibleLogin = ref<Boolean>(false)
         const authStore = useAuthStore()
         const visibleMenubar = ref(false)
+        const screenSizeStore = useScreenSize()
+        const { screenWidth } = storeToRefs(screenSizeStore)
+        const { widthIsMaxMD } = screenSizeStore
 
-        return { visibleLogin, authStore, visibleMenubar }
+        return { visibleLogin, authStore, visibleMenubar, screenWidth, screenSizeStore, widthIsMaxMD }
     },
 
     methods: {
@@ -80,7 +85,6 @@ export default {
     },
 
     watch: {},
-    computed: {}
 }
 </script>
 
