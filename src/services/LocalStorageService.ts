@@ -19,6 +19,10 @@ class LocalStorageService {
 
         return 'No Auth';
     }
+
+    public isLoggedIn(): boolean {
+        return !!localStorage.getItem('access_token')
+    }
 }
 
 export default new LocalStorageService();

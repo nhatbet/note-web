@@ -1,12 +1,12 @@
 <template>
     <div
-        class="w-[43px] h-[43px] content-center text-center cursor-pointer"
-        :class="{ 'border-solid border-t border-r border-l border-slate-300': isShowMenu }"
+        class="w-[43px] h-[43px] content-center text-center cursor-pointer border-solid border-t border-r border-l border-transparent"
+        :class="{ '!border-slate-300': isShowMenu }"
         @click="isShowMenu = !isShowMenu"
     >
         <img
             src="https://picsum.photos/300/300"
-            class="w-[30px] h-[30px] rounded-full mx-1"
+            class="w-[30px] h-[30px] m-auto rounded-full"
             alt="avatar"
         />
     </div>

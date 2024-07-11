@@ -10,7 +10,7 @@
                         <span class="line line3"></span>
                     </div>
                     <div class="navbar-right content-center">
-                        <div v-if="!authStore.isAuthenticated">
+                        <div v-if="!isloggedIn">
                             <CButton
                                 text="Sign in"
                                 classes="w-18 h-8 p-3"
@@ -47,7 +47,6 @@ import LocalStorageService from '@/services/LocalStorageService'
 import { ref } from 'vue'
 import UPanelMenu from '../Units/UPanelMenu.vue'
 import UDialogLogin from '../Units/UDialogLogin.vue'
-import { useAuthStore } from '@/stores/auth'
 import UDropdownMenu from '../Units/UDropdownMenu.vue'
 import CCloak from '@/components/General/CCloak.vue'
 import BaseApi from '@/network/BaseApi'
@@ -66,13 +65,13 @@ export default {
 
     setup(props) {
         const visibleLogin = ref<Boolean>(false)
-        const authStore = useAuthStore()
         const visibleMenubar = ref(false)
         const screenSizeStore = useScreenSize()
         const { screenWidth } = storeToRefs(screenSizeStore)
         const { widthIsMaxMD } = screenSizeStore
+        const isloggedIn = LocalStorageService.isLoggedIn();
 
-        return { visibleLogin, authStore, visibleMenubar, screenWidth, screenSizeStore, widthIsMaxMD }
+        return { visibleLogin, visibleMenubar, screenWidth, screenSizeStore, widthIsMaxMD, isloggedIn }
     },
 
     methods: {

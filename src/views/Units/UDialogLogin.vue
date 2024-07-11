@@ -7,7 +7,7 @@
                 <CInput v-model="loginData.password" :errors="loginErrors?.password" placeholder="password" class="relative"
                     :type="passwordVisibility ? 'text' : 'password'">
                     <template v-slot:RIcon>
-                        <span class="absolute top-1/2 -translate-y-1/2 right-2 text-[#9ca3af]"
+                        <span class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 right-2 text-[#9ca3af]"
                             @click.stop="togglePassword()">
                             <FontAwesomeIcon v-show="passwordVisibility" :icon="['fas', 'eye']" />
                             <FontAwesomeIcon v-show="!passwordVisibility" :icon="['fas', 'eye-slash']" />
@@ -84,7 +84,7 @@ export default {
             remember: false
         })
 
-        const loginErrors = ref<AccountError>({
+        const loginErrors: any = ref<AccountError>({
             username: [],
             password: []
         })
@@ -114,11 +114,13 @@ export default {
                     }
                     this.canShow = false
                     this.loginErrors = {} as AccountError
-                    this.$router.push({ name: 'VHome' })
+                    // this.$router.push({ name: 'VHome' })
                 })
                 .catch((err: any) => {
                     if (err?.status == 422) {
                         this.loginErrors = err.data
+                    } else if (err?.status == 401) {
+                        this.loginErrors.password = [err.message]
                     }
                     LocalStorageService.clearAuthInfo()
                 })
