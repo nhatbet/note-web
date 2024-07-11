@@ -17,7 +17,6 @@
 import { ref } from 'vue'
 import MDEditor from '@/components/Editor/MDEditor.vue'
 import type { ArticleStore } from '@/types/TArticle'
-import { SelectionService } from '@/services/SelectionService'
 import BaseApi from '@/network/BaseApi'
 
 export default {
@@ -27,7 +26,6 @@ export default {
         MDEditor
     },
     setup(props, { emit }) {
-        const selection = SelectionService()
         const articleData = ref<ArticleStore>({
             title: '',
             content: '',

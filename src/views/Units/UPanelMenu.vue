@@ -1,8 +1,11 @@
 <template>
     <div class="panel-menu select-none h-[100vh]">
         <div v-for="(item, index) in menu" :key="index">
-            <div class="label-item cursor-pointer flex items-center relative" :class="{ 'active': isActive(item) }"
-                @click="handleClick(item)">
+            <div
+                class="label-item cursor-pointer flex items-center relative"
+                :class="{ active: isActive(item) }"
+                @click="handleClick(item)"
+            >
                 <CIcon class="px-2" v-if="item?.icon" :name="item?.icon" />
                 <span>{{ item.label }}</span>
                 <span class="absolute right-[5px]" v-if="canShowAngleIcon(item)">
@@ -10,9 +13,17 @@
                     <CIcon name="angle-right" v-else />
                 </span>
             </div>
-            <div class="sub-item" v-show="canShowSubItem(item)" v-for="(subItem, subIndex) in item.items"
-                :key="subIndex">
-                <div class="label-item pl-5 cursor-pointer flex items-center" :class="{'active': isActive(subItem)}" @click="handleClick(subItem)">
+            <div
+                class="sub-item"
+                v-show="canShowSubItem(item)"
+                v-for="(subItem, subIndex) in item.items"
+                :key="subIndex"
+            >
+                <div
+                    class="label-item pl-5 cursor-pointer flex items-center"
+                    :class="{ active: isActive(subItem) }"
+                    @click="handleClick(subItem)"
+                >
                     <CIcon class="px-2" v-if="subItem?.icon" :name="subItem?.icon" />
                     <span>{{ subItem.label }}</span>
                     <span class="absolute right-[5px]" v-if="canShowAngleIcon(subItem)">
@@ -20,9 +31,17 @@
                         <CIcon name="angle-right" v-else />
                     </span>
                 </div>
-                <div class="mini-sub-item" v-show="canShowSubItem(subItem)"
-                    v-for="(miniSubItem, miniSubIndex) in subItem.items" :key="miniSubIndex">
-                    <div class="label-item pl-10 cursor-pointer flex items-center" :class="{'active': isActive(miniSubItem)}" @click="handleClick(miniSubItem)">
+                <div
+                    class="mini-sub-item"
+                    v-show="canShowSubItem(subItem)"
+                    v-for="(miniSubItem, miniSubIndex) in subItem.items"
+                    :key="miniSubIndex"
+                >
+                    <div
+                        class="label-item pl-10 cursor-pointer flex items-center"
+                        :class="{ active: isActive(miniSubItem) }"
+                        @click="handleClick(miniSubItem)"
+                    >
                         <CIcon class="px-2" v-if="miniSubIndex?.icon" :name="miniSubIndex?.icon" />
                         <span>{{ miniSubItem.label }}</span>
                     </div>
@@ -32,9 +51,18 @@
     </div>
 </template>
 
-<script lang='ts'>
-import { computed, ref } from 'vue'
-import { useRoute } from 'vue-router';
+<script lang="ts">
+import { computed, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { useSelectionStore } from '@/stores/selection'
+
+interface TItem {
+    label: string
+    icon: string | null
+    toRoute: string
+    items: [TItem]
+    isShowSubItem: Boolean | null
+}
 
 export default {
     name: 'UPanelMenu',
@@ -42,110 +70,57 @@ export default {
     components: {},
 
     setup(props) {
-        const route = useRoute();
-        const currentRouteName = computed(() => route.name);
+        const route = useRoute()
+        const currentRouteName = computed(() => route.name)
+        const selectionStore = useSelectionStore()
 
-        const menu = ref([
-            {
-                label: 'Files',
-                icon: 'tag',
-                items: [
-                    {
-                        label: 'Documents',
-                        icon: 'pi pi-file',
-                        items: [
-                            {
-                                label: 'Invoices',
-                                icon: 'pi pi-file-pdf',
-                                items: [
-                                    {
-                                        label: 'Pending',
-                                        icon: 'pi pi-stop'
-                                    },
-                                    {
-                                        label: 'Paid',
-                                        icon: 'pi pi-check-circle'
-                                    }
-                                ]
-                            },
-                            {
-                                label: 'Clients',
-                                icon: 'pi pi-users'
-                            }
-                        ]
-                    },
-                    {
-                        label: 'Images',
-                        icon: 'pi pi-image',
-                        items: [
-                            {
-                                label: 'Logos',
-                                toRoute: 'VArticleCreate',
-                                icon: 'pi pi-image'
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                label: 'Cloud',
-                icon: 'pi pi-cloud',
-                items: [
-                    {
-                        label: 'Upload',
-                        icon: 'pi pi-cloud-upload',
-                    },
-                    {
-                        label: 'Download',
-                        icon: 'pi pi-cloud-download'
-                    },
-                    {
-                        label: 'Sync',
-                        icon: 'pi pi-refresh'
-                    }
-                ]
-            },
-            {
-                label: 'Devices',
-                icon: 'pi pi-desktop',
-                items: [
-                    {
-                        label: 'Test',
-                        toRoute: 'test',
-                        icon: 'pi pi-mobile'
-                    },
-                    {
-                        label: 'Desktop',
-                        icon: 'pi pi-desktop'
-                    },
-                    {
-                        label: 'Tablet',
-                        icon: 'pi pi-tablet'
-                    }
-                ]
-            }
-        ])
+        const menu: any = ref(null)
+        onMounted(async () => {
+            const selection = await selectionStore.getData()
+            const itemsCategory =
+                selection?.categories?.map((category: any) => {
+                    return { label: category.label }
+                }) || []
+            menu.value = [
+                {
+                    label: 'My Posts',
+                    icon: 'post',
+                    toRoute: 'VArticle'
+                },
+                {
+                    label: 'Home',
+                    icon: 'home',
+                    toRoute: 'VHome'
+                },
+                {
+                    label: 'Category',
+                    icon: 'category',
+                    items: itemsCategory
+                }
+            ]
+        })
 
-        return { menu, currentRouteName };
+        return { menu, currentRouteName }
     },
+
     methods: {
-        handleClick(item) {
-            if (item.toRoute) {
+        handleClick(item: TItem) {
+            if (item?.toRoute) {
                 this.$router.push({ name: item.toRoute })
             } else if (item.isShowSubItem) {
-                item.isShowSubItem = !item.isShowSubItem;
+                item.isShowSubItem = !item.isShowSubItem
             } else {
-                item.isShowSubItem = true;
+                item.isShowSubItem = true
             }
         },
-        canShowSubItem(item) {
-            return !!(item?.isShowSubItem && item?.items);
+        canShowSubItem(item: TItem) {
+            return !!(item?.isShowSubItem && item?.items)
         },
-        canShowAngleIcon(item) {
-            return !!item?.items;
+        canShowAngleIcon(item: TItem) {
+            return !!item?.items
         },
-        isActive(item) {
-            return this.currentRouteName == item.toRoute;
+        isActive(item: TItem) {
+            return this.currentRouteName == item.toRoute
         }
     }
 }
@@ -159,11 +134,11 @@ export default {
     height: 33px;
 
     &:hover {
-        background: #E5E7EA;
+        background: #e5e7ea;
     }
 }
 
 .active {
-    background: #E5E7EA;
+    background: #e5e7ea;
 }
 </style>

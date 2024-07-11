@@ -195,7 +195,6 @@ export default {
 }
 .menu-items {
     width: 300px;
-    padding: 10px;
 }
 
 .body {
