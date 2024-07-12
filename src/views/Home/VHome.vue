@@ -1,25 +1,23 @@
 <template>
     <div class="app">
-        <nav>
-            <div class="navbar">
-                <div class="container nav-container">
-                    <input class="checkbox" type="checkbox" v-model="visibleMenubar" />
-                    <div class="hamburger-lines">
-                        <span class="line line1"></span>
-                        <span class="line line2"></span>
-                        <span class="line line3"></span>
+        <nav class="navbar">
+            <div class="container nav-container">
+                <input class="checkbox" type="checkbox" v-model="visibleMenubar" />
+                <div class="hamburger-lines">
+                    <span class="line line1"></span>
+                    <span class="line line2"></span>
+                    <span class="line line3"></span>
+                </div>
+                <div class="navbar-right content-center">
+                    <div v-if="!isLoggedIn">
+                        <CButton
+                            text="Sign in"
+                            classes="w-18 h-8 p-3"
+                            @click="visibleLogin = !visibleLogin"
+                        ></CButton>
                     </div>
-                    <div class="navbar-right content-center">
-                        <div v-if="!isloggedIn">
-                            <CButton
-                                text="Sign in"
-                                classes="w-18 h-8 p-3"
-                                @click="visibleLogin = !visibleLogin"
-                            ></CButton>
-                        </div>
-                        <div class="navbar-avatar" v-else>
-                            <UDropdownMenu></UDropdownMenu>
-                        </div>
+                    <div class="navbar-avatar" v-else>
+                        <UDropdownMenu></UDropdownMenu>
                     </div>
                 </div>
             </div>
@@ -41,7 +39,7 @@
     </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import LocalStorageService from '@/services/LocalStorageService'
 import { ref } from 'vue'
@@ -69,21 +67,30 @@ export default {
         const screenSizeStore = useScreenSize()
         const { screenWidth } = storeToRefs(screenSizeStore)
         const { widthIsMaxMD } = screenSizeStore
-        const isloggedIn = LocalStorageService.isLoggedIn();
+        const isLoggedIn = LocalStorageService.isLoggedIn()
 
-        return { visibleLogin, visibleMenubar, screenWidth, screenSizeStore, widthIsMaxMD, isloggedIn }
+        return {
+            visibleLogin,
+            visibleMenubar,
+            screenWidth,
+            screenSizeStore,
+            widthIsMaxMD,
+            isLoggedIn
+        }
     },
 
     methods: {
         async logout() {
-            await BaseApi.setAuth().post('logout').finally(() => {
-                LocalStorageService.clearAuthInfo()
-                this.$router.push({ name: 'VLogin' })
-            })
+            await BaseApi.setAuth()
+                .post('logout')
+                .finally(() => {
+                    LocalStorageService.clearAuthInfo()
+                    this.$router.push({ name: 'VLogin' })
+                })
         }
     },
 
-    watch: {},
+    watch: {}
 }
 </script>
 
