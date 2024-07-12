@@ -1,21 +1,39 @@
 <template>
     <div class="column-header flex items-center text-base border-b-2 border-stone-200 h-[56px]">
         <div class="column-header__title w-[50%]">Title</div>
-        <div class="column-header__avatar w-[20%]"></div>         
+        <div class="column-header__avatar w-[20%]"></div>
         <div class="column-header__replies w-[10%] text-center">Replies</div>
         <div class="column-header__views w-[10%] text-center">Views</div>
         <div class="column-header__actions w-[10%] text-center">Action</div>
     </div>
     <div class="column-body" @scroll="onScroll()">
-        <div class="flex border-b border-stone-200 px-[5px] py-[10px]" v-for="(item, index) in items" :key="index">
+        <div
+            class="flex border-b border-stone-200 px-[5px] py-[10px]"
+            v-for="(item, index) in articles"
+            :key="index"
+        >
             <div class="w-[50%]">
-                <div class="title text-base">Should I purge users who are on the FREE tier and DO NOT subscribe to emails?</div>
-                <div class="subtitle text-sm">Memberships & subscriptions</div>
+                <div class="title text-base">
+                    {{ item.title }}
+                </div>
+                <div class="subtitle text-sm">{{ item.content.substring(0, 20) }}</div>
             </div>
             <div class="avatar w-[20%] flex content-center items-center">
-                <img src="https://picsum.photos/200/300" class="w-[24px] h-[24px] rounded-full mx-1" alt="avatar">
-                <img src="https://picsum.photos/200/300" class="w-[24px] h-[24px] rounded-full mx-1" alt="avatar">
-                <img src="https://picsum.photos/200/300" class="w-[24px] h-[24px] rounded-full mx-1" alt="avatar">
+                <img
+                    src="https://picsum.photos/200/300"
+                    class="w-[24px] h-[24px] rounded-full mx-1"
+                    alt="avatar"
+                />
+                <img
+                    src="https://picsum.photos/200/300"
+                    class="w-[24px] h-[24px] rounded-full mx-1"
+                    alt="avatar"
+                />
+                <img
+                    src="https://picsum.photos/200/300"
+                    class="w-[24px] h-[24px] rounded-full mx-1"
+                    alt="avatar"
+                />
             </div>
             <div class="replies w-[10%] content-center text-center">2</div>
             <div class="views w-[10%] content-center text-center">3.0k</div>
@@ -23,8 +41,19 @@
         </div>
     </div>
 </template>
-<script lang='ts'>
-import { ref } from 'vue'
+<script lang="ts">
+import BaseApi from '@/network/BaseApi'
+import { onMounted, ref } from 'vue'
+
+interface TArticle {
+    id: number
+    title: string
+    content: string
+    author_id: number
+    created_at: string
+    updated_at: string
+}
+
 export default {
     name: 'VArticleIndex',
     props: {},
@@ -32,24 +61,30 @@ export default {
 
     setup(props) {
         const items = ref(10)
+        const articles = ref([])
+        const isLastPage = ref(false)
+        onMounted(async () => {
+            await BaseApi.get('articles')
+                .then((res: any) => {
+                    articles.value = res.data.data
+                    console.log('articles.value', articles.value)
 
-        return { items }
+                    isLastPage.value = res.data.current_page == res.data.last_page
+                })
+                .catch((err: any) => {
+                    console.log(err)
+                })
+        })
+
+        return { items, articles, isLastPage }
     },
 
     methods: {
-        onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
-            if (scrollTop + clientHeight >= scrollHeight) {
-                console.log('scroll bottom');
-                this.items = this.items + 5;
-                
-                // this.loadMorePosts()
-            }
-        }
+        onScroll() {}
     },
 
     watch: {},
     computed: {}
 }
 </script>
-<style scoped lang='scss'>
-</style>
+<style scoped lang="scss"></style>
