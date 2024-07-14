@@ -43,7 +43,7 @@ const router = createRouter({
           component: VArticleCreate
         },
         {
-          path: '/home/article/show',
+          path: '/home/article/:id',
           name: 'VArticleShow',
           component: VArticleShow
         },

@@ -11,7 +11,7 @@ class BaseApi {
         'Access-Control-Allow-Origin': '*',
         'Authorization': 'No auth'
     }
-    public params: string | null = null;
+    public params: object | null = null;
     public data: any = null;
     public url: any = null
 
