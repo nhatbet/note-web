@@ -24,6 +24,7 @@
     "pinia": "^2.1.7",
     "sanitize-html": "^2.13.0",
     "vue": "^3.3.11",
+    "vue-advanced-cropper": "^2.8.9",
     "vue-axios": "^3.5.2",
     "vue-router": "^4.2.5",
     "vue-window-size": "^2.0.0",
