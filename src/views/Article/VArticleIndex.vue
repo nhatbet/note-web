@@ -51,7 +51,8 @@ interface TArticle {
     content: string
     author_id: number
     created_at: string
-    updated_at: string
+    updated_at: string,
+    comments: []
 }
 
 export default {
@@ -62,11 +63,13 @@ export default {
     setup(props) {
         const items = ref(10)
         const articles = ref([])
+        const comments = ref([])
         const isLastPage = ref(false)
         onMounted(async () => {
             await BaseApi.get('articles')
                 .then((res: any) => {
                     articles.value = res.data.data
+                    comments.value = res.data.data.comments
                     console.log('articles.value', articles.value)
 
                     isLastPage.value = res.data.current_page == res.data.last_page
@@ -76,7 +79,7 @@ export default {
                 })
         })
 
-        return { items, articles, isLastPage }
+        return { items, articles, isLastPage, comments }
     },
 
     methods: {
