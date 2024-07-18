@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="checkbox-wrapper-33">
-      <label class="checkbox">
+      <label class="checkbox cursor-pointer">
         <input class="checkbox__trigger visuallyhidden" type="checkbox" @input="updateInput" :checked="modelValue" />
         <span class="checkbox__symbol">
           <svg

@@ -2,7 +2,7 @@
     <div class="app">
         <nav class="navbar">
             <div class="container nav-container">
-                <input class="checkbox" type="checkbox" v-model="visibleMenubar" />
+                <input class="hamburger-checkbox" type="checkbox" v-model="visibleMenubar" />
                 <div class="hamburger-lines">
                     <span class="line line1"></span>
                     <span class="line line2"></span>
@@ -130,7 +130,7 @@ export default {
     height: 56px;
 }
 
-.nav-container .checkbox {
+.nav-container .hamburger-checkbox {
     position: absolute;
     display: block;
     height: 32px;
@@ -221,7 +221,7 @@ export default {
     height: 100vh;
 }
 
-.app:has(input[type='checkbox'].checkbox:checked) {
+.app:has(input[type='checkbox'].hamburger-checkbox:checked) {
     .body {
         .menu {
             transform: translateX(0);
@@ -237,7 +237,7 @@ export default {
     }
 }
 
-.app:has(input[type='checkbox']:not(:checked)) {
+.app:has(input[type='checkbox'].hamburger-checkbox:not(:checked)) {
     .menu {
         transition: all 0.3s ease-in-out;
     }
