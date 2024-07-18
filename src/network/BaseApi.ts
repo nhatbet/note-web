@@ -7,7 +7,7 @@ class BaseApi {
     public method: any = null;
     public timeout: number = 7000;
     public headers: any = {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
         'Authorization': 'No auth'
     }
@@ -34,6 +34,7 @@ class BaseApi {
     }
 
     post(url: string, data: any = null) {
+        this.headers['Content-Type'] = 'multipart/form-data';
         this.url = url;
         this.method = 'post';
         if (data) {
@@ -49,6 +50,19 @@ class BaseApi {
             this.params = params;
         }
         this.method = 'get';
+
+        return this.execute();
+    }
+
+    put(url: string, data: any = null) {
+        this.url = url;
+        this.method = 'put';
+
+        if (data) {
+            this.data = data;
+        }
+        console.log('data: ');
+        console.log(this.data);
 
         return this.execute();
     }

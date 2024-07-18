@@ -8,6 +8,7 @@ import VArticleCreate from '@/views/Article/VArticleCreate.vue'
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 import VArticleShow from '@/views/Article/VArticleShow.vue'
+import VArticleEdit from '@/views/Article/VArticleEdit.vue'
 import VCommentIndex from '@/views/Comment/VCommentIndex.vue'
 
 const router = createRouter({
@@ -52,6 +53,11 @@ const router = createRouter({
           path: '/home/article/:id',
           name: 'VArticleShow',
           component: VArticleShow
+        },
+        {
+          path: '/home/article/:id/update',
+          name: 'VArticleEdit',
+          component: VArticleEdit
         },
       ]
     }
