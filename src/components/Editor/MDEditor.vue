@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { MdEditor, config } from 'md-editor-v3'
-import type { ExposeParam } from 'md-editor-v3'
+import type { ExposeParam, Footers, Themes, ToolbarNames } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
 import BaseApi from '@/network/BaseApi'
 
@@ -146,15 +146,17 @@ const toolbars = ref([
     'previewOnly',
     'htmlPreview',
     'catalog'
-])
+] as ToolbarNames[])
 const props = defineProps({
     modelValue: {
-        type: [String, Number],
+        type: [String],
         default: ''
     },
     theme: {
-        type: String,
-        default: 'light'
+        type: null,
+        default: () => {
+            'light' as Themes
+        }
     },
     language: {
         type: String,
@@ -177,8 +179,10 @@ const props = defineProps({
         default: 10000
     },
     footers: {
-        type: Array,
-        default: ['markdownTotal', '=', 'scrollSwitch']
+        type: null,
+        default: () => {
+            ;['markdownTotal', '=', 'scrollSwitch'] as Footers[]
+        }
     },
     errors: {
         type: [Array],
@@ -203,13 +207,14 @@ const onChange = (val: string) => {
     console.log('change', val)
 }
 
-const onUploadImg = async (files, callback) => {
+const onUploadImg = async (files: File[], callback: any) => {
     const res = await Promise.all(
-        files.map((file) => {
+        files.map((file: File) => {
             return new Promise((rev, rej) => {
                 const form = new FormData()
                 form.append('file', file)
-                BaseApi.setAuth().post('upload', { collection: 'article-image', file: file })
+                BaseApi.setAuth()
+                    .post('upload', { collection: 'article-image', file: file })
                     .then((res: any) => rev(res))
                     .catch((err: any) => rej(err))
             })
@@ -223,6 +228,18 @@ const onUploadImg = async (files, callback) => {
             // title: item.data.file_name
         }))
     )
+}
+
+const onSave = (v: any, h: any) => {
+    console.log(v)
+
+    h.then((html: HTMLElement) => {
+        console.log(html)
+    })
+}
+
+const onBlur = (e: Event) => {
+    console.log('onBlur', e)
 }
 </script>
 

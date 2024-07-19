@@ -42,7 +42,7 @@
                         :class="{ active: isActive(miniSubItem) }"
                         @click="handleClick(miniSubItem)"
                     >
-                        <CIcon class="px-2" v-if="miniSubIndex?.icon" :name="miniSubIndex?.icon" />
+                        <CIcon class="px-2" v-if="miniSubItem?.icon" :name="miniSubItem?.icon" />
                         <span>{{ miniSubItem.label }}</span>
                     </div>
                 </div>
@@ -55,18 +55,16 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useSelectionStore } from '@/stores/selection'
-
-interface TItem {
-    label: string
-    icon: string | null
-    toRoute: string
-    items: [TItem]
-    isShowSubItem: Boolean | null
-}
+import type { ItemMenu } from '@/types/TMenu'
 
 export default {
     name: 'UPanelMenu',
-    props: {},
+    props: {
+        classes: {
+            type: [String, Array],
+            default: ''
+        }
+    },
     components: {},
 
     setup(props) {
@@ -77,10 +75,9 @@ export default {
         const menu: any = ref(null)
         onMounted(async () => {
             const selection = await selectionStore.getData()
-            const itemsCategory =
-                selection?.categories?.map((category: any) => {
-                    return { label: category.label }
-                }) || []
+            const itemsCategory = selection?.categories?.map((category: any) => {
+                return { label: category.label }
+            }) as ItemMenu[]
             menu.value = [
                 {
                     label: 'My Posts',
@@ -104,7 +101,7 @@ export default {
     },
 
     methods: {
-        handleClick(item: TItem) {
+        handleClick(item: ItemMenu) {
             if (item?.toRoute) {
                 this.$router.push({ name: item.toRoute })
             } else if (item.isShowSubItem) {
@@ -113,13 +110,13 @@ export default {
                 item.isShowSubItem = true
             }
         },
-        canShowSubItem(item: TItem) {
+        canShowSubItem(item: ItemMenu) {
             return !!(item?.isShowSubItem && item?.items)
         },
-        canShowAngleIcon(item: TItem) {
+        canShowAngleIcon(item: ItemMenu) {
             return !!item?.items
         },
-        isActive(item: TItem) {
+        isActive(item: ItemMenu) {
             return this.currentRouteName == item.toRoute
         }
     }

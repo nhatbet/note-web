@@ -9,7 +9,7 @@ import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
 import VArticleShow from '@/views/Article/VArticleShow.vue'
 import VArticleEdit from '@/views/Article/VArticleEdit.vue'
-import VCommentIndex from '@/views/Comment/VCommentIndex.vue'
+// import VCommentIndex from '@/views/Comment/VCommentIndex.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,11 +29,11 @@ const router = createRouter({
       name: 'VAuthCallback',
       component: VAuthCallback
     },
-    {
-      path: '/comments',
-      name: 'VCommentIndex',
-      component: VCommentIndex
-    },
+    // {
+    //   path: '/comments',
+    //   name: 'VCommentIndex',
+    //   component: VCommentIndex
+    // },
     {
       path: '/home',
       name: 'VHome',

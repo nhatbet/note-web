@@ -28,7 +28,7 @@ export default {
         return { img }
     },
     methods: {
-        change({ coordinates, canvas }) {
+        change({ coordinates, canvas }: any) {
             console.log(coordinates, canvas)
             console.log('changed');
             

@@ -17,7 +17,7 @@
                         ></CButton>
                     </div>
                     <div class="navbar-avatar" v-else>
-                        <UDropdownMenu></UDropdownMenu>
+                        <UDropdownMenu classes="dropdown"></UDropdownMenu>
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@
         <div class="body">
             <div class="menu">
                 <div class="menu-items">
-                    <UPanelMenu />
+                    <UPanelMenu classes="test" />
                 </div>
             </div>
             <div class="main p-3">
@@ -62,7 +62,7 @@ export default {
     },
 
     setup(props) {
-        const visibleLogin = ref<Boolean>(false)
+        const visibleLogin = ref(false)
         const visibleMenubar = ref(false)
         const screenSizeStore = useScreenSize()
         const { screenWidth } = storeToRefs(screenSizeStore)

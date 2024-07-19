@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div class="comments p-5 text-base">
         <div class="head flex justify-between py-5">
             <h2>Comment(12)</h2>
@@ -141,4 +141,4 @@ const save = () => {
     overflow: hidden;
     min-height: 50px;
 }
-</style>
+</style> -->

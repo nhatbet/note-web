@@ -4,7 +4,7 @@
             <span class="text-base">{{ label }}</span>
             <select
                 class="block w-full p-2 border border-gray-200 rounded-sm focus:outline-none focus:border-purple-400"
-                @change="model = $event.target.value"
+                @change="model = ($event?.target as HTMLInputElement).value"
             >
                 <option v-show="visibleOptionFirst" :value="null">Nothing selected</option>
                 <option
@@ -21,8 +21,9 @@
     </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { computed, ref } from 'vue'
+import type { Option } from '@/types/TSelect'
 
 export default {
     name: 'CSelect',
@@ -40,8 +41,8 @@ export default {
             default: false
         },
         options: {
-            type: Array,
-            default: []
+            type: null,
+            default: [] as Option[]
         },
         classes: {
             type: String,
@@ -52,7 +53,6 @@ export default {
             default: []
         }
     },
-    methods: {},
     setup(props, { emit }) {
         const model = computed({
             get: () => props.modelValue,
@@ -66,5 +66,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

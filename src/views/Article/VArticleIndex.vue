@@ -51,8 +51,12 @@ interface TArticle {
     content: string
     author_id: number
     created_at: string
-    updated_at: string,
+    updated_at: string
     comments: []
+}
+interface TComment {
+    id: number
+    content: string
 }
 
 export default {
@@ -62,8 +66,8 @@ export default {
 
     setup(props) {
         const items = ref(10)
-        const articles = ref([])
-        const comments = ref([])
+        const articles = ref([] as TArticle[])
+        const comments = ref([] as TComment[])
         const isLastPage = ref(false)
         onMounted(async () => {
             await BaseApi.get('articles')

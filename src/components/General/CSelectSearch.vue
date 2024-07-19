@@ -61,6 +61,7 @@
 import { computed, ref } from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCaretUp, faCaretDown, faXmark } from '@fortawesome/free-solid-svg-icons'
+import type { Option } from '@/types/TSelect'
 
 export default {
     name: 'CInput',
@@ -74,8 +75,8 @@ export default {
             default: ''
         },
         options: {
-            type: Array,
-            default: []
+            type: null,
+            default: [] as Option[]
         },
         placeholder: {
             type: String,
@@ -92,7 +93,7 @@ export default {
             if (this.searchValue.length == 0) {
                 return this.options
             }
-            const filteredOptions = this.options.filter((obj) => {
+            const filteredOptions = this.options.filter((obj: Option) => {
                 return obj.label.toLowerCase().indexOf(this.searchValue.toLowerCase()) >= 0
             })
 
@@ -119,7 +120,7 @@ export default {
         blurSelect() {
             this.visibleOption = false
         },
-        handleClickOption(item) {
+        handleClickOption(item: Option) {
             if (this.multipleSelect) {
                 // console.log('select', this.selected)
                 // const data = this.selected.filter((obj) => {
@@ -135,7 +136,7 @@ export default {
             }
             this.visibleOption = true
         },
-        handleSelected(item) {
+        handleSelected(item: Option) {
             if (this.multipleSelect) {
                 // this.selected.filter((obj) => {
                 //     return obj === option
@@ -145,8 +146,8 @@ export default {
 
             return this.selected == item
         },
-        removeItem(item) {
-            this.selected = this.selected.filter((obj) => {
+        removeItem(item: Option) {
+            this.selected = this.selected.filter((obj: Option) => {
                 return obj != item
             })
         }

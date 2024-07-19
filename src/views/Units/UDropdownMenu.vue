@@ -87,7 +87,7 @@
     <CCloak v-model="isShowMenu"></CCloak>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUser, faBell, faBookmark, faReply, faComment } from '@fortawesome/free-solid-svg-icons'
 import { ref } from 'vue'
@@ -96,7 +96,12 @@ import CCloak from '@/components/General/CCloak.vue'
 
 export default {
     name: 'CInput',
-    props: {},
+    props: {
+        classes: {
+            type: [String, Array],
+            default: ''
+        }
+    },
     components: {
         CCloak
     },
