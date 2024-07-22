@@ -24,7 +24,7 @@ import { ref, onMounted, computed } from 'vue'
 import { MdEditor, config } from 'md-editor-v3'
 import type { ExposeParam, Footers, Themes, ToolbarNames } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
-import BaseApi from '@/network/BaseApi'
+import Api from '@/network/Api'
 
 config({
     editorConfig: {
@@ -213,8 +213,7 @@ const onUploadImg = async (files: File[], callback: any) => {
             return new Promise((rev, rej) => {
                 const form = new FormData()
                 form.append('file', file)
-                BaseApi.setAuth()
-                    .post('upload', { collection: 'article-image', file: file })
+                Api.user.upload('article-image', file)
                     .then((res: any) => rev(res))
                     .catch((err: any) => rej(err))
             })

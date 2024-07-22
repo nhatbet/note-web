@@ -42,7 +42,7 @@
     </div>
 </template>
 <script lang="ts">
-import BaseApi from '@/network/BaseApi'
+import Api from '@/network/Api'
 import { onMounted, ref } from 'vue'
 
 interface TArticle {
@@ -70,7 +70,7 @@ export default {
         const comments = ref([] as TComment[])
         const isLastPage = ref(false)
         onMounted(async () => {
-            await BaseApi.get('articles')
+            await Api.article.index()
                 .then((res: any) => {
                     articles.value = res.data.data
                     comments.value = res.data.data.comments

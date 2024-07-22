@@ -47,9 +47,9 @@ import UPanelMenu from '../Units/UPanelMenu.vue'
 import UDialogLogin from '../Units/UDialogLogin.vue'
 import UDropdownMenu from '../Units/UDropdownMenu.vue'
 import CCloak from '@/components/General/CCloak.vue'
-import BaseApi from '@/network/BaseApi'
 import { useScreenSize } from '@/stores/ScreenSize'
 import { storeToRefs } from 'pinia'
+import Api from '@/network/Api'
 
 export default {
     name: 'VHome',
@@ -81,12 +81,10 @@ export default {
 
     methods: {
         async logout() {
-            await BaseApi.setAuth()
-                .post('logout')
-                .finally(() => {
-                    LocalStorageService.clearAuthInfo()
-                    this.$router.push({ name: 'VLogin' })
-                })
+            await Api.auth.logout().finally(() => {
+                LocalStorageService.clearAuthInfo()
+                this.$router.push({ name: 'VLogin' })
+            })
         }
     },
 

@@ -17,9 +17,9 @@
 import { onMounted, ref } from 'vue'
 import MDEditor from '@/components/Editor/MDEditor.vue'
 import type { ArticleStore } from '@/types/TArticle'
-import BaseApi from '@/network/BaseApi'
 import { useRoute } from 'vue-router';
 import { useSelectionStore } from '@/stores/selection';
+import Api from '@/network/Api';
 
 export default {
     name: 'VArticleEdit',
@@ -31,7 +31,7 @@ export default {
         const selectionStore = useSelectionStore()
         const selection: any = ref([]);
         const route = useRoute()
-        const id = route.params.id
+        const id = route.params.id as string
 
         const article = ref<ArticleStore>({
             title: '',
@@ -49,7 +49,7 @@ export default {
 
         onMounted(async () => {
             selection.value = await selectionStore.getData()
-            await BaseApi.get('articles/' + id)
+            await Api.article.show(id)
                 .then((res: any) => {
                     article.value = res.data
                     console.log('article.value', article.value);
@@ -67,7 +67,7 @@ export default {
         async submitArticleUpdate() {
             console.log('this.article', this.article);
             
-            await BaseApi.setAuth().put('articles/' + this.id, this.article)
+            await Api.article.update(this.id, this.article)
                 .then((res: any) => {
                     console.log('ress', res);
                 })

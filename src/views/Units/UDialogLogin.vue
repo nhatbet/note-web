@@ -58,6 +58,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { useAuthStore } from '@/stores/auth'
 import BaseApi from '@/network/BaseApi'
+import Api from '@/network/Api'
 
 export default {
     name: 'UDialogLogin',
@@ -103,7 +104,7 @@ export default {
             this.passwordVisibility = !this.passwordVisibility
         },
         login(payload: any) {
-            BaseApi.post('login', payload)
+            Api.auth.login(payload)
                 .then((res: any) => {
                     LocalStorageService.saveAuthInfo(res.data)
                     this.authStore.setIsAuthenticated(true)
@@ -114,7 +115,6 @@ export default {
                     }
                     this.canShow = false
                     this.loginErrors = {} as AccountError
-                    // this.$router.push({ name: 'VHome' })
                 })
                 .catch((err: any) => {
                     if (err?.status == 422) {

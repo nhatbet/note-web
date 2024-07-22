@@ -17,8 +17,8 @@
 import { onMounted, ref } from 'vue'
 import MDEditor from '@/components/Editor/MDEditor.vue'
 import type { ArticleStore } from '@/types/TArticle'
-import BaseApi from '@/network/BaseApi'
 import { useSelectionStore } from '@/stores/selection';
+import Api from '@/network/Api';
 
 export default {
     name: 'VArticleCreate',
@@ -52,7 +52,7 @@ export default {
 
     methods: {
         async submitArticleCreate() {
-            await BaseApi.setAuth().post('articles', this.articleData)
+            await Api.article.store(this.articleData)
                 .then((res: any) => {
                     console.log('ress', res);
                 })

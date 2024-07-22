@@ -4,19 +4,19 @@
 </template>
 
 <script setup lang="ts">
-import BaseApi from '@/network/BaseApi'
+import Api from '@/network/Api';
 import { MdPreview } from 'md-editor-v3'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const id = route.params.id
+const id = route.params.id as string
 const article = ref({
     title: '',
     content: '',
 })
 onMounted(async () => {
-    await BaseApi.get('articles/' + id)
+    await Api.article.show(id)
         .then((res: any) => {
             article.value = res.data
             console.log('article.value', article.value);

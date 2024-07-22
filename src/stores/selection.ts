@@ -1,4 +1,4 @@
-import BaseApi from '@/network/BaseApi'
+import Api from '@/network/Api'
 import { defineStore } from 'pinia'
 
 export const useSelectionStore = defineStore('selection', {
@@ -17,7 +17,7 @@ export const useSelectionStore = defineStore('selection', {
         },
         async getData() {
             if (this.data == null) {
-                await BaseApi.get('selection')
+                await Api.selection.index()
                     .then((res: any) => {
                         this.setData(res.data)
                     })

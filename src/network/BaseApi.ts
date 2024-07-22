@@ -61,8 +61,6 @@ class BaseApi {
         if (data) {
             this.data = data;
         }
-        console.log('data: ');
-        console.log(this.data);
 
         return this.execute();
     }
