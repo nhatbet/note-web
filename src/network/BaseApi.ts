@@ -65,6 +65,13 @@ class BaseApi {
         return this.execute();
     }
 
+    delete(url: string) {
+        this.url = url;
+        this.method = 'delete';
+
+        return this.execute();
+    }
+
     execute() {
         return new Promise(
             (resolve, reject) => {
@@ -84,8 +91,10 @@ class BaseApi {
                             resolve(response.data);
                             break
                         case 401:
-                            const authStore = useAuthStore()
-                            authStore.setIsAuthenticated(false)
+                            // const authStore = useAuthStore()
+                            // authStore.setIsAuthenticated(false)
+                            LocalStorageService.clearAuthInfo()
+                            resolve(response.data);
                             break
                         case 403:
                         //TODO: handle permission

@@ -15,5 +15,9 @@ export default () => ({
 
     show(id: string) {
         return BaseApi.get('articles/' + id)
+    },
+
+    delete(id: string) {
+        return BaseApi.delete('articles/' + id)
     }
 })
