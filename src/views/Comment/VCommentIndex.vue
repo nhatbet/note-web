@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
     <div class="comments p-5 text-base">
         <div class="head flex justify-between py-5">
             <h2>Comment(12)</h2>
@@ -67,10 +67,10 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 
-const textarea = ref(null)
+const textarea: any = ref(null)
 const visibleInput = ref(false)
 const comments = [
     {
@@ -141,4 +141,4 @@ const save = () => {
     overflow: hidden;
     min-height: 50px;
 }
-</style> -->
+</style>
