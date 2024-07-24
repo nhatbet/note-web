@@ -20,6 +20,15 @@ class LocalStorageService {
         return 'No Auth';
     }
 
+    public getProfile() {
+        const user = localStorage.getItem('user');
+        if (user) {
+            return JSON.parse(user)
+        }
+
+        return null;
+    }
+
     public isLoggedIn(): boolean {
         return !!localStorage.getItem('access_token')
     }

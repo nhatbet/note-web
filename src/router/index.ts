@@ -17,7 +17,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      meta: {title: 'Welcome home', permissions: []}
     },
     {
       path: '/test',

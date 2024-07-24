@@ -5,8 +5,8 @@ type Account = {
 }
 
 type AccountError = {
-    username: [],
-    password: [],
+    username: string[],
+    password: string[],
 }
 
 type AccountRegister = {

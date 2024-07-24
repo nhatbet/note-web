@@ -85,7 +85,7 @@ export default {
             remember: false
         })
 
-        const loginErrors: any = ref<AccountError>({
+        const loginErrors = ref<AccountError>({
             username: [],
             password: []
         })
@@ -107,8 +107,8 @@ export default {
             Api.auth.login(payload)
                 .then((res: any) => {
                     LocalStorageService.saveAuthInfo(res.data)
-                    this.authStore.setIsAuthenticated(true)
-                    this.authStore.setProfile(res.data)
+                    // this.authStore.setIsAuthenticated(true)
+                    // this.authStore.setProfile(res.data)
 
                     if (this.loginData.remember) {
                         CookieService.rememberMe(payload.username, payload.password)
