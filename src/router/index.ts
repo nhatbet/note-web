@@ -10,68 +10,70 @@ import { storeToRefs } from 'pinia'
 import VArticleShow from '@/views/Article/VArticleShow.vue'
 import VArticleEdit from '@/views/Article/VArticleEdit.vue'
 import VCommentIndex from '@/views/Comment/VCommentIndex.vue'
+import PageNotFound from '@/views/PageNotFound.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: HomeView,
-      meta: {title: 'Welcome home', permissions: []}
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component: TestView
-    },
-    {
-      path: '/login/:provider/callback',
-      name: 'VAuthCallback',
-      component: VAuthCallback
-    },
-    {
-      path: '/comments',
-      name: 'VCommentIndex',
-      component: VCommentIndex
-    },
-    {
-      path: '/home',
-      name: 'VHome',
-      component: VHome,
-      children: [
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes: [
+        { path: '/:pathMatch(.*)*', component: PageNotFound },
         {
-          path: '/home',
-          name: 'VArticleIndex',
-          component: VArticleIndex
+            path: '/',
+            name: 'home',
+            component: HomeView,
+            meta: { title: 'Welcome home', permissions: [] }
         },
         {
-          path: '/home/article/create',
-          name: 'VArticleCreate',
-          component: VArticleCreate
+            path: '/test',
+            name: 'test',
+            component: TestView
         },
         {
-          path: '/home/article/:id',
-          name: 'VArticleShow',
-          component: VArticleShow
+            path: '/login/:provider/callback',
+            name: 'VAuthCallback',
+            component: VAuthCallback
         },
         {
-          path: '/home/article/:id/update',
-          name: 'VArticleEdit',
-          component: VArticleEdit
+            path: '/comments',
+            name: 'VCommentIndex',
+            component: VCommentIndex
         },
-      ]
-    }
-  ]
+        {
+            path: '/home',
+            name: 'VHome',
+            component: VHome,
+            children: [
+                {
+                    path: '/home',
+                    name: 'VArticleIndex',
+                    component: VArticleIndex
+                },
+                {
+                    path: '/home/article/create',
+                    name: 'VArticleCreate',
+                    component: VArticleCreate
+                },
+                {
+                    path: '/home/article/:id',
+                    name: 'VArticleShow',
+                    component: VArticleShow
+                },
+                {
+                    path: '/home/article/:id/update',
+                    name: 'VArticleEdit',
+                    component: VArticleEdit
+                }
+            ]
+        }
+    ]
 })
 
 router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore()
-  const { isAuthenticated } = storeToRefs(authStore)
-  // handle router
-  // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
-  // else next()
-  next()
+    const authStore = useAuthStore()
+    const { isAuthenticated } = storeToRefs(authStore)
+    // handle router
+    // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+    // else next()
+    next()
 })
 
 export default router
