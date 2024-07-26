@@ -16,7 +16,7 @@
 <script lang='ts'>
 import { onMounted, ref } from 'vue'
 import MDEditor from '@/components/Editor/MDEditor.vue'
-import type { ArticleStore } from '@/types/TArticle'
+import type { ArticleStore, ArticleShow } from '@/types/TArticle'
 import { useRoute } from 'vue-router';
 import { useSelectionStore } from '@/stores/selection';
 import Api from '@/network/Api';
@@ -51,9 +51,8 @@ export default {
             selection.value = await selectionStore.getData()
             await Api.article.show(id)
                 .then((res: any) => {
-                    article.value = res.data
-                    console.log('article.value', article.value);
-
+                    article.value = res.data as ArticleShow
+                    console.log('ArticleShow', article.value);
                 })
                 .catch((err: any) => {
                     console.log(err)
@@ -74,7 +73,7 @@ export default {
                 .catch((err: any) => {
                     console.log('err', err)
 
-                    if (err?.status == '422') {
+                    if (err?.status == 422) {
                         this.articleErrors = err.data
                     }
                 })

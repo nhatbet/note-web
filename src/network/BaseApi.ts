@@ -1,6 +1,7 @@
 import axios from "axios";
 import LocalStorageService from '@/services/LocalStorageService'
 import { useAuthStore } from '@/stores/auth'
+import type { ResponseType } from "@/types/TResponse";
 
 class BaseApi {
     public baseURL: string = import.meta.env.VITE_HOST + '/api'
@@ -84,17 +85,17 @@ class BaseApi {
                     params: this.params,
                     data: this.data
                 }).then(async response => {
-                    const status = response.data?.status
-                    const data = response.data
+                    const data = response.data as ResponseType
+                    const status = data?.status
                     switch (status) {
                         case 200:
-                            resolve(response.data);
+                            resolve(data);
                             break
                         case 401:
                             // const authStore = useAuthStore()
                             // authStore.setIsAuthenticated(false)
                             LocalStorageService.clearAuthInfo()
-                            resolve(response.data);
+                            resolve(data);
                             break
                         case 403:
                         //TODO: handle permission

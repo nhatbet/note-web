@@ -54,12 +54,12 @@ export default {
         async submitArticleCreate() {
             await Api.article.store(this.articleData)
                 .then((res: any) => {
-                    console.log('ress', res);
+                    console.log('created', res);
                 })
                 .catch((err: any) => {
                     console.log('err', err)
 
-                    if (err?.status == '422') {
+                    if (err?.status == 422) {
                         this.articleErrors = err.data
                     }
                 })

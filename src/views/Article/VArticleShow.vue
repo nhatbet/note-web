@@ -8,6 +8,7 @@ import Api from '@/network/Api';
 import { MdPreview } from 'md-editor-v3'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import type { ArticleShow } from '@/types/TArticle';
 
 const route = useRoute()
 const id = route.params.id as string
@@ -18,7 +19,7 @@ const article = ref({
 onMounted(async () => {
     await Api.article.show(id)
         .then((res: any) => {
-            article.value = res.data
+            article.value = res.data as ArticleShow
             console.log('article.value', article.value);
             
         })

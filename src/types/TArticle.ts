@@ -5,4 +5,12 @@ type ArticleStore = {
     tags: []
 }
 
-export type { ArticleStore };
+type ArticleShow = {
+    id: number,
+    title: string,
+    content: string,
+    status: number,
+    tags: []
+}
+
+export type { ArticleStore, ArticleShow }
