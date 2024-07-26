@@ -1,7 +1,7 @@
 import axios from "axios";
 import LocalStorageService from '@/services/LocalStorageService'
-import { useAuthStore } from '@/stores/auth'
 import type { ResponseType } from "@/types/TResponse";
+import { toast } from "vue3-toastify";
 
 class BaseApi {
     public baseURL: string = import.meta.env.VITE_HOST + '/api'
@@ -15,6 +15,7 @@ class BaseApi {
     public params: object | null = null;
     public data: any = null;
     public url: any = null
+    public notify: boolean = false;
 
     setHeader(headers: object) {
         this.headers = headers;
@@ -30,6 +31,12 @@ class BaseApi {
 
     setAuth() {
         this.headers['Authorization'] = LocalStorageService.getBearerToken();
+
+        return this;
+    }
+
+    setNotify() {
+        this.notify = true;
 
         return this;
     }
@@ -87,20 +94,23 @@ class BaseApi {
                 }).then(async response => {
                     const data = response.data as ResponseType
                     const status = data?.status
+                    const message = data?.message
                     switch (status) {
                         case 200:
                             resolve(data);
+                            if (this.notify) {
+                                toast.success(message)
+                            }
                             break
                         case 401:
-                            // const authStore = useAuthStore()
-                            // authStore.setIsAuthenticated(false)
                             LocalStorageService.clearAuthInfo()
-                            resolve(data);
-                            break
                         case 403:
                         //TODO: handle permission
 
                         default:
+                            if (this.notify) {
+                                toast.error(message)
+                            }
                         // code block
                     }
 

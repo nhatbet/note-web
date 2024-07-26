@@ -6,11 +6,11 @@ export default () => ({
     },
 
     store(data: any) {
-        return BaseApi.setAuth().post('articles', data)
+        return BaseApi.setAuth().setNotify().post('articles', data)
     },
 
     update(id: string, data: any) {
-        return BaseApi.setAuth().put('articles/' + id, data)
+        return BaseApi.setAuth().setNotify().put('articles/' + id, data)
     },
 
     show(id: string) {
@@ -18,6 +18,6 @@ export default () => ({
     },
 
     delete(id: string) {
-        return BaseApi.delete('articles/' + id)
+        return BaseApi.setAuth().setNotify().delete('articles/' + id)
     }
 })

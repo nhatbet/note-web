@@ -13,13 +13,25 @@ import CIcon from '@/components/General/CIcon.vue'
 import CCheckBox from '@/components/General/CCheckBox.vue'
 import CSelectSearch from '@/components/General/CSelectSearch.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import Notifications from 'notiwind'
+import Vue3Toasity, { toast, type ToastContainerOptions } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css';
 
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-app.use(Notifications)
+app.use(Vue3Toasity, {
+    autoClose: 3000,
+    position: toast.POSITION.TOP_RIGHT,
+    closeButton: false,
+    theme: 'auto',
+    bodyClassName: 'text-base',
+    style: {
+        opacity: '1',
+        userSelect: 'initial',
+    }
+    // ...
+} as ToastContainerOptions)
 
 // Define component
 app.component('CInput', CInput)

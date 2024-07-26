@@ -54,7 +54,7 @@ export default {
         async submitArticleCreate() {
             await Api.article.store(this.articleData)
                 .then((res: any) => {
-                    console.log('created', res);
+                    console.log('created', res.message);
                 })
                 .catch((err: any) => {
                     console.log('err', err)
