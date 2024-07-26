@@ -1,6 +1,6 @@
 <template>
-    <div class="app">
-        <nav class="navbar">
+    <div class="app" @scroll="onScroll()">
+        <nav class="navbar" ref="navbarHeader">
             <div class="container nav-container">
                 <input class="hamburger-checkbox" type="checkbox" v-model="visibleMenubar" />
                 <div class="hamburger-lines">
@@ -68,6 +68,7 @@ export default {
         const { screenWidth } = storeToRefs(screenSizeStore)
         const { widthIsMaxMD } = screenSizeStore
         const isLoggedIn = LocalStorageService.isLoggedIn()
+        const navbarHeader: any = ref(null)
 
         return {
             visibleLogin,
@@ -75,7 +76,8 @@ export default {
             screenWidth,
             screenSizeStore,
             widthIsMaxMD,
-            isLoggedIn
+            isLoggedIn,
+            navbarHeader
         }
     },
 
@@ -85,6 +87,11 @@ export default {
                 LocalStorageService.clearAuthInfo()
                 this.$router.push({ name: 'VLogin' })
             })
+        },
+        onScroll() {
+            var height = this.navbarHeader.value.scrollHeight
+            if (height > 100) height = 100;
+            this.navbarHeader.value.style.transform = `translateY(${-height}px)`
         }
     },
 
