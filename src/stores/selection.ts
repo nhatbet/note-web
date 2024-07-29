@@ -1,12 +1,10 @@
 import Api from '@/network/Api'
 import { defineStore } from 'pinia'
+import type { SelectionType } from '@/types/TSelect'
 
 export const useSelectionStore = defineStore('selection', {
     state: (): {
-        data: null | {
-            article_status: []
-            categories: []
-        }
+        data: SelectionType
     } => ({
         data: null
     }),

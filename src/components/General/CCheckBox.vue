@@ -44,8 +44,8 @@ export default {
     }
   },
   methods: {
-    updateInput(event: any) {
-      this.$emit('update:modelValue', event.target.checked)
+    updateInput(event: Event) {
+      this.$emit('update:modelValue', (event.target as HTMLInputElement).checked)
     }
   },
   setup(props) {}

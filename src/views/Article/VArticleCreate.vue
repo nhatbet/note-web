@@ -19,6 +19,7 @@ import MDEditor from '@/components/Editor/MDEditor.vue'
 import type { ArticleStore } from '@/types/TArticle'
 import { useSelectionStore } from '@/stores/selection';
 import Api from '@/network/Api';
+import type { SelectionType } from '@/types/TSelect';
 
 export default {
     name: 'VArticleCreate',
@@ -28,7 +29,7 @@ export default {
     },
     setup(props, { emit }) {
         const selectionStore = useSelectionStore()
-        const selection: any = ref([]);
+        const selection = ref<SelectionType>();
         const articleData = ref<ArticleStore>({
             title: '',
             content: '',

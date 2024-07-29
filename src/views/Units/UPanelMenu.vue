@@ -56,6 +56,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useSelectionStore } from '@/stores/selection'
 import type { ItemMenu } from '@/types/TMenu'
+import type { Option } from '@/types/TSelect';
 
 export default {
     name: 'UPanelMenu',
@@ -75,7 +76,7 @@ export default {
         const menu: any = ref(null)
         onMounted(async () => {
             const selection = await selectionStore.getData()
-            const itemsCategory = selection?.categories?.map((category: any) => {
+            const itemsCategory = selection?.categories?.map((category: Option) => {
                 return { label: category.label }
             }) as ItemMenu[]
             menu.value = [

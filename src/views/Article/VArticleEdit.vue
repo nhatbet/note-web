@@ -20,6 +20,7 @@ import type { ArticleStore, ArticleShow } from '@/types/TArticle'
 import { useRoute } from 'vue-router';
 import { useSelectionStore } from '@/stores/selection';
 import Api from '@/network/Api';
+import type { SelectionType } from '@/types/TSelect';
 
 export default {
     name: 'VArticleEdit',
@@ -29,7 +30,7 @@ export default {
     },
     setup(props, { emit }) {
         const selectionStore = useSelectionStore()
-        const selection: any = ref([]);
+        const selection = ref<SelectionType>();
         const route = useRoute()
         const id = route.params.id as string
 
