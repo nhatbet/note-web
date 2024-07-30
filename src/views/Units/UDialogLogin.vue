@@ -39,6 +39,7 @@
                         :href="socialLoginUrls.facebook" v-show="socialLoginUrls.facebook"></CButton>
                 </div>
             </div>
+            <div @click="loginWithProvider('google')">login with gg</div>
             <div class="mt-7 text-center text-gray-300 text-xs">
                 <span>
                     Copyright © 2021-2024
@@ -59,6 +60,19 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { useAuthStore } from '@/stores/auth'
 import BaseApi from '@/network/BaseApi'
 import Api from '@/network/Api'
+import hello from "hellojs";
+
+hello.init(
+  {
+    google: '652408377462-4m5i90dnr81rla395gkjdlp1uvv7g9la.apps.googleusercontent.com'
+  }, {redirect_uri: 'http://localhost/api/login/google/callback'}
+);
+
+
+// hello.on('auth.login', function(auth: any) {
+//   console.log(auth)
+
+// });
 
 export default {
     name: 'UDialogLogin',
@@ -142,6 +156,29 @@ export default {
             if (account.password) {
                 this.loginData.password = account.password
             }
+        },
+        loginWithProvider(network: string) {
+            hello
+                .login(network)
+                .then(() => {
+                    console.log('callback');
+                    
+                    const authRes = hello(network).getAuthResponse()
+                    // BaseApi.get(`login/${this.$route.params.provider}/callback`, {
+                    //     params: {
+                    //         access_token: authRes.access_token,
+                    //         provider: network
+                    //     }
+                    // })
+                    //     .then((res: any) => {
+                    //         LocalStorageService.saveAuthInfo(res.data)
+                    //         this.$router.push({ name: 'VHome' })
+                    //     })
+                    //     .catch((err: any) => {
+                    //         this.$router.push({ name: 'VLogin' })
+                    //     })
+                })
+                .catch((err: any) => console.log(err))
         }
     }
 }

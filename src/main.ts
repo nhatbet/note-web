@@ -14,7 +14,7 @@ import CCheckBox from '@/components/General/CCheckBox.vue'
 import CSelectSearch from '@/components/General/CSelectSearch.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Vue3Toasity, { toast, type ToastContainerOptions } from 'vue3-toastify'
-import 'vue3-toastify/dist/index.css';
+import 'vue3-toastify/dist/index.css'
 
 const app = createApp(App)
 
