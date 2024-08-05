@@ -1,7 +1,7 @@
 <template>
     <CInput v-model="articleData.title" :errors="articleErrors?.title" placeholder="Username" label="Title"
         classes="mb-2"></CInput>
-    <CSelect v-model="articleData.status" :options="selection.article_status" classes="mb-2" label="Status"></CSelect>
+    <CSelect v-model="articleData.status" :options="selection?.article_status" classes="mb-2" label="Status"></CSelect>
     <!-- <CSelectSearch
         v-model="articleData.tags"
         :multipleSelect="true"
