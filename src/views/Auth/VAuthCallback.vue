@@ -9,7 +9,7 @@
 <script lang="ts">
 import BaseApi from '@/network/BaseApi'
 import LocalStorageService from '@/services/LocalStorageService'
-import { hello } from 'hellojs'
+// import { hello } from 'hellojs'
 
 export default {
     name: 'VAuthCallback',
@@ -24,25 +24,25 @@ export default {
     methods: {
         loginWithGoogle() {
             const network = 'google'
-            hello
-                .login(network)
-                .then(() => {
-                    const authRes = hello(network).getAuthResponse()
-                    console.log('authRes', authRes);
+            // hello
+            //     .login(network)
+            //     .then(() => {
+            //         const authRes = hello(network).getAuthResponse()
+            //         console.log('authRes', authRes);
                     
-                    // BaseApi.get(`login/${this.$route.params.provider}/callback`, {
-                    //     access_token: authRes.access_token,
-                    //     provider: network
-                    // })
-                    //     .then((res: any) => {
-                    //         LocalStorageService.saveAuthInfo(res.data)
-                    //         this.$router.push({ name: 'VHome' })
-                    //     })
-                    //     .catch((err: any) => {
-                    //         this.$router.push({ name: 'VLogin' })
-                    //     })
-                })
-                .catch((err: any) => console.log(err))
+            //         // BaseApi.get(`login/${this.$route.params.provider}/callback`, {
+            //         //     access_token: authRes.access_token,
+            //         //     provider: network
+            //         // })
+            //         //     .then((res: any) => {
+            //         //         LocalStorageService.saveAuthInfo(res.data)
+            //         //         this.$router.push({ name: 'VHome' })
+            //         //     })
+            //         //     .catch((err: any) => {
+            //         //         this.$router.push({ name: 'VLogin' })
+            //         //     })
+            //     })
+            //     .catch((err: any) => console.log(err))
 
             // BaseApi.get(`login/${this.$route.params.provider}/callback`, this.$route.query)
             //   .then((res: any) => {

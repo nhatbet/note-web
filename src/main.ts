@@ -28,7 +28,7 @@ app.use(Vue3Toasity, {
     bodyClassName: 'text-base',
     style: {
         opacity: '1',
-        userSelect: 'initial',
+        userSelect: 'initial'
     }
     // ...
 } as ToastContainerOptions)

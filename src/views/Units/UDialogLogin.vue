@@ -3,14 +3,28 @@
         <div class="content">
             <h2 class="text-lg py-3">Login</h2>
             <div class="space-y-4">
-                <CInput v-model="loginData.username" :errors="loginErrors?.username" placeholder="username"></CInput>
-                <CInput v-model="loginData.password" :errors="loginErrors?.password" placeholder="password" class="relative"
-                    :type="passwordVisibility ? 'text' : 'password'">
+                <CInput
+                    v-model="loginData.username"
+                    :errors="loginErrors?.username"
+                    placeholder="username"
+                ></CInput>
+                <CInput
+                    v-model="loginData.password"
+                    :errors="loginErrors?.password"
+                    placeholder="password"
+                    class="relative"
+                    :type="passwordVisibility ? 'text' : 'password'"
+                >
                     <template v-slot:RIcon>
-                        <span class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 right-2 text-[#9ca3af]"
-                            @click.stop="togglePassword()">
+                        <span
+                            class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 right-2 text-[#9ca3af]"
+                            @click.stop="togglePassword()"
+                        >
                             <FontAwesomeIcon v-show="passwordVisibility" :icon="['fas', 'eye']" />
-                            <FontAwesomeIcon v-show="!passwordVisibility" :icon="['fas', 'eye-slash']" />
+                            <FontAwesomeIcon
+                                v-show="!passwordVisibility"
+                                :icon="['fas', 'eye-slash']"
+                            />
                         </span>
                     </template>
                 </CInput>
@@ -23,34 +37,51 @@
                         </a>
                     </div>
                 </div>
-                <CButton text="Sign in" classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold"
-                    @clickCButton="login(loginData)"></CButton>
+                <CButton
+                    text="Sign in"
+                    classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold"
+                    @clickCButton="login(loginData)"
+                ></CButton>
                 <div class="flex items-center justify-center space-x-2 my-5">
                     <span class="h-px w-16 bg-gray-100"></span>
                     <span class="text-gray-300 font-normal">or</span>
                     <span class="h-px w-16 bg-gray-100"></span>
                 </div>
                 <div class="flex justify-center gap-5 w-full">
-                    <CButton text="Google" icon="logo-google"
+                    <CButton
+                        text="Google"
+                        icon="logo-google"
                         classes="transition ease-in duration-200 hover:border-gray-900 hover:bg-gray-900"
-                        :href="socialLoginUrls.google" v-show="socialLoginUrls.google"></CButton>
-                    <CButton text="Facebook"
+                        :href="socialLoginUrls.google"
+                        v-show="socialLoginUrls.google"
+                    ></CButton>
+                    <CButton
+                        text="Facebook"
                         classes="transition ease-in duration-200 hover:border-gray-900 hover:bg-gray-900"
-                        :href="socialLoginUrls.facebook" v-show="socialLoginUrls.facebook"></CButton>
+                        :href="socialLoginUrls.facebook"
+                        v-show="socialLoginUrls.facebook"
+                    ></CButton>
                 </div>
             </div>
             <div @click="loginWithProvider('google')">login with gg</div>
             <div class="mt-7 text-center text-gray-300 text-xs">
                 <span>
                     Copyright © 2021-2024
-                    <a href="https://codepen.io/uidesignhub" rel="" target="_blank" title="Codepen aji"
-                        class="text-purple-500 hover:text-purple-600">AJI</a></span>
+                    <a
+                        href="https://codepen.io/uidesignhub"
+                        rel=""
+                        target="_blank"
+                        title="Codepen aji"
+                        class="text-purple-500 hover:text-purple-600"
+                        >AJI</a
+                    ></span
+                >
             </div>
         </div>
     </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { computed, ref } from 'vue'
 import type { Account, AccountError } from '@/types/TUser'
 import LocalStorageService from '@/services/LocalStorageService'
@@ -60,14 +91,14 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { useAuthStore } from '@/stores/auth'
 import BaseApi from '@/network/BaseApi'
 import Api from '@/network/Api'
-import hello from "hellojs";
+import HelloJs from 'hellojs'
 
-hello.init(
-  {
-    google: '652408377462-4m5i90dnr81rla395gkjdlp1uvv7g9la.apps.googleusercontent.com'
-  }, {redirect_uri: 'http://localhost/api/login/google/callback'}
-);
-
+HelloJs.init(
+    {
+        google: '652408377462-4m5i90dnr81rla395gkjdlp1uvv7g9la.apps.googleusercontent.com'
+    },
+    { redirect_uri: 'http://localhost:80/api/login/google/callback' }
+)
 
 // hello.on('auth.login', function(auth: any) {
 //   console.log(auth)
@@ -118,7 +149,8 @@ export default {
             this.passwordVisibility = !this.passwordVisibility
         },
         login(payload: any) {
-            Api.auth.login(payload)
+            Api.auth
+                .login(payload)
                 .then((res: any) => {
                     LocalStorageService.saveAuthInfo(res.data)
                     // this.authStore.setIsAuthenticated(true)
@@ -158,12 +190,11 @@ export default {
             }
         },
         loginWithProvider(network: string) {
-            hello
-                .login(network)
-                .then(() => {
-                    console.log('callback');
-                    
-                    const authRes = hello(network).getAuthResponse()
+            HelloJs.login(network).then(
+                () => {
+                    console.log('callback')
+
+                    const authRes = HelloJs(network).getAuthResponse()
                     // BaseApi.get(`login/${this.$route.params.provider}/callback`, {
                     //     params: {
                     //         access_token: authRes.access_token,
@@ -177,8 +208,11 @@ export default {
                     //     .catch((err: any) => {
                     //         this.$router.push({ name: 'VLogin' })
                     //     })
-                })
-                .catch((err: any) => console.log(err))
+                },
+                (e: any) => {
+                    console.log(e)
+                }
+            )
         }
     }
 }
