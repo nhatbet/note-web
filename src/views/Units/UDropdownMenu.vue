@@ -80,7 +80,20 @@
                         name="dropdown_menu"
                     />
                 </div>
-                <div class="dropdown-content absolute top-[-1px] right-full hidden">content5</div>
+                <div class="dropdown-content absolute top-[-1px] text-base right-full p-5 hidden">
+                    <div class="account-item">
+                        <span class="text-zinc-400 text-base cursor-pointer">
+                            <FontAwesomeIcon :icon="['fas', 'user']" />
+                        </span>
+                        Summary
+                    </div>
+                    <div class="account-item" @click="logout()">
+                        <span class="text-zinc-400 text-base cursor-pointer">
+                            <FontAwesomeIcon :icon="['fas', 'right-from-bracket']" />
+                        </span>
+                        Log Out
+                    </div>
+                </div>
             </li>
         </ul>
     </div>
@@ -89,10 +102,13 @@
 
 <script lang="ts">
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faBell, faBookmark, faReply, faComment } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faBell, faBookmark, faReply, faComment, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { ref } from 'vue'
 import { useWindowSize } from 'vue-window-size'
 import CCloak from '@/components/General/CCloak.vue'
+import Api from '@/network/Api'
+import LocalStorageService from '@/services/LocalStorageService'
+import { useAuthStore } from '@/stores/auth'
 
 export default {
     name: 'CInput',
@@ -106,14 +122,26 @@ export default {
         CCloak
     },
     setup(props, { emit }) {
-        library.add({ faUser, faBell, faBookmark, faReply, faComment })
+        library.add({ faUser, faBell, faBookmark, faReply, faComment, faRightFromBracket })
+        const authStore = useAuthStore()
         const isShowMenu = ref(false)
         const { width, height } = useWindowSize()
 
-        return { isShowMenu, width }
+        return { isShowMenu, width, authStore }
     },
 
-    methods: {}
+    methods: {
+        async logout() {
+            await Api.auth.logout().finally(() => {
+                LocalStorageService.clearAuthInfo()
+                console.log('logout');
+                this.authStore.setIsAuthenticated(false)
+                this.authStore.setProfile()
+                
+                this.$router.push({ name: 'VHome' })
+            })
+        },
+    }
 }
 </script>
 
@@ -121,15 +149,15 @@ export default {
 .dropdown-menu {
     position: absolute;
     z-index: 10;
-    background: var(--background-color-1);
+    background: var(--c-white);
     ul {
-        border: 1px solid rgb(209, 209, 209);
+        border: 1px solid var(--c-gray-1);
         .dropdown-content {
             min-width: 300px;
             max-width: 100vh;
-            border: 1px solid rgb(209, 209, 209);
+            border: 1px solid var(--c-gray-1);
             min-height: calc(100% + 2px);
-            background: var(--background-color-1);
+            background: var(--c-white);
         }
     }
 }
@@ -138,7 +166,7 @@ export default {
     transition: background-color 0.2s ease-in-out;
 }
 .menu-icon:has(input[type='radio']:checked) {
-    background-color: rgb(231, 231, 231);
+    background-color: var(--c-white-mute);
     transition: background-color 0.2s ease-in-out;
     div {
         display: block;
@@ -167,6 +195,21 @@ export default {
     .hidden-dropdown-menu {
         right: -100%;
         opacity: 0;
+    }
+}
+
+.account-item {
+    height: 40px;
+    line-height: 40px;
+    text-align: left;
+    padding: 0 5px;
+    cursor: pointer;
+    &:hover {
+        background-color: var(--c-white-soft);
+    }
+    span {
+        display: inline-block;
+        width: 20px;
     }
 }
 </style>

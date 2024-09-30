@@ -6,11 +6,11 @@ import TestView from '../views/TestView.vue'
 import VArticleIndex from '@/views/Article/VArticleIndex.vue'
 import VArticleCreate from '@/views/Article/VArticleCreate.vue'
 import { useAuthStore } from '@/stores/auth'
-import { storeToRefs } from 'pinia'
 import VArticleShow from '@/views/Article/VArticleShow.vue'
 import VArticleEdit from '@/views/Article/VArticleEdit.vue'
 import VCommentIndex from '@/views/Comment/VCommentIndex.vue'
 import PageNotFound from '@/views/PageNotFound.vue'
+import LocalStorageService from '@/services/LocalStorageService'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,7 +43,7 @@ const router = createRouter({
             component: VHome,
             children: [
                 {
-                    path: '/home',
+                    path: '/home/article',
                     name: 'VArticleIndex',
                     component: VArticleIndex
                 },
@@ -69,7 +69,10 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore()
-    const { isAuthenticated } = storeToRefs(authStore)
+    console.log('route first');
+    const isAuthenticated = LocalStorageService.isLoggedIn()
+    authStore.setIsAuthenticated(isAuthenticated)
+    
     // handle router
     // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
     // else next()

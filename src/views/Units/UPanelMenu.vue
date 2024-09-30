@@ -83,7 +83,7 @@ export default {
                 {
                     label: 'My Posts',
                     icon: 'post',
-                    toRoute: 'VArticle'
+                    toRoute: 'VArticleIndex'
                 },
                 {
                     label: 'Home',
@@ -132,11 +132,11 @@ export default {
     height: 33px;
 
     &:hover {
-        background: #e5e7ea;
+        background: var(--c-white-soft);
     }
 }
 
 .active {
-    background: #e5e7ea;
+    background: var(--c-white-mute);
 }
 </style>

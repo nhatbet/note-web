@@ -41,8 +41,7 @@
 
 <script lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import LocalStorageService from '@/services/LocalStorageService'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import UPanelMenu from '../Units/UPanelMenu.vue'
 import UDialogLogin from '../Units/UDialogLogin.vue'
 import UDropdownMenu from '../Units/UDropdownMenu.vue'
@@ -50,6 +49,7 @@ import CCloak from '@/components/General/CCloak.vue'
 import { useScreenSize } from '@/stores/ScreenSize'
 import { storeToRefs } from 'pinia'
 import Api from '@/network/Api'
+import { useAuthStore } from '@/stores/auth'
 
 export default {
     name: 'VHome',
@@ -67,7 +67,9 @@ export default {
         const screenSizeStore = useScreenSize()
         const { screenWidth } = storeToRefs(screenSizeStore)
         const { widthIsMaxMD } = screenSizeStore
-        const isLoggedIn = LocalStorageService.isLoggedIn()
+        const authStore = useAuthStore()
+        const { isAuthenticated } = storeToRefs(authStore)
+        const isLoggedIn = computed(() => !!isAuthenticated.value)
         const navbarHeader: any = ref(null)
 
         return {
@@ -82,12 +84,6 @@ export default {
     },
 
     methods: {
-        async logout() {
-            await Api.auth.logout().finally(() => {
-                LocalStorageService.clearAuthInfo()
-                this.$router.push({ name: 'VLogin' })
-            })
-        },
         onScroll() {
             var height = this.navbarHeader.value.scrollHeight
             if (height > 100) height = 100;
@@ -204,7 +200,7 @@ export default {
     width: 100%;
     // border: 1px solid black;
     z-index: 1;
-    background-color: var(--background-color-1);
+    background-color: var(--c-white);
 }
 
 .menu {
@@ -263,7 +259,7 @@ export default {
 
 @media (max-width: 768px) {
     .menu {
-        background: var(--background-color-1);
+        background: var(--c-white);
         position: fixed;
         top: 0;
         left: -100%;

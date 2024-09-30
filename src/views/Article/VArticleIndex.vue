@@ -12,7 +12,7 @@
             v-for="(item, index) in articles"
             :key="index"
         >
-            <div class="w-[50%]">
+            <div class="w-[50%] cursor-pointer" @click="gotoDetail(item.id)">
                 <div class="title text-base">
                     {{ item.title }}
                 </div>
@@ -87,7 +87,10 @@ export default {
     },
 
     methods: {
-        onScroll() {}
+        onScroll() {},
+        gotoDetail(id: any) {
+            this.$router.push({ name: 'VArticleShow', params: {id} })
+        }
     },
 
     watch: {},
