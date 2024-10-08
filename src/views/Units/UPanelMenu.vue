@@ -1,5 +1,5 @@
 <template>
-    <div class="panel-menu select-none h-[100vh]">
+    <div class="panel-menu select-none h-[100vh] text-base">
         <div v-for="(item, index) in menu" :key="index">
             <div
                 class="label-item cursor-pointer flex items-center relative"
@@ -56,7 +56,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useSelectionStore } from '@/stores/selection'
 import type { ItemMenu } from '@/types/TMenu'
-import type { Option } from '@/types/TSelect';
+import type { Option } from '@/types/TSelect'
 
 export default {
     name: 'UPanelMenu',
@@ -79,7 +79,15 @@ export default {
             const itemsCategory = selection?.categories?.map((category: Option) => {
                 return { label: category.label }
             }) as ItemMenu[]
+            const itemsTag = selection?.tags?.map((tag: Option) => {
+                return { label: tag.label }
+            }) as ItemMenu[]
             menu.value = [
+                {
+                    label: 'Top',
+                    icon: 'top',
+                    toRoute: 'VArticleIndex'
+                },
                 {
                     label: 'My Posts',
                     icon: 'post',
@@ -91,9 +99,14 @@ export default {
                     toRoute: 'VHome'
                 },
                 {
-                    label: 'Category',
+                    label: 'Categories',
                     icon: 'category',
                     items: itemsCategory
+                },
+                {
+                    label: 'Tags',
+                    icon: 'tag',
+                    items: itemsTag
                 }
             ]
         })
@@ -125,7 +138,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .panel-menu {
-    font-size: 1rem;
+    // font-size: 1rem;
 }
 
 .label-item {

@@ -16,7 +16,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Build App
-        run: npm run build -- --base=/note-web/
+        run: npm run build -- --base=/
       - name: Archive artifact
         shell: sh
         run: |
