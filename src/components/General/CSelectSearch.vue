@@ -1,13 +1,13 @@
 <template>
-    <div class="text-base">
-        <div @focus="focusSelect" tabindex="0" class="select-search">
+    <div class="text-base" :class="classes">
+        <div @focus="focusSelect" @focusout="blurSelect" tabindex="0" class="select-search">
             {{ label }}
             <div
-                class="cursor-pointer w-full min-h-[38px] p-2 mb-2 border border-gray-200 rounded-sm relative focus:outline-none focus:border-purple-400 content-center"
+                class="cursor-pointer w-full min-h-[38px] p-2 border border-gray-200 rounded-sm relative focus:outline-none focus:border-purple-400 content-center"
                 :class="{ 'border-purple-400': visibleOption }"
             >
                 <div
-                    class="text-sm text-slate-400"
+                    class="text-base text-slate-400"
                     v-show="!selected || (!selected.length && multipleSelect)"
                 >
                     {{ placeholder }}
@@ -31,23 +31,23 @@
                     <FontAwesomeIcon
                         v-show="visibleOption"
                         @click="blurSelect"
-                        :icon="['fas', 'caret-up']"
+                        :icon="['fas', 'caret-down']"
                     />
                     <FontAwesomeIcon
                         v-show="!visibleOption"
                         @click="focusSelect"
-                        :icon="['fas', 'caret-down']"
+                        :icon="['fas', 'caret-up']"
                     />
                 </span>
                 <div
                     class="option-items absolute top-[115%] left-[0] z-20 bg-white min-w-full rounded-sm border border-gray-200"
                     v-if="visibleOption"
                 >
-                    <input
+                    <!-- <input
                         class="w-full text-sm p-2 border-b border-gray-200 focus:outline-none"
                         v-model="searchValue"
                         placeholder="Search"
-                    />
+                    /> -->
                     <div class="max-h-[200px] overflow-auto">
                         <div
                             class="hover:bg-gray-100 p-2"
@@ -80,6 +80,10 @@ export default {
     props: {
         modelValue: {
             type: [String, Number, Array],
+            default: ''
+        },
+        classes: {
+            type: [String, Array],
             default: ''
         },
         label: {
