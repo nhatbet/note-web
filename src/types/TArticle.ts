@@ -10,7 +10,16 @@ type ArticleShow = {
     title: string,
     content: string,
     status: number,
-    tags: []
+    tags: [],
+    comments: [],
+    author: Author,
+    created_at: string
 }
 
-export type { ArticleStore, ArticleShow }
+type Author = {
+    id: number,
+    name: string,
+    email: string
+}
+
+export type { ArticleStore, ArticleShow, Author }

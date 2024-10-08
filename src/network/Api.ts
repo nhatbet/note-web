@@ -1,5 +1,6 @@
 import Article from './repositories/Article'
 import Auth from './repositories/Auth'
+import Comment from './repositories/Comment'
 import Selection from './repositories/Selection'
 import User from './repositories/User'
 
@@ -7,7 +8,8 @@ const Api = {
     auth: Auth(),
     article: Article(),
     user: User(),
-    selection: Selection()
+    selection: Selection(),
+    comment: Comment(),
 }
 
 // Make them available in the app with this.$api
