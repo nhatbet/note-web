@@ -1,19 +1,24 @@
 <template>
     <div class="text-base">
-        <label @click="focusSelect()" class="select-search"
-            >{{ label }}
+        <div @focus="focusSelect" tabindex="0" class="select-search">
+            {{ label }}
             <div
                 class="cursor-pointer w-full min-h-[38px] p-2 mb-2 border border-gray-200 rounded-sm relative focus:outline-none focus:border-purple-400 content-center"
                 :class="{ 'border-purple-400': visibleOption }"
             >
-                <div class="text-sm text-slate-400" v-show="!selected">{{ placeholder }}</div>
+                <div
+                    class="text-sm text-slate-400"
+                    v-show="!selected || (!selected.length && multipleSelect)"
+                >
+                    {{ placeholder }}
+                </div>
                 <div>
                     <div class="text-sm" v-if="!multipleSelect">
                         {{ selected?.label }}
                     </div>
                     <div v-else>
                         <div
-                            class="h-[30px] border border-gray-200 rounded-lg px-2 inline-block content-center mr-2 mb-2"
+                            class="h-[30px] border border-gray-200 rounded-lg px-2 inline-block content-center mr-2"
                             v-for="(item, index) in selected"
                             :key="index"
                         >
@@ -23,15 +28,22 @@
                     </div>
                 </div>
                 <span class="absolute right-[10px] top-[7px]">
-                    <FontAwesomeIcon v-show="visibleOption" :icon="['fas', 'caret-up']" />
-                    <FontAwesomeIcon v-show="!visibleOption" :icon="['fas', 'caret-down']" />
+                    <FontAwesomeIcon
+                        v-show="visibleOption"
+                        @click="blurSelect"
+                        :icon="['fas', 'caret-up']"
+                    />
+                    <FontAwesomeIcon
+                        v-show="!visibleOption"
+                        @click="focusSelect"
+                        :icon="['fas', 'caret-down']"
+                    />
                 </span>
                 <div
                     class="option-items absolute top-[115%] left-[0] z-20 bg-white min-w-full rounded-sm border border-gray-200"
                     v-if="visibleOption"
                 >
                     <input
-                        ref="select-input"
                         class="w-full text-sm p-2 border-b border-gray-200 focus:outline-none"
                         v-model="searchValue"
                         placeholder="Search"
@@ -53,12 +65,12 @@
                     </div>
                 </div>
             </div>
-        </label>
+        </div>
     </div>
 </template>
 
-<script lang='ts'>
-import { computed, ref } from 'vue'
+<script lang="ts">
+import { ref } from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCaretUp, faCaretDown, faXmark } from '@fortawesome/free-solid-svg-icons'
 import type { Option } from '@/types/TSelect'
@@ -114,6 +126,9 @@ export default {
     },
 
     methods: {
+        handleClickOutside() {
+            alert('Bạn đã nhấp ra ngoài!');
+        },
         focusSelect() {
             this.visibleOption = true
         },
@@ -122,34 +137,42 @@ export default {
         },
         handleClickOption(item: Option) {
             if (this.multipleSelect) {
-                // console.log('select', this.selected)
-                // const data = this.selected.filter((obj) => {
-                //     return obj === option
-                // })
-                console.log('selected', this.selected)
-
-                this.selected.push(item)
-                console.log('this.selected', this.selected)
+                if (this.selected.indexOf(item) === -1) {
+                    this.selected.push(item)
+                    this.updateModelValue()
+                }
             } else {
-                this.$emit('update:modelValue', item.value)
                 this.selected = item
+                this.updateModelValue()
             }
             this.visibleOption = true
         },
         handleSelected(item: Option) {
             if (this.multipleSelect) {
-                // this.selected.filter((obj) => {
-                //     return obj === option
-                // })
-                // return !!this.selected.indexOf(option)
+                return this.selected.indexOf(item) !== -1
             }
 
             return this.selected == item
         },
+        // For only multiple.
         removeItem(item: Option) {
             this.selected = this.selected.filter((obj: Option) => {
                 return obj != item
             })
+
+            this.updateModelValue()
+        },
+        updateModelValue() {
+            if (this.multipleSelect) {
+                this.$emit(
+                    'update:modelValue',
+                    this.selected.map((item: Option) => {
+                        return item.value
+                    })
+                )
+            } else {
+                this.$emit('update:modelValue', this.selected.value)
+            }
         }
     }
 }
@@ -159,6 +182,7 @@ export default {
 .select-search:has(input:focus) option-items {
     display: block;
 }
+
 /* width */
 ::-webkit-scrollbar {
     width: 8px;
