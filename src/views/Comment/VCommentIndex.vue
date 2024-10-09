@@ -13,7 +13,6 @@
             :class="{ active: showComment }"
         ></CommentItem>
 
-        <!-- <CCloak v-model="visibleComment"></CCloak> -->
     </div>
 </template>
 
@@ -26,7 +25,6 @@ import CommentItem from './Parts/CommentItem.vue'
 import ReplyForm from './Parts/ReplyForm.vue'
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
-import CCloak from '@/components/General/CCloak.vue'
 
 const props = defineProps({
     articleId: {

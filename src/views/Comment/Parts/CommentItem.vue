@@ -1,6 +1,6 @@
 <template>
     <div class="mt-5 comment-item" :class="{'border-bottom-gray': !isLastItem}">
-        <CUserInfo :user="user" :info="comment.created_at"></CUserInfo>
+        <CUserInfo :user="user" :info="createdAtFormated"></CUserInfo>
         <div class="comment__body">
             {{ comment.content }}
         </div>
@@ -41,12 +41,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import Api from '@/network/Api'
 import CUserInfo from '@/components/General/CUserInfo.vue'
 import type { UserInfo } from '@/types/TUser'
 import ReplyForm from './ReplyForm.vue'
 import type { Comment } from '@/types/TComment'
+import moment from 'moment';
 
 const props = defineProps({
     comment: {
@@ -74,6 +75,10 @@ const visibleReplyForm = ref(false)
 const subComments = ref([] as Comment[])
 const subLevel = props.level + 1
 const commentCount = ref(props.comment.comments_count as Number)
+
+const createdAtFormated = computed(() => {
+  return props.comment.created_at ? moment(props.comment.created_at).fromNow() : ''
+})
 
 const showSubComments = async () => {
     await Api.comment

@@ -1,6 +1,6 @@
 <template>
     <h2 class="title my-5 px-[20px]">{{ article.title }}</h2>
-    <CUserInfo classes="author px-[20px] h-[50px]" :user="author" :info="article.created_at"></CUserInfo>
+    <CUserInfo classes="author px-[20px] h-[50px]" :user="author" :info="moment(article.created_at).format('dddd, MMMM Do YYYY')"></CUserInfo>
     <div class="action mx-[20px] h-[50px] flex justify-between items-center text-base">
         <div class="h-full flex items-center">
             <CIcon name="clap" class="cursor-pointer"></CIcon>
@@ -26,6 +26,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faHeart, faComment, faBookmark, faShare } from '@fortawesome/free-solid-svg-icons'
 import VCommentIndex from '../Comment/VCommentIndex.vue'
 import CUserInfo from '@/components/General/CUserInfo.vue'
+import moment from 'moment'
 
 library.add({ faHeart, faComment, faBookmark, faShare })
 const route = useRoute()
