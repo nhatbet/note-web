@@ -25,4 +25,10 @@ type AccountRegisterError = {
     password_confirmation: []
 }
 
-export type { Account, AccountError, AccountRegister, AccountRegisterError };
+type UserInfo = {
+    id: number,
+    email: string,
+    name: string,
+}
+
+export type { Account, AccountError, AccountRegister, AccountRegisterError, UserInfo };

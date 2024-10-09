@@ -72,6 +72,7 @@ router.beforeEach((to, from, next) => {
     console.log('route first');
     const isAuthenticated = LocalStorageService.isLoggedIn()
     authStore.setIsAuthenticated(isAuthenticated)
+    authStore.setProfile(LocalStorageService.getProfile())
     
     // handle router
     // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })

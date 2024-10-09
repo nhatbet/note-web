@@ -1,44 +1,15 @@
 <template>
     <div class="comments p-5 text-base">
         <div class="head flex justify-between py-5">
-            <h2>Comment(12)</h2>
+            <h2>Comment({{ commentsCount }})</h2>
             <CIcon name="close" class="cursor-pointer"></CIcon>
         </div>
-        <div class="comment__create">
-            <div v-if="visibleInput" class="avatar flex pb-5">
-                <img
-                    src="https://picsum.photos/300/300"
-                    class="w-[30px] h-[30px] mr-5 rounded-full"
-                    alt="avatar"
-                />
-                <p class="flex content-center items-center">Name</p>
-            </div>
-            <textarea
-                name="content"
-                @input="resize()"
-                class="input-content p-[10px]"
-                Placeholder="Placeholder"
-                ref="textarea"
-                @click="close()"
-            ></textarea>
-            <div v-if="visibleInput" class="action flex">
-                <div class="w-1/2"></div>
-                <div class="w-1/2 flex justify-end">
-                    <CButton
-                        text="Close"
-                        classes="!w-[100px] my-5 mr-5"
-                        @clickCButton="close()"
-                    ></CButton>
-                    <CButton text="Save" classes="!w-[100px] my-5" @clickCButton="save()"></CButton>
-                </div>
-            </div>
-        </div>
+        <ReplyForm :user="user" @createCommentSuccess="refreshListComment()"></ReplyForm>
         <CommentItem
             v-for="(comment, index) in comments"
             :key="index"
-            :commentsCount="comment.comments_count"
-            :content="comment.content"
-            :id="comment.id"
+            :user="comment.commentator"
+            :comment="comment"
         ></CommentItem>
     </div>
 </template>
@@ -47,11 +18,17 @@
 import { ref } from 'vue'
 import type { Comment } from '@/types/TComment'
 import Api from '@/network/Api'
-import { onMounted } from 'vue'
 import { watch } from 'vue'
 import CommentItem from './Parts/CommentItem.vue'
+import ReplyForm from './Parts/ReplyForm.vue'
+import { useAuthStore } from '@/stores/auth'
+import { storeToRefs } from 'pinia'
 
 const props = defineProps({
+    commentsCount: {
+        type: Number,
+        default: 0
+    },
     articleId: {
         type: Number,
         required: true
@@ -61,6 +38,16 @@ const props = defineProps({
         default: false
     }
 })
+
+// TODO: check login thi moi cho tao comment
+const authStore = useAuthStore()
+const { profile } = storeToRefs(authStore)
+console.log('authStore', profile.value)
+
+const user = {
+    name: profile.value.name,
+    email: profile.value.email
+}
 
 const comments = ref([] as Comment[])
 watch(
@@ -72,30 +59,24 @@ watch(
     }
 )
 
-const getComments = async () => {
-    if (comments.value.length === 0) {
-        await Api.comment
-            .getByArticleId(props.articleId)
-            .then((res: any) => {
-                comments.value = res.data.data
-            })
-            .catch((err: any) => {
-                console.log(err)
-            })
-    }
+const listComment = async () => {
+    await Api.comment
+        .getByArticleId(props.articleId)
+        .then((res: any) => {
+            comments.value = res.data.data
+        })
+        .catch((err: any) => {
+            console.log(err)
+        })
 }
 
-const textarea: any = ref(null)
-const visibleInput = ref(false)
-const resize = () => {
-    textarea.value.style.height = 'auto'
-    textarea.value.style.height = `${textarea.value.scrollHeight}px`
+const getComments = async () => {
+    if (comments.value.length === 0) {
+        await listComment()
+    }
 }
-const close = () => {
-    visibleInput.value = !visibleInput.value
-}
-const save = () => {
-    console.log('save')
+const refreshListComment = async () => {
+    await listComment()
 }
 </script>
 

@@ -1,18 +1,6 @@
 <template>
     <h2 class="title my-5 px-[20px]">{{ article.title }}</h2>
-    <div class="author text-base flex px-[20px]">
-        <div class="image flex items-center w-[40px] mr-5">
-            <img
-                src="https://picsum.photos/300/300"
-                class="w-[40px] h-[40px] mr-5 rounded-full"
-                alt="avatar"
-            />
-        </div>
-        <div class="info">
-            <div class="name">{{ author.name }}</div>
-            <div class="content">{{ article.created_at }}</div>
-        </div>
-    </div>
+    <CUserInfo classes="author px-[20px] h-[50px]" :user="author" :info="article.created_at"></CUserInfo>
     <div class="action mx-[20px] h-[50px] flex justify-between items-center text-base">
         <div class="h-full flex items-center">
             <CIcon name="clap" class="cursor-pointer"></CIcon>
@@ -37,6 +25,7 @@ import type { ArticleShow, Author } from '@/types/TArticle'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faHeart, faComment, faBookmark, faShare } from '@fortawesome/free-solid-svg-icons'
 import VCommentIndex from '../Comment/VCommentIndex.vue'
+import CUserInfo from '@/components/General/CUserInfo.vue'
 
 library.add({ faHeart, faComment, faBookmark, faShare })
 const route = useRoute()

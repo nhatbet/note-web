@@ -2,7 +2,7 @@ import BaseApi from '@/network/BaseApi'
 
 export default () => ({
     createForArticle(articleId: any, data: any) {
-        return BaseApi.setAuth().post(`articles/${articleId}/comments`, data)
+        return BaseApi.setAuth().setNotify().post(`articles/${articleId}/comments`, data)
     },
 
     update(id: any, data: any) {
@@ -14,7 +14,7 @@ export default () => ({
     },
 
     getByArticleId(articleId: any) {
-        return BaseApi.get('comments/get-by-article', { article_id: articleId })
+        return BaseApi.setAuth().setNotify(false).get('comments/get-by-article', { article_id: articleId })
     },
 
     index(params: any) {

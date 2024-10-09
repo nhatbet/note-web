@@ -1,9 +1,10 @@
+import type { UserInfo } from '@/types/TUser'
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     isAuthenticated: false,
-    profile: {}
+    profile: {} as UserInfo
   }),
 
   getters: {
@@ -14,7 +15,7 @@ export const useAuthStore = defineStore('auth', {
     setIsAuthenticated(auth = true) {
       this.isAuthenticated = auth
     },
-    setProfile(profile = {}) {
+    setProfile(profile = {} as UserInfo) {
       this.profile = profile
     }
   }

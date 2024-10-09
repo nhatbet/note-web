@@ -1,45 +1,39 @@
 <template>
     <div class="mt-5 comment-item">
-        <div class="comment__head flex justify-between">
-            <div class="info flex pb-5">
-                <img
-                    src="https://picsum.photos/300/300"
-                    class="w-[30px] h-[30px] mr-5 rounded-full"
-                    alt="avatar"
-                />
-                <div>
-                    <p class="leading-6 text-[12px]">Name</p>
-                    <p class="leading-6 text-[12px]">1 Year ago</p>
-                </div>
-            </div>
-            <div class="action">
-                <CIcon name="comment" class="cursor-pointer"></CIcon>
-            </div>
-        </div>
+        <CUserInfo :user="user" :info="comment.created_at"></CUserInfo>
         <div class="comment__body">
-            {{ content }}
+            {{ comment.content }}
         </div>
         <div class="comment__action flex justify-between my-5">
             <div>
-                <div class="flex" v-show="commentsCount">
+                <div class="flex" v-show="comment.comments_count > 0">
                     <CIcon class="inline-block" name="message"></CIcon>
-                    <p class="content-center" @click="showSubComments()">
-                        {{ commentsCount }} replies
+                    <p class="content-center cursor-pointer" @click="showSubComments()">
+                        {{ comment.comments_count }} replies
                     </p>
                 </div>
             </div>
             <div>
-                <span class="reply content-center cursor-pointer">Reply</span>
+                <span class="reply content-center cursor-pointer" @click="showReplyForm"
+                    >Reply</span
+                >
             </div>
         </div>
+        <ReplyForm
+            :showUserInfo="false"
+            :defaultShow="true"
+            :parentId="comment.id"
+            v-if="visibleReplyForm"
+            @closeReplyForm="hidenReplyForm"
+            @createCommentSuccess="refreshListComment"
+        ></ReplyForm>
         <div class="child ml-[15px] pl-[15px]">
             <CommentItem
                 v-for="(comment, index) in subComments"
                 :key="index"
-                :commentsCount="comment.comments_count"
-                :content="comment.content"
-                :id="comment.id"
                 :level="subLevel"
+                :user="comment.commentator"
+                :comment="comment"
             ></CommentItem>
         </div>
     </div>
@@ -47,42 +41,53 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { Comment } from '@/types/TComment'
 import Api from '@/network/Api'
+import CUserInfo from '@/components/General/CUserInfo.vue'
+import type { UserInfo } from '@/types/TUser'
+import ReplyForm from './ReplyForm.vue'
+import type { Comment } from '@/types/TComment'
 
 const props = defineProps({
-    commentsCount: {
-        type: Number,
-        default: 0
-    },
-    content: {
-        type: String,
-        default: ''
-    },
-    id: {
-        type: Number,
-        required: true
+    comment: {
+        type: Object,
+        default: {} as Comment
     },
     level: {
         type: Number,
         default: 1
+    },
+    user: {
+        type: Object,
+        defult: {} as UserInfo
+    },
+    info: {
+        type: String,
+        default: ''
     }
 })
-const subComments = ref()
+const visibleReplyForm = ref(false)
+const subComments = ref([] as Comment[])
 const subLevel = props.level + 1
 
 const showSubComments = async () => {
     await Api.comment
-        .index({ parent_id: props.id })
+        .index({ parent_id: props.comment.id })
         .then((res: any) => {
             subComments.value = res.data
-            console.log('res', res)
-
-            // comments.value = res.data.data
         })
         .catch((err: any) => {
             console.log(err)
         })
+}
+const hidenReplyForm = () => {
+    visibleReplyForm.value = false
+}
+const showReplyForm = () => {
+    visibleReplyForm.value = true
+}
+const refreshListComment = async () => {
+    await showSubComments()
+    hidenReplyForm()
 }
 </script>
 

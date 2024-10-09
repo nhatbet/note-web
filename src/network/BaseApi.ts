@@ -35,8 +35,8 @@ class BaseApi {
         return this;
     }
 
-    setNotify() {
-        this.notify = true;
+    setNotify(status = true) {
+        this.notify = status;
 
         return this;
     }
