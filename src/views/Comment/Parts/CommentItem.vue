@@ -1,15 +1,15 @@
 <template>
-    <div class="mt-5 comment-item">
+    <div class="mt-5 comment-item" :class="{'border-bottom-gray': !isLastItem}">
         <CUserInfo :user="user" :info="comment.created_at"></CUserInfo>
         <div class="comment__body">
             {{ comment.content }}
         </div>
         <div class="comment__action flex justify-between my-5">
             <div>
-                <div class="flex" v-show="comment.comments_count > 0">
+                <div class="flex" v-show="commentCount > 0">
                     <CIcon class="inline-block" name="message"></CIcon>
                     <p class="content-center cursor-pointer" @click="showSubComments()">
-                        {{ comment.comments_count }} replies
+                        {{ commentCount }} replies
                     </p>
                 </div>
             </div>
@@ -34,6 +34,7 @@
                 :level="subLevel"
                 :user="comment.commentator"
                 :comment="comment"
+                :isLastItem="subComments.length === index + 1"
             ></CommentItem>
         </div>
     </div>
@@ -63,16 +64,22 @@ const props = defineProps({
     info: {
         type: String,
         default: ''
+    },
+    isLastItem: {
+        type: Boolean,
+        default: false
     }
 })
 const visibleReplyForm = ref(false)
 const subComments = ref([] as Comment[])
 const subLevel = props.level + 1
+const commentCount = ref(props.comment.comments_count as Number)
 
 const showSubComments = async () => {
     await Api.comment
         .index({ parent_id: props.comment.id })
         .then((res: any) => {
+            commentCount.value = res.data.length
             subComments.value = res.data
         })
         .catch((err: any) => {
@@ -92,8 +99,8 @@ const refreshListComment = async () => {
 </script>
 
 <style scoped lang="scss">
-.comment-item {
-    // border-bottom: 1px solid #f2f2f2;
+.border-bottom-gray {
+    border-bottom: 1px solid #f2f2f2;
 }
 .reply {
     border-bottom: 1px solid transparent;

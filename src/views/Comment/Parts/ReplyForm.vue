@@ -13,7 +13,7 @@
         <textarea
             name="content"
             @input="resize()"
-            class="input-content px-[10px]"
+            class="input-content"
             Placeholder="Comment here !"
             ref="textarea"
             v-model="text"
@@ -68,6 +68,7 @@ const articleId = route.params.id
 const emit = defineEmits(['closeReplyForm', 'createCommentSuccess'])
 const textarea: any = ref(null)
 const text = ref('')
+// check show input and userinfo
 var visibleInput = ref(false)
 if (props.defaultShow) {
     visibleInput.value = true
@@ -82,6 +83,7 @@ const close = () => {
 }
 const open = () => {
     visibleInput.value = true
+    // textarea.value.focus()
 }
 const save = async () => {
     await Api.comment
@@ -105,8 +107,16 @@ const save = async () => {
 
 <style lang="scss" scoped>
 .comment__create {
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+    padding: 10px 10px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 8px;
+    border-radius: 4px;
 }
 .input-content {
     height: 30px;
+    width: 100%;
+    resize: none;
+    overflow: hidden;
 }
 </style>

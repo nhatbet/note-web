@@ -13,7 +13,7 @@
     </div>
 
     <MdPreview editorId="show-article" :modelValue="article.content" theme="light" />
-    <VCommentIndex :articleId="article.id" :showComment="visibleComment"></VCommentIndex>
+    <VCommentIndex :articleId="article.id" :showComment="visibleComment" @closeComment="visibleComment = false"></VCommentIndex>
 </template>
 
 <script setup lang="ts">

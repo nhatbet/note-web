@@ -17,8 +17,12 @@ export default () => ({
         return BaseApi.setAuth().setNotify(false).get('comments/get-by-article', { article_id: articleId })
     },
 
+    getCountByArticleId(articleId: any) {
+        return BaseApi.setAuth().setNotify(false).get('comments/articles-count', { article_id: articleId })
+    },
+
     index(params: any) {
         // parent_id
-        return BaseApi.get('comments', params)
+        return BaseApi.setNotify(false).get('comments', params)
     }
 })

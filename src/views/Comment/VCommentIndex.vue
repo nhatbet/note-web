@@ -1,8 +1,8 @@
 <template>
     <div class="comments p-5 text-base">
         <div class="head flex justify-between py-5">
-            <h2>Comment({{ commentsCount }})</h2>
-            <CIcon name="close" class="cursor-pointer"></CIcon>
+            <h2 class="text-lg">Comments ({{ commentsCount }})</h2>
+            <CIcon name="close" @click="closeComment()" class="cursor-pointer"></CIcon>
         </div>
         <ReplyForm :user="user" @createCommentSuccess="refreshListComment()"></ReplyForm>
         <CommentItem
@@ -10,7 +10,10 @@
             :key="index"
             :user="comment.commentator"
             :comment="comment"
+            :class="{ active: showComment }"
         ></CommentItem>
+
+        <!-- <CCloak v-model="visibleComment"></CCloak> -->
     </div>
 </template>
 
@@ -23,12 +26,9 @@ import CommentItem from './Parts/CommentItem.vue'
 import ReplyForm from './Parts/ReplyForm.vue'
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
+import CCloak from '@/components/General/CCloak.vue'
 
 const props = defineProps({
-    commentsCount: {
-        type: Number,
-        default: 0
-    },
     articleId: {
         type: Number,
         required: true
@@ -38,6 +38,10 @@ const props = defineProps({
         default: false
     }
 })
+
+
+const emit = defineEmits(['closeComment'])
+const commentsCount = ref(0)
 
 // TODO: check login thi moi cho tao comment
 const authStore = useAuthStore()
@@ -55,9 +59,20 @@ watch(
     async (newVal, oldVal) => {
         if (newVal && comments.value.length === 0) {
             await getComments()
+            await getCommentCount()
         }
     }
 )
+
+const getCommentCount = async () => {
+    await Api.comment.getCountByArticleId(props.articleId)
+        .then((res: any) => {
+            commentsCount.value = res.data
+        })
+        .catch((err: any) => {
+            console.log(err)
+        })
+}
 
 const listComment = async () => {
     await Api.comment
@@ -78,34 +93,26 @@ const getComments = async () => {
 const refreshListComment = async () => {
     await listComment()
 }
+const closeComment = () => {
+    emit('closeComment')
+}
 </script>
 
 <style scoped lang="scss">
 .comments {
-    width: 400px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px;
+    width: 420px;
     transition: all 0.3s ease-in-out;
     background-color: white;
     position: fixed;
     top: 0;
-    right: 0;
+    right: -100%;
     height: 100%;
     overflow-y: auto;
-    z-index: 11;
-
-    .comment__create {
-        transition: all 0.3s ease-in-out;
-        width: 100%;
-        padding: 10px 10px;
-        box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 8px;
-        border-radius: 4px;
+    z-index: 100;
+    &:has(.active) {
+        right: 0;
     }
 }
 
-.input-content {
-    height: auto;
-    width: 100%;
-    resize: none;
-    overflow: hidden;
-    min-height: 50px;
-}
 </style>
