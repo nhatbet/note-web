@@ -1,18 +1,27 @@
 <template>
-    <div class="comments p-5 text-base">
-        <div class="head flex justify-between py-5">
-            <h2 class="text-lg">Comments ({{ commentsCount }})</h2>
-            <CIcon name="close" @click="closeComment()" class="cursor-pointer"></CIcon>
+    <div class="comments px-5 pb-5 text-base">
+        <div class="form-create pt-[56px]">
+            <div class="head flex justify-between py-5">
+                <h2 class="text-lg">Comments ({{ commentsCount }})</h2>
+                <CIcon name="close" @click="closeComment()" class="cursor-pointer"></CIcon>
+            </div>
+            <ReplyForm :user="user" @createCommentSuccess="refreshListComment()"></ReplyForm>
         </div>
-        <ReplyForm :user="user" @createCommentSuccess="refreshListComment()"></ReplyForm>
         <CommentItem
             v-for="(comment, index) in comments"
             :key="index"
             :user="comment.commentator"
             :comment="comment"
             :class="{ active: showComment }"
+            :isLastItem="comments.length === index + 1"
         ></CommentItem>
-
+        <CButton
+            v-show="!isLastPage"
+            text="Load more replies"
+            classes=""
+            :type="3"
+            @clickCButton="getMoreComments()"
+        ></CButton>
     </div>
 </template>
 
@@ -37,9 +46,10 @@ const props = defineProps({
     }
 })
 
-
 const emit = defineEmits(['closeComment'])
 const commentsCount = ref(0)
+const isLastPage = ref(false)
+const currentPage = ref(1)
 
 // TODO: check login thi moi cho tao comment
 const authStore = useAuthStore()
@@ -63,7 +73,8 @@ watch(
 )
 
 const getCommentCount = async () => {
-    await Api.comment.getCountByArticleId(props.articleId)
+    await Api.comment
+        .getCountByArticleId(props.articleId)
         .then((res: any) => {
             commentsCount.value = res.data
         })
@@ -74,22 +85,38 @@ const getCommentCount = async () => {
 
 const listComment = async () => {
     await Api.comment
-        .getByArticleId(props.articleId)
+        .getByArticleId(props.articleId, currentPage.value)
         .then((res: any) => {
-            comments.value = res.data.data
+            isLastPage.value = res.data.last_page === res.data.current_page
+            currentPage.value = res.data.current_page
+            comments.value = comments.value.concat(res.data.data)
         })
         .catch((err: any) => {
             console.log(err)
         })
 }
 
+const getMoreComments = async () => {
+    if (!isLastPage.value) {
+        currentPage.value += 1
+        await listComment()
+    }
+}
+
 const getComments = async () => {
+    if (currentPage.value === 1) {
+        comments.value = []
+    }
     if (comments.value.length === 0) {
         await listComment()
     }
 }
+// chi refresh khi la trang cuoi cung
 const refreshListComment = async () => {
-    await listComment()
+    if (isLastPage.value) {
+        comments.value.splice(-(comments.value.length % 10))
+        await listComment()
+    }
 }
 const closeComment = () => {
     emit('closeComment')
@@ -112,5 +139,9 @@ const closeComment = () => {
         right: 0;
     }
 }
-
+.form-create {
+    position: sticky;
+    top: 0;
+    background: white;
+}
 </style>

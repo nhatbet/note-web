@@ -1,12 +1,15 @@
 <template>
     <a
-        class="w-full flex items-center justify-center border border-purple-700 text-sm p-2 rounded-md cursor-pointer inline-block hover:bg-purple-700 hover:text-white transition-all"
-        :class="{ classes: true, 'opacity-50 cursor-not-allowed': disabled }"
+        class="text-base cursor-pointer transition-all inline-block"
+        :class="[
+            { classes: true, 'opacity-50 cursor-not-allowed': disabled },
+            type === 3 ? 'style-type-3' : type === 2 ? 'class2' : 'border border-purple-700 hover:bg-purple-700 hover:text-white rounded-md'
+        ]"
         @click="handleClick"
         :href="href"
     >
         <CIcon :name="icon" v-if="!!icon"></CIcon>
-        {{ text }}
+        <span>{{ text }}</span>
     </a>
 </template>
 
@@ -33,6 +36,10 @@ export default {
         disabled: {
             type: Boolean,
             default: false
+        },
+        type: {
+            type: Number,
+            default: 1
         }
     },
     methods: {
@@ -43,4 +50,13 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.style-type-3 {
+    line-height: 12px;
+    color: #1A8917;
+    border-bottom: 1px solid transparent;
+    &:hover {
+        border-bottom: 1px solid black;
+    }
+}
+</style>

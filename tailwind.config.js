@@ -10,7 +10,7 @@ export default {
         letterSpacing: '-0.01em',
         fontWeight: '500',
       }],
-      'base': ['1.6rem', {
+      'base': ['1.4rem', {
         lineHeight: '1.5',
         letterSpacing: '-0.01em',
         fontWeight: '500',

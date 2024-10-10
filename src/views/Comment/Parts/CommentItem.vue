@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-5 comment-item" :class="{'border-bottom-gray': !isLastItem}">
+    <div class="mt-5 comment-item" :class="{ 'border-bottom-gray': !isLastItem }">
         <CUserInfo :user="user" :info="createdAtFormated"></CUserInfo>
         <div class="comment__body">
             {{ comment.content }}
@@ -9,7 +9,9 @@
                 <div class="flex" v-show="commentCount > 0">
                     <CIcon class="inline-block" name="message"></CIcon>
                     <p class="content-center cursor-pointer" @click="showSubComments()">
-                        {{ commentCount }} replies
+                        {{ commentCount }}
+                        <span v-if="!isShowSubComment">replies</span>
+                        <span v-else>hiden</span>
                     </p>
                 </div>
             </div>
@@ -27,7 +29,7 @@
             @closeReplyForm="hidenReplyForm"
             @createCommentSuccess="refreshListComment"
         ></ReplyForm>
-        <div class="child ml-[15px] pl-[15px]">
+        <div class="child ml-[15px] pl-[15px] mb-5" v-show="isShowSubComment">
             <CommentItem
                 v-for="(comment, index) in subComments"
                 :key="index"
@@ -36,6 +38,14 @@
                 :comment="comment"
                 :isLastItem="subComments.length === index + 1"
             ></CommentItem>
+
+            <CButton
+                v-show="!isLastPage"
+                text="Load more replies"
+                classes=""
+                :type="3"
+                @clickCButton="getMoreComments()"
+            ></CButton>
         </div>
     </div>
 </template>
@@ -47,7 +57,8 @@ import CUserInfo from '@/components/General/CUserInfo.vue'
 import type { UserInfo } from '@/types/TUser'
 import ReplyForm from './ReplyForm.vue'
 import type { Comment } from '@/types/TComment'
-import moment from 'moment';
+import moment from 'moment'
+import CButton from '@/components/General/CButton.vue'
 
 const props = defineProps({
     comment: {
@@ -75,17 +86,36 @@ const visibleReplyForm = ref(false)
 const subComments = ref([] as Comment[])
 const subLevel = props.level + 1
 const commentCount = ref(props.comment.comments_count as Number)
+const isShowSubComment = ref(false)
+const isLastPage = ref(false)
+const currentPage = ref(1)
 
 const createdAtFormated = computed(() => {
-  return props.comment.created_at ? moment(props.comment.created_at).fromNow() : ''
+    return props.comment.created_at ? moment(props.comment.created_at).fromNow() : ''
 })
 
+const getMoreComments = async () => {
+    if (!isLastPage.value) {
+        currentPage.value += 1
+        await getListSubComment()
+    }
+}
+
 const showSubComments = async () => {
+    isShowSubComment.value = true
+    if (currentPage.value === 1) {
+        subComments.value = []
+        await getListSubComment()
+    }
+}
+
+const getListSubComment = async () => {
     await Api.comment
-        .index({ parent_id: props.comment.id })
+        .index({ parent_id: props.comment.id, page: currentPage.value })
         .then((res: any) => {
-            commentCount.value = res.data.length
-            subComments.value = res.data
+            isLastPage.value = res.data.last_page === res.data.current_page
+            currentPage.value = res.data.current_page
+            subComments.value = subComments.value.concat(res.data.data)
         })
         .catch((err: any) => {
             console.log(err)
@@ -97,8 +127,13 @@ const hidenReplyForm = () => {
 const showReplyForm = () => {
     visibleReplyForm.value = true
 }
+// chi refresh khi la trang cuoi cung
 const refreshListComment = async () => {
-    await showSubComments()
+    commentCount.value = commentCount.value + 1
+    if (isLastPage.value) {
+        subComments.value.splice(-(subComments.value.length % 10))
+        await showSubComments()
+    }
     hidenReplyForm()
 }
 </script>

@@ -114,7 +114,7 @@ const save = async () => {
     border-radius: 4px;
 }
 .input-content {
-    height: 30px;
+    height: 20px;
     width: 100%;
     resize: none;
     overflow: hidden;

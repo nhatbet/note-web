@@ -13,8 +13,8 @@ export default () => ({
         return BaseApi.setAuth().delete('comments/' + id)
     },
 
-    getByArticleId(articleId: any) {
-        return BaseApi.setAuth().setNotify(false).get('comments/get-by-article', { article_id: articleId })
+    getByArticleId(articleId: any, page: number) {
+        return BaseApi.setAuth().setNotify(false).get('comments/get-by-article', { article_id: articleId, page })
     },
 
     getCountByArticleId(articleId: any) {
