@@ -2,8 +2,9 @@
     <a
         class="text-base cursor-pointer transition-all inline-block"
         :class="[
-            { classes: true, 'opacity-50 cursor-not-allowed': disabled },
-            type === 3 ? 'style-type-3' : type === 2 ? 'class2' : 'border border-purple-700 hover:bg-purple-700 hover:text-white rounded-md'
+            classes,
+            disabled ? 'opacity-50 cursor-not-allowed' : '',
+            type === 3 ? 'style-type-3' : type === 2 ? 'style-type-2' : type === 1 ? 'stype-type-1' : 'border border-purple-700 hover:bg-purple-700 hover:text-white rounded-md'
         ]"
         @click="handleClick"
         :href="href"
@@ -39,7 +40,7 @@ export default {
         },
         type: {
             type: Number,
-            default: 1
+            default: 0
         }
     },
     methods: {
@@ -58,5 +59,12 @@ export default {
     &:hover {
         border-bottom: 1px solid black;
     }
+}
+.stype-type-1 {
+
+}
+
+.radius-cycle {
+    border-radius: 99em;
 }
 </style>

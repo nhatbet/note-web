@@ -24,10 +24,11 @@
             <div class="w-1/2 flex justify-end">
                 <CButton
                     text="Close"
-                    classes="!w-[100px] my-5 mr-5"
+                    classes="px-[15px]"
                     @clickCButton="close()"
+                    :type="1"
                 ></CButton>
-                <CButton text="Save" classes="!w-[100px] my-5" @clickCButton="save()"></CButton>
+                <CButton text="Save" classes="px-[15px] radius-cycle" @clickCButton="save()"></CButton>
             </div>
         </div>
     </div>
@@ -112,6 +113,7 @@ const save = async () => {
     padding: 10px 10px;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 8px;
     border-radius: 4px;
+    margin-bottom: 15px;
 }
 .input-content {
     height: 20px;

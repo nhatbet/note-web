@@ -8,10 +8,12 @@
             <div>
                 <div class="flex" v-show="commentCount > 0">
                     <CIcon class="inline-block" name="message"></CIcon>
-                    <p class="content-center cursor-pointer" @click="showSubComments()">
+                    <p class="content-center cursor-pointer">
                         {{ commentCount }}
-                        <span v-if="!isShowSubComment">replies</span>
-                        <span v-else>hiden</span>
+                        <span v-if="!isShowSubComment" @click="showSubComments()">
+                            {{ commentCount > 1 ? 'replies' : 'reply' }}
+                        </span>
+                        <span v-else @click="hideSubComment()">hide replies</span>
                     </p>
                 </div>
             </div>
@@ -42,7 +44,6 @@
             <CButton
                 v-show="!isLastPage"
                 text="Load more replies"
-                classes=""
                 :type="3"
                 @clickCButton="getMoreComments()"
             ></CButton>
@@ -89,6 +90,7 @@ const commentCount = ref(props.comment.comments_count as Number)
 const isShowSubComment = ref(false)
 const isLastPage = ref(false)
 const currentPage = ref(1)
+const defaultPaginate = import.meta.env.VITE_HOST
 
 const createdAtFormated = computed(() => {
     return props.comment.created_at ? moment(props.comment.created_at).fromNow() : ''
@@ -121,6 +123,9 @@ const getListSubComment = async () => {
             console.log(err)
         })
 }
+const hideSubComment = () => {
+    isShowSubComment.value = false
+}
 const hidenReplyForm = () => {
     visibleReplyForm.value = false
 }
@@ -131,7 +136,12 @@ const showReplyForm = () => {
 const refreshListComment = async () => {
     commentCount.value = commentCount.value + 1
     if (isLastPage.value) {
-        subComments.value.splice(-(subComments.value.length % 10))
+        const countItemLastPage = subComments.value.length % defaultPaginate
+        if (countItemLastPage === defaultPaginate) {
+            currentPage.value++
+        } else {
+            subComments.value.splice(-countItemLastPage)
+        }
         await showSubComments()
     }
     hidenReplyForm()

@@ -37,7 +37,6 @@ const visibleComment = ref(false);
 const author = ref({} as Author)
 const toggleComment = () => {
     visibleComment.value = !visibleComment.value
-    console.log('show', visibleComment.value);
     return visibleComment.value
 }
 

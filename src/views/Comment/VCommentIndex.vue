@@ -1,5 +1,5 @@
 <template>
-    <div class="comments px-5 pb-5 text-base">
+    <div class="comments px-5 pb-5 text-base" :class="{ active: showComment }" >
         <div class="form-create pt-[56px]">
             <div class="head flex justify-between py-5">
                 <h2 class="text-lg">Comments ({{ commentsCount }})</h2>
@@ -12,7 +12,6 @@
             :key="index"
             :user="comment.commentator"
             :comment="comment"
-            :class="{ active: showComment }"
             :isLastItem="comments.length === index + 1"
         ></CommentItem>
         <CButton
@@ -46,6 +45,7 @@ const props = defineProps({
     }
 })
 
+const defaultPaginate = import.meta.env.VITE_HOST
 const emit = defineEmits(['closeComment'])
 const commentsCount = ref(0)
 const isLastPage = ref(false)
@@ -114,7 +114,12 @@ const getComments = async () => {
 // chi refresh khi la trang cuoi cung
 const refreshListComment = async () => {
     if (isLastPage.value) {
-        comments.value.splice(-(comments.value.length % 10))
+        const countItemLastPage = comments.value.length % defaultPaginate;
+        if (countItemLastPage == defaultPaginate) {
+            currentPage.value++
+        } else {
+            comments.value.splice(-(countItemLastPage))
+        }
         await listComment()
     }
 }
@@ -131,17 +136,23 @@ const closeComment = () => {
     background-color: white;
     position: fixed;
     top: 0;
-    right: -100%;
+    right: -200%;
     height: 100%;
     overflow-y: auto;
-    z-index: 100;
-    &:has(.active) {
-        right: 0;
-    }
+    z-index: 10;
+}
+.comments.active {
+    right: 0;
 }
 .form-create {
     position: sticky;
     top: 0;
     background: white;
+}
+
+@media (max-width: 550px) {
+    .comments {
+        width: 100%;
+    }
 }
 </style>
