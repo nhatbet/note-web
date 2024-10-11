@@ -59,6 +59,7 @@
             ></CButton>
         </div>
     </div>
+    <CDialogReport :isShow="isShowDialogReport" :id="comment.id" @close="isShowDialogReport = false" name="Response"></CDialogReport>
 </template>
 
 <script setup lang="ts">
@@ -70,6 +71,7 @@ import ReplyForm from './ReplyForm.vue'
 import type { Comment } from '@/types/TComment'
 import moment from 'moment'
 import CButton from '@/components/General/CButton.vue'
+import CDialogReport from '@/components/General/CDialogReport.vue'
 
 const props = defineProps({
     comment: {
@@ -102,6 +104,7 @@ const isLastPage = ref(false)
 const currentPage = ref(1)
 const defaultPaginate = import.meta.env.VITE_HOST
 const isShowBtnReport = ref(false)
+const isShowDialogReport = ref(false)
 
 const createdAtFormated = computed(() => {
     return props.comment.created_at ? moment(props.comment.created_at).fromNow() : ''
@@ -163,6 +166,7 @@ const refreshListComment = async () => {
 
 const handleReport = async () => {
     // show dialog report
+    isShowDialogReport.value = true
 }
 </script>
 

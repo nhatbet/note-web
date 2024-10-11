@@ -23,7 +23,7 @@
                     text="Close"
                     classes="px-[15px]"
                     @clickCButton="close()"
-                    :type="1"
+                    :type="4"
                 ></CButton>
                 <CButton text="Save" classes="px-[15px] radius-cycle" @clickCButton="save()"></CButton>
             </div>

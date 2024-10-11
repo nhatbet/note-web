@@ -27,6 +27,6 @@ export default () => ({
     },
 
     report(id: number, data: any) {
-        return BaseApi.setNotify(false).get('comments/' + id + '/report', data)
+        return BaseApi.setNotify(false).setNotify().post('comments/' + id + '/report', data)
     }
 })
