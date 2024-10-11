@@ -1,6 +1,6 @@
 <template>
     <a
-        class="text-base cursor-pointer transition-all inline-block"
+        class="text-base cursor-pointer transition-all inline-block text-center"
         :class="[
             classes,
             disabled ? 'opacity-50 cursor-not-allowed' : '',

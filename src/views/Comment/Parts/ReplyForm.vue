@@ -6,9 +6,6 @@
             :info="info"
             classes="h-[45px]"
         >
-            <template v-slot:actionRight>
-                <CIcon name="comment" class="cursor-pointer"></CIcon>
-            </template>
         </CUserInfo>
         <textarea
             name="content"

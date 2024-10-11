@@ -24,5 +24,9 @@ export default () => ({
     index(params: any) {
         // parent_id
         return BaseApi.setNotify(false).get('comments', params)
+    },
+
+    report(id: number, data: any) {
+        return BaseApi.setNotify(false).get('comments/' + id + '/report', data)
     }
 })

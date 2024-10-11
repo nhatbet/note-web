@@ -1,9 +1,9 @@
 <template>
     <div class="comment__head flex justify-between" :class="classes">
-        <div class="info flex pb-5 text-base items-center">
+        <div class="info flex text-base items-center">
             <img
                 src="https://picsum.photos/300/300"
-                class="w-[40px] h-[40px] mr-5 rounded-full"
+                class="w-auto h-full mr-5 rounded-full"
                 alt="avatar"
             />
             <div>
@@ -11,7 +11,7 @@
                 <p class="">{{ info }}</p>
             </div>
         </div>
-        <div class="action">
+        <div class="action flex items-center relative">
             <slot name="actionRight"></slot>
         </div>
     </div>

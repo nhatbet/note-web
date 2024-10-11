@@ -1,6 +1,16 @@
 <template>
     <div class="mt-5 comment-item" :class="{ 'border-bottom-gray': !isLastItem }">
-        <CUserInfo :user="user" :info="createdAtFormated"></CUserInfo>
+        <CUserInfo :user="user" :info="createdAtFormated" classes="h-[34px] mb-5">
+            <template v-slot:actionRight>
+                <CIcon name="horizontal-dot" class="cursor-pointer" @click="toggleBtnReport()"></CIcon>
+                <CButton
+                    text="Report this response"
+                    classes="px-[15px] absolute top-[100%] right-[0] w-[170px]"
+                    v-show="isShowBtnReport"
+                    @click="handleReport"
+                ></CButton>
+            </template>
+        </CUserInfo>
         <div class="comment__body">
             {{ comment.content }}
         </div>
@@ -91,6 +101,7 @@ const isShowSubComment = ref(false)
 const isLastPage = ref(false)
 const currentPage = ref(1)
 const defaultPaginate = import.meta.env.VITE_HOST
+const isShowBtnReport = ref(false)
 
 const createdAtFormated = computed(() => {
     return props.comment.created_at ? moment(props.comment.created_at).fromNow() : ''
@@ -123,6 +134,9 @@ const getListSubComment = async () => {
             console.log(err)
         })
 }
+const toggleBtnReport = () => {
+    isShowBtnReport.value = !isShowBtnReport.value
+}
 const hideSubComment = () => {
     isShowSubComment.value = false
 }
@@ -145,6 +159,10 @@ const refreshListComment = async () => {
         await showSubComments()
     }
     hidenReplyForm()
+}
+
+const handleReport = async () => {
+    // show dialog report
 }
 </script>
 
