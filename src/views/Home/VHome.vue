@@ -178,19 +178,19 @@ export default {
     transition: transform 0.4s ease-in-out;
 }
 
-.nav-container input[type='checkbox']:checked ~ .menu-items {
+.nav-container input[type='checkbox'].hamburger-checkbox:checked ~ .menu-items {
     transform: translateX(0);
 }
 
-.nav-container input[type='checkbox']:checked ~ .hamburger-lines .line1 {
+.nav-container input[type='checkbox'].hamburger-checkbox:checked ~ .hamburger-lines .line1 {
     transform: rotate(45deg);
 }
 
-.nav-container input[type='checkbox']:checked ~ .hamburger-lines .line2 {
+.nav-container input[type='checkbox'].hamburger-checkbox:checked ~ .hamburger-lines .line2 {
     transform: scaleY(0);
 }
 
-.nav-container input[type='checkbox']:checked ~ .hamburger-lines .line3 {
+.nav-container input[type='checkbox'].hamburger-checkbox:checked ~ .hamburger-lines .line3 {
     transform: rotate(-45deg);
 }
 
@@ -268,7 +268,7 @@ export default {
         transition: all 0.3s ease-in-out;
         height: 100vh;
     }
-    .app:has(input[type='checkbox']:checked) {
+    .app:has(input[type='checkbox'].hamburger-checkbox:checked) {
         .menu {
             left: 0;
         }
