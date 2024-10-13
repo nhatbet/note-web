@@ -3,9 +3,9 @@
 
 html {
   background-color: var(--bg-color-primary);
-  -webkit-transition: background-color .3s linear;
+  /* -webkit-transition: background-color .3s linear;
   -ms-transition: background-color .3s linear;
-  transition: background-color .3s linear;
+  transition: background-color .3s linear; */
   
   color: var(--text-color-primary);
   -webkit-transition: color .3s linear;

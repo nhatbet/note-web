@@ -108,7 +108,7 @@ const save = async () => {
     transition: all 0.3s ease-in-out;
     width: 100%;
     padding: 10px 10px;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 2px 8px;
+    box-shadow: var(--shadow-color-primary) 0px 2px 8px;
     border-radius: 4px;
     margin-bottom: 15px;
 }
@@ -117,5 +117,7 @@ const save = async () => {
     width: 100%;
     resize: none;
     overflow: hidden;
+    background-color: var(--bg-color-primary);
+    margin-top: 10px;
 }
 </style>

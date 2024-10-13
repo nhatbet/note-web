@@ -2,11 +2,11 @@
   <div :class="[classes]">
     <label>
       <span class="text-base" >{{ label }}</span>
-      <span v-show="required" class="text-rose-600 text-xs">
+      <span v-show="required" class="error text-xs">
         <FontAwesomeIcon :icon="['fas', 'asterisk']" />
       </span>
       <input
-        class="w-full text-sm p-2 border border-gray-200 rounded-sm focus:outline-none focus:border-purple-400"
+        class="w-full p-2 rounded-sm focus:outline-none h-[38px] focus:border-purple-400"
         :placeholder="placeholder"
         :type="type"
         v-model="model"
@@ -72,4 +72,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+input {
+  background-color: var(--bg-color-primary);
+  border: 1px solid var(--border-color-primary);
+}
+.error {
+  color: var(--text-color-third);
+}
 </style>

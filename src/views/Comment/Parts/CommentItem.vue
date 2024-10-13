@@ -17,7 +17,7 @@
         <div class="comment__action flex justify-between my-5">
             <div>
                 <div class="flex" v-show="commentCount > 0">
-                    <CIcon class="inline-block" name="message"></CIcon>
+                    <CIcon name="comment" class="cursor-pointer"></CIcon>
                     <p class="content-center cursor-pointer">
                         {{ commentCount }}
                         <span v-if="!isShowSubComment" @click="showSubComments()">
@@ -172,12 +172,13 @@ const handleReport = async () => {
 
 <style scoped lang="scss">
 .border-bottom-gray {
-    border-bottom: 1px solid #f2f2f2;
+    border-bottom: 1px solid var(--border-color-primary);
 }
 .reply {
     border-bottom: 1px solid transparent;
+    color: var(--text-color-second);
     &:hover {
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid var(--text-color-second);
     }
 }
 

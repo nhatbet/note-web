@@ -114,7 +114,9 @@ export default {
 
 .navbar {
     width: 100%;
-    box-shadow: 0 1px 4px rgb(146 161 176 / 15%);
+    // box-shadow: 0 1px 4px rgb(146 161 176 / 15%);
+    box-shadow: 0 1px 4px var(--shadow-color-primary);
+    background-color: var(--bg-color-primary);
     position: -webkit-sticky; /* Safari */
     position: sticky;
     top: 0;
@@ -197,15 +199,10 @@ export default {
     transform: rotate(-45deg);
 }
 
-// menu
 .main {
-    // width: 1080px;
     width: 100%;
     z-index: 1;
     background-color: var(--bg-color-primary);
-    // -webkit-transition: background-color 0.3s linear;
-    // -ms-transition: background-color 0.3s linear;
-    // transition: background-color 0.3s linear;
 }
 
 .menu {
@@ -215,7 +212,8 @@ export default {
     z-index: -1;
 }
 .menu-items {
-    width: 300px;
+    width: 290px;
+    border-right: 1px solid var(--border-color-primary);
 }
 
 .body {
@@ -275,6 +273,11 @@ export default {
         .menu {
             left: 0;
         }
+    }
+    .menu-items {
+        border: none;
+        background-color: var(--bg-color-primary);
+        box-shadow: 0px 0 30px -2px var(--shadow-color-primary);
     }
 }
 </style>

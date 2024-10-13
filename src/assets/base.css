@@ -1,37 +1,30 @@
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
   --text-color-primary: #3F4354;
-  --text-color-second: #73D13D;
-  --text-color-third: #898f85;
-  --text-color-fourth: #898f85;
-  --text-color-fifth: #898f85;
+  --text-color-second: rgb(72, 177, 11);
+  --text-color-third: #E11D48;
+  /* --text-color-fourth: #898f85;
+  --text-color-fifth: #898f85; */
   
   --bg-color-primary: #FFFFFF;
   --bg-color-second: #f5f5f5;
-  --bg-color-third: #FFFFFF;
-  --bg-color-fourth: #FFFFFF;
-  --bg-color-fifth: #FFFFFF;
 
-  --border-color-primary: rgb(224, 224, 224);
+  --border-color-primary: #E5E7EA;
 
-
+  --shadow-color-primary: rgba(0, 0, 0, 0.15);
 }
 
 :root.dark {
   --text-color-primary: #999999;
-  --text-color-second: #73D13D;
-  --text-color-third: #898f85;
-  --text-color-fourth: #898f85;
-  --text-color-fifth: #898f85;
+  --text-color-second: #1A8917;
+  --text-color-third: #9e1432;
 
   --bg-color-primary: #000000;
   --bg-color-second: #444444;
-  --bg-color-third: #FFFFFF;
-  --bg-color-fourth: #FFFFFF;
-  --bg-color-fifth: #FFFFFF;
 
-  --border-color-primary: rgb(65, 65, 65);
+  --border-color-primary: rgb(51, 51, 51);
 
+  --shadow-color-primary: rgba(255, 255, 255, 0.3);
 
 }
 

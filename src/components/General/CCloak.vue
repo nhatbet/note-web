@@ -37,7 +37,7 @@ export default {
 }
 @media (max-width: 768px) {
     .cloak {
-        background: rgba(189, 189, 189, 0.3);
+        // background-color: var(--shadow-color-primary);
     }
 }
 </style>

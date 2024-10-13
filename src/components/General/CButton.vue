@@ -1,6 +1,6 @@
 <template>
     <a
-        class="text-base cursor-pointer transition-all inline-block text-center"
+        class="text-base cursor-pointer transition-all inline-block text-center h-auto"
         :class="[
             classes,
             disabled ? 'opacity-50 cursor-not-allowed' : '',
@@ -62,18 +62,18 @@ export default {
 <style lang="scss" scoped>
 .style-type-3 {
     line-height: 12px;
-    color: #1a8917;
+    color: var(--text-color-second);
     border-bottom: 1px solid transparent;
     &:hover {
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid var(--text-color-second);
     }
 }
 .stype-type-1 {
-    background-color: #1a8917;
+    background-color: var(--text-color-second);
     color: white;
 }
 .style-type-2 {
-    border: 1px solid black;
+    border: 1px solid var(--border-color-primary);
 }
 
 .radius-cycle {

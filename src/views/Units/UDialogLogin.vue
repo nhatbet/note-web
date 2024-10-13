@@ -1,7 +1,7 @@
 <template>
     <div class="dialog" v-if="canShow" @click.self="canShow = false">
-        <div class="content">
-            <h2 class="text-lg py-3">Login</h2>
+        <div class="content text-base">
+            <h2 class="text-lg pb-[20px]">Login</h2>
             <div class="space-y-4">
                 <CInput
                     v-model="loginData.username"
@@ -31,7 +31,7 @@
                 <CCheckBox v-model="loginData.remember" label="Remember me ?"></CCheckBox>
 
                 <div class="flex items-center justify-between">
-                    <div class="text-sm ml-auto">
+                    <div class="ml-auto">
                         <a href="#" class="text-purple-700 hover:text-purple-600 select-none">
                             Forgot your password?
                         </a>
@@ -44,7 +44,7 @@
                 ></CButton>
                 <div class="flex items-center justify-center space-x-2 my-5">
                     <span class="h-px w-16 bg-gray-100"></span>
-                    <span class="text-gray-300 font-normal">or</span>
+                    <span class="font-normal">or</span>
                     <span class="h-px w-16 bg-gray-100"></span>
                 </div>
                 <div class="flex justify-center gap-5 w-full">
@@ -64,7 +64,7 @@
                 </div>
             </div>
             <div @click="loginWithProvider('google')">login with gg</div>
-            <div class="mt-7 text-center text-gray-300 text-xs">
+            <div class="mt-7 text-center text-xs">
                 <span>
                     Copyright © 2021-2024
                     <a
@@ -224,7 +224,7 @@ export default {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(185, 185, 185, 0.5);
+    background-color: var(--shadow-color-primary);
     z-index: 10;
 
     .content {
@@ -235,7 +235,7 @@ export default {
         z-index: 11;
         opacity: 1;
         transform: translate(-50%, -50%);
-        background: white;
+        background: var(--bg-color-primary);
         padding: 30px;
         border-radius: 10px;
     }

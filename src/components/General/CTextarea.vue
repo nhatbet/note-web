@@ -42,6 +42,8 @@ watch(
 
 <style lang="scss" scoped>
 textarea {
-    border: 1px solid black;
+    border: 1px solid var(--border-color-primary);
+    background-color: var(--bg-color-primary);
+    box-shadow: var(--shadow-color-primary) 0px 2px 68x;
 }
 </style>

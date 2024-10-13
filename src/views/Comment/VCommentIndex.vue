@@ -57,8 +57,8 @@ const { profile } = storeToRefs(authStore)
 console.log('authStore', profile.value)
 
 const user = {
-    name: profile.value.name,
-    email: profile.value.email
+    name: profile.value?.name,
+    email: profile.value?.email
 }
 
 const comments = ref([] as Comment[])
@@ -130,16 +130,15 @@ const closeComment = () => {
 
 <style scoped lang="scss">
 .comments {
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px;
+    box-shadow: var(--shadow-color-primary) 0px 4px 12px;
     width: 420px;
-    transition: all 0.3s ease-in-out;
-    background-color: white;
+    transition: right 0.3s ease-in-out;
+    background-color: var(--bg-color-primary);
     position: fixed;
     top: 0;
     right: -200%;
     height: 100%;
     overflow-y: auto;
-    z-index: 10;
 }
 .comments.active {
     right: 0;
@@ -147,8 +146,7 @@ const closeComment = () => {
 .form-create {
     position: sticky;
     top: 0;
-    background: white;
-    z-index: 10;
+    background-color: var(--bg-color-primary);
 }
 
 @media (max-width: 550px) {

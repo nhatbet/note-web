@@ -83,7 +83,7 @@ const report = async () => {
 
 <style lang="scss" scoped>
 .report-dialog {
-    background-color: rgba(216, 216, 216, 0.15);
+    background-color: var(--shadow-color-primary);
     position: fixed;
     top: 0;
     left: 0;
@@ -93,7 +93,7 @@ const report = async () => {
     align-items: center;
     justify-content: center;
     .content {
-        background-color: white;
+        background-color: var(--bg-color-primary);
         min-width: 400px;
         min-height: 300px;
         border-radius: 5px;
