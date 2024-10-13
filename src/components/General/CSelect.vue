@@ -1,9 +1,9 @@
 <template>
-    <div :class="[classes]">
-        <label class="block mb-2 text-sm">
+    <div :class="[classes]" class="text-base">
+        <label class="block mb-2">
             <span class="text-base">{{ label }}</span>
             <select
-                class="block w-full p-2 border border-gray-200 rounded-sm focus:outline-none focus:border-purple-400"
+                class="block w-full p-2 rounded-sm focus:outline-none h-[38px] focus:border-purple-400"
                 @change="model = ($event?.target as HTMLInputElement).value"
             >
                 <option v-show="visibleOptionFirst" :value="null">Nothing selected</option>
@@ -16,7 +16,7 @@
                     {{ option?.label }}
                 </option>
             </select>
-            <small class="text-sm text-rose-600">{{ errors[0] }}</small>
+            <small class="error">{{ errors[0] }}</small>
         </label>
     </div>
 </template>
@@ -38,7 +38,7 @@ export default {
         },
         modelValue: {
             type: [String, Number],
-            default: false
+            default: ''
         },
         options: {
             type: null,
@@ -66,4 +66,15 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+select {
+    background-color: var(--bg-color-primary);
+    border: 1px solid var(--border-color-primary);
+    option {
+        height: 38px;
+    }
+}
+.error {
+    color: var(--text-color-third);
+}
+</style>

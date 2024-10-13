@@ -2,17 +2,17 @@
   <div :class="[classes]">
     <label>
       <span class="text-base" >{{ label }}</span>
-      <span v-show="required" class="error text-xs">
+      <span v-show="required" class="error">
         <FontAwesomeIcon :icon="['fas', 'asterisk']" />
       </span>
       <input
-        class="w-full p-2 rounded-sm focus:outline-none h-[38px] focus:border-purple-400"
+        class="w-full p-2 rounded-sm focus:outline-none text-base h-[38px] focus:border-purple-400"
         :placeholder="placeholder"
         :type="type"
         v-model="model"
       />
       <slot name="RIcon"/><slot />
-      <small class="text-sm text-rose-600">{{ errors[0] }}</small>
+      <small class="error">{{ errors[0] }}</small>
     </label>
   </div>
 </template>
@@ -43,7 +43,7 @@ export default {
     },
     errors: {
       type: [Array],
-      default: []
+      default: () => []
     },
     required: {
       type: Boolean,
