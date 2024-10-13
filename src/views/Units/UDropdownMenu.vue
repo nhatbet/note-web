@@ -1,7 +1,7 @@
 <template>
     <div
-        class="w-[43px] h-[43px] content-center text-center cursor-pointer border-solid border-t border-r border-l border-transparent"
-        :class="{ '!border-slate-300': isShowMenu }"
+        class="avatar-icon w-[43px] h-[43px] content-center text-center cursor-pointer border-solid border-transparent"
+        :class="{ active: isShowMenu }"
         @click="isShowMenu = !isShowMenu"
     >
         <img
@@ -14,10 +14,10 @@
         <ul class="pt-2 relative">
             <li class="menu-icon h-[43px] content-center text-center">
                 <div class="relative h-full content-center">
-                    <div class="text-zinc-400 text-base cursor-pointer relative">
+                    <div class="text-base cursor-pointer relative">
                         <FontAwesomeIcon :icon="['fas', 'bell']" />
                         <span
-                            class="badge absolute w-[15px] h-[15px] top-[0px] right-[3px] rounded-full bg-lime-300 text-white text-xs content-center"
+                            class="badge absolute w-[15px] h-[15px] top-[0px] right-[3px] rounded-full bg-lime-300 text-xs content-center"
                             >1
                         </span>
                     </div>
@@ -32,7 +32,7 @@
             </li>
             <li class="menu-icon h-[43px] content-center text-center">
                 <div class="relative h-full content-center">
-                    <span class="text-zinc-400 text-base cursor-pointer">
+                    <span class="text-base cursor-pointer">
                         <FontAwesomeIcon :icon="['fas', 'reply']"
                     /></span>
                     <input
@@ -102,7 +102,14 @@
 
 <script lang="ts">
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faUser, faBell, faBookmark, faReply, faComment, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import {
+    faUser,
+    faBell,
+    faBookmark,
+    faReply,
+    faComment,
+    faRightFromBracket
+} from '@fortawesome/free-solid-svg-icons'
 import { ref } from 'vue'
 import { useWindowSize } from 'vue-window-size'
 import CCloak from '@/components/General/CCloak.vue'
@@ -134,39 +141,49 @@ export default {
         async logout() {
             await Api.auth.logout().finally(() => {
                 LocalStorageService.clearAuthInfo()
-                console.log('logout');
+                console.log('logout')
                 this.authStore.setIsAuthenticated(false)
                 this.authStore.setProfile()
-                
+
                 this.$router.push({ name: 'VHome' })
             })
-        },
+        }
     }
 }
 </script>
 
 <style scoped lang="scss">
+.avatar-icon {
+    border-top: 1px solid transparent;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+}
+.avatar-icon.active {
+    border-top: 1px solid var(--border-color-primary);
+    border-left: 1px solid var(--border-color-primary);
+    border-right: 1px solid var(--border-color-primary);
+}
 .dropdown-menu {
+    background-color: var(--bg-color-primary);
     position: absolute;
     z-index: 10;
-    background: var(--c-white);
     ul {
-        border: 1px solid var(--c-gray-1);
+        border: 1px solid var(--border-color-primary);
         .dropdown-content {
+            background-color: var(--bg-color-primary);
             min-width: 300px;
             max-width: 100vh;
-            border: 1px solid var(--c-gray-1);
+            border: 1px solid var(--border-color-primary);
             min-height: calc(100% + 2px);
-            background: var(--c-white);
         }
     }
 }
 .menu-icon:hover {
-    background-color: rgb(231, 231, 231);
+    background-color: var(--bg-color-second);
     transition: background-color 0.2s ease-in-out;
 }
 .menu-icon:has(input[type='radio']:checked) {
-    background-color: var(--c-white-mute);
+    background-color: var(--bg-color-second);
     transition: background-color 0.2s ease-in-out;
     div {
         display: block;
@@ -205,7 +222,7 @@ export default {
     padding: 0 5px;
     cursor: pointer;
     &:hover {
-        background-color: var(--c-white-soft);
+        background-color: var(--bg-color-second);
     }
     span {
         display: inline-block;

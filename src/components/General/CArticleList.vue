@@ -15,7 +15,7 @@
         ></CSelectSearch>
         <div class="search-bar__btn px-5 flex items-center cursor-pointer">Latest</div>
     </div>
-    <div class="column-header flex items-center text-base border-b-2 border-stone-200 h-[56px]">
+    <div class="column-header flex items-center text-base h-[56px]">
         <div class="column-header__title w-[70%]">Title</div>
         <div class="column-header__replies w-[10%] text-center">Replies</div>
         <div class="column-header__views w-[10%] text-center">Views</div>
@@ -23,7 +23,7 @@
     </div>
     <div class="column-body" @scroll="onScroll()">
         <div
-            class="flex border-b border-stone-200 px-[5px] py-[10px]"
+            class="article-item flex px-[5px] py-[10px]"
             v-for="(item, index) in articles"
             :key="index"
         >
@@ -68,7 +68,7 @@ import { useSelectionStore } from '@/stores/selection'
 import type { SelectionType } from '@/types/TSelect'
 import { onMounted, ref, watch } from 'vue'
 import BaseApi from '@/network/BaseApi'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 
 interface TArticle {
     id: number
@@ -129,9 +129,7 @@ export default {
         const gotoDetail = (id: any) => {
             router.push({ name: 'VArticleShow', params: { id } })
         }
-        const onScroll = () => {
-
-        }
+        const onScroll = () => {}
 
         onMounted(async () => {
             selection.value = await selectionStore.getData()
@@ -145,7 +143,20 @@ export default {
             console.log(`Giá trị mới: ${newVal}, Giá trị cũ: ${oldVal}`)
         })
 
-        return { items, articles, selection, category, tag, currentPage, lastPage, updateCurrentPage, gotoDetail, onScroll, nextPage, prePage }
+        return {
+            items,
+            articles,
+            selection,
+            category,
+            tag,
+            currentPage,
+            lastPage,
+            updateCurrentPage,
+            gotoDetail,
+            onScroll,
+            nextPage,
+            prePage
+        }
     }
 }
 </script>
@@ -171,5 +182,11 @@ export default {
         color: white;
         font-weight: bold;
     }
+}
+.column-header {
+    border-bottom: 2px solid var(--border-color-primary);
+}
+.article-item {
+    border-bottom: 1px solid var(--border-color-primary);
 }
 </style>

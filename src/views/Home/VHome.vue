@@ -9,15 +9,18 @@
                     <span class="line line3"></span>
                 </div>
                 <div class="navbar-right content-center">
-                    <div v-if="!isLoggedIn">
-                        <CButton
-                            text="Sign in"
-                            classes="w-18 h-8 p-3"
-                            @click="visibleLogin = !visibleLogin"
-                        ></CButton>
-                    </div>
-                    <div class="navbar-avatar" v-else>
-                        <UDropdownMenu classes="dropdown"></UDropdownMenu>
+                    <div class="flex">
+                        <CThemeMode classes="mx-5"></CThemeMode>
+                        <div v-if="!isLoggedIn">
+                            <CButton
+                                text="Sign in"
+                                classes="w-18 h-8 p-3"
+                                @click="visibleLogin = !visibleLogin"
+                            ></CButton>
+                        </div>
+                        <div class="navbar-avatar" v-else>
+                            <UDropdownMenu classes="dropdown"></UDropdownMenu>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -48,8 +51,8 @@ import UDropdownMenu from '../Units/UDropdownMenu.vue'
 import CCloak from '@/components/General/CCloak.vue'
 import { useScreenSize } from '@/stores/ScreenSize'
 import { storeToRefs } from 'pinia'
-import Api from '@/network/Api'
 import { useAuthStore } from '@/stores/auth'
+import CThemeMode from '@/components/General/CThemeMode.vue'
 
 export default {
     name: 'VHome',
@@ -58,7 +61,8 @@ export default {
         CCloak,
         UPanelMenu,
         UDialogLogin,
-        UDropdownMenu
+        UDropdownMenu,
+        CThemeMode
     },
 
     setup(props) {
@@ -86,7 +90,7 @@ export default {
     methods: {
         onScroll() {
             var height = this.navbarHeader.value.scrollHeight
-            if (height > 100) height = 100;
+            if (height > 100) height = 100
             this.navbarHeader.value.style.transform = `translateY(${-height}px)`
         }
     },
@@ -115,7 +119,6 @@ export default {
     position: sticky;
     top: 0;
     z-index: 10;
-    background-color: white;
 }
 
 .nav-container {
@@ -198,9 +201,11 @@ export default {
 .main {
     // width: 1080px;
     width: 100%;
-    // border: 1px solid black;
     z-index: 1;
-    background-color: var(--c-white);
+    background-color: var(--bg-color-primary);
+    // -webkit-transition: background-color 0.3s linear;
+    // -ms-transition: background-color 0.3s linear;
+    // transition: background-color 0.3s linear;
 }
 
 .menu {
@@ -218,7 +223,6 @@ export default {
     margin: 0 auto;
     max-width: 1360px;
     transition: max-width 0.3s ease-in-out;
-    // border: 1px solid black;
     height: 100vh;
 }
 
@@ -259,7 +263,6 @@ export default {
 
 @media (max-width: 768px) {
     .menu {
-        background: var(--c-white);
         position: fixed;
         top: 0;
         left: -100%;

@@ -3,7 +3,7 @@
         <div @focus="focusSelect" @focusout="blurSelect" tabindex="0" class="select-search">
             {{ label }}
             <div
-                class="cursor-pointer w-full min-h-[38px] p-2 border border-gray-200 rounded-sm relative focus:outline-none focus:border-purple-400 content-center"
+                class="select-area cursor-pointer w-full min-h-[38px] p-2 border rounded-sm relative focus:outline-none focus:border-purple-400 content-center"
                 :class="{ 'border-purple-400': visibleOption }"
             >
                 <div
@@ -18,7 +18,7 @@
                     </div>
                     <div v-else>
                         <div
-                            class="h-[30px] border border-gray-200 rounded-lg px-2 inline-block content-center mr-2"
+                            class="h-[30px] border rounded-lg px-2 inline-block content-center mr-2"
                             v-for="(item, index) in selected"
                             :key="index"
                         >
@@ -40,18 +40,18 @@
                     />
                 </span>
                 <div
-                    class="option-items absolute top-[115%] left-[0] z-20 bg-white min-w-full rounded-sm border border-gray-200"
+                    class="option-items absolute top-[115%] left-[0] z-20 min-w-full rounded-sm border"
                     v-if="visibleOption"
                 >
                     <!-- <input
-                        class="w-full text-sm p-2 border-b border-gray-200 focus:outline-none"
+                        class="w-full text-sm p-2 focus:outline-none search-input"
                         v-model="searchValue"
                         placeholder="Search"
                     /> -->
                     <div class="max-h-[200px] overflow-auto">
                         <div
-                            class="hover:bg-gray-100 p-2"
-                            :class="{ 'bg-gray-200': handleSelected(option) }"
+                            class="items p-2"
+                            :class="{ 'option-action': handleSelected(option) }"
                             v-for="(option, index) in optionsFilter"
                             :key="index"
                             @click="handleClickOption(option)"
@@ -131,7 +131,7 @@ export default {
 
     methods: {
         handleClickOutside() {
-            alert('Bạn đã nhấp ra ngoài!');
+            alert('Bạn đã nhấp ra ngoài!')
         },
         focusSelect() {
             this.visibleOption = true
@@ -183,7 +183,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.option-items {
+    background-color: var(--bg-color-primary);
+    border-color: var(--border-color-primary);
+    .items {
+        &:hover {
+            background-color: var(--bg-color-second);
+        }
+    }
+    .option-action {
+        background-color: var(--bg-color-second);
+    }
+}
+.select-area {
+    border-color: var(--border-color-primary);
+}
+.search-input {
+    background-color: var(--bg-color-primary);
+    border-bottom: 1px solid var(--border-color-primary);
+}
 .select-search:has(input:focus) option-items {
+    background-color: var(--bg-color-primary);
     display: block;
 }
 
@@ -199,7 +219,6 @@ export default {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: rgb(184, 184, 184);
     border-radius: 8px;
 }
 </style>

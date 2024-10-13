@@ -6,7 +6,7 @@
         @onUploadImg="onUploadImg"
         @onSave="onSave"
         @onBlur="onBlur"
-        :theme="theme"
+        :theme="themeMode"
         :language="language"
         :showCodeRowNumber="showCodeRowNumber"
         :previewTheme="previewTheme"
@@ -25,6 +25,8 @@ import { MdEditor, config } from 'md-editor-v3'
 import type { ExposeParam, Footers, Themes, ToolbarNames } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
 import Api from '@/network/Api'
+import { useThemeStore } from '@/stores/theme'
+import { storeToRefs } from 'pinia'
 
 config({
     editorConfig: {
@@ -155,7 +157,7 @@ const props = defineProps({
     theme: {
         type: null,
         default: () => {
-            'light' as Themes
+            null
         }
     },
     language: {
@@ -189,6 +191,17 @@ const props = defineProps({
         default: []
     }
 })
+
+const themeStore = useThemeStore()
+const { activeTheme } = storeToRefs(themeStore)
+
+const themeMode = computed(() => {
+    if (props.theme == null) {
+        return activeTheme.value as Themes
+    }
+
+    return 'light'
+})
 const emit = defineEmits(['update:modelValue'])
 const model = computed({
     get: () => props.modelValue,
@@ -213,7 +226,8 @@ const onUploadImg = async (files: File[], callback: any) => {
             return new Promise((rev, rej) => {
                 const form = new FormData()
                 form.append('file', file)
-                Api.user.upload('article-image', file)
+                Api.user
+                    .upload('article-image', file)
                     .then((res: any) => rev(res))
                     .catch((err: any) => rej(err))
             })

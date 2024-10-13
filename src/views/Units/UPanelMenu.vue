@@ -137,19 +137,15 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.panel-menu {
-    // font-size: 1rem;
-}
-
 .label-item {
     height: 33px;
 
     &:hover {
-        background: var(--c-white-soft);
+        background-color: var(--bg-color-second);
     }
 }
 
 .active {
-    background: var(--c-white-mute);
+    background-color: var(--bg-color-second);
 }
 </style>
