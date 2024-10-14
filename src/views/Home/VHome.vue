@@ -28,7 +28,7 @@
         <div class="body">
             <div class="menu">
                 <div class="menu-items">
-                    <UPanelMenu classes="test" />
+                    <UPanelMenu classes="" />
                 </div>
             </div>
             <div class="main p-3">
@@ -39,6 +39,7 @@
         <!-- List Dialog -->
         <UDialogLogin v-model="visibleLogin" />
         <CCloak v-model="visibleMenubar" v-if="widthIsMaxMD()"></CCloak>
+        <Bottom></Bottom>
     </div>
 </template>
 
@@ -53,6 +54,7 @@ import { useScreenSize } from '@/stores/ScreenSize'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 import CThemeMode from '@/components/General/CThemeMode.vue'
+import Bottom from '../Units/Bottom.vue'
 
 export default {
     name: 'VHome',
@@ -62,7 +64,8 @@ export default {
         UPanelMenu,
         UDialogLogin,
         UDropdownMenu,
-        CThemeMode
+        CThemeMode,
+        Bottom
     },
 
     setup(props) {
@@ -221,7 +224,7 @@ export default {
     margin: 0 auto;
     max-width: 1360px;
     transition: max-width 0.3s ease-in-out;
-    height: 100vh;
+    // height: 100vh;
 }
 
 .app:has(input[type='checkbox'].hamburger-checkbox:checked) {

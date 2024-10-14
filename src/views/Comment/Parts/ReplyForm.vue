@@ -118,6 +118,5 @@ const save = async () => {
     resize: none;
     overflow: hidden;
     background-color: var(--bg-color-primary);
-    margin-top: 10px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="comment__head flex justify-between" :class="classes">
+    <div class="comment__head flex justify-between mb-[15px]" :class="classes">
         <div class="info flex text-base items-center">
             <img
                 src="https://picsum.photos/300/300"
