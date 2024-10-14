@@ -183,6 +183,6 @@ const handleReport = async () => {
 }
 
 .child {
-    border-left: 3px solid #f2f2f2;
+    border-left: 3px solid var(--border-color-primary);
 }
 </style>

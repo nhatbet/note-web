@@ -12,6 +12,7 @@ export const useThemeStore = defineStore('theme', () => {
     const setTheme = (theme: string) => {
         activeTheme.value = theme
         LocalStorageService.setTheme(theme)
+        // set them for all element
         document.documentElement.className = theme
     }
 

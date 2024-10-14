@@ -2,7 +2,7 @@ type ItemMenu = {
     label: string
     icon: string
     toRoute: string
-    items: ItemMenu[]
+    children: ItemMenu[] | null
     isShowSubItem: Boolean | null
 }
 

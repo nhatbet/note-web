@@ -28,7 +28,7 @@
         <div class="body">
             <div class="menu">
                 <div class="menu-items">
-                    <UPanelMenu classes="" />
+                    <Menu classes="" />
                 </div>
             </div>
             <div class="main p-3">
@@ -44,9 +44,8 @@
 </template>
 
 <script lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
 import { computed, ref } from 'vue'
-import UPanelMenu from '../Units/UPanelMenu.vue'
+import Menu from '../Units/Menu.vue'
 import UDialogLogin from '../Units/UDialogLogin.vue'
 import UDropdownMenu from '../Units/UDropdownMenu.vue'
 import CCloak from '@/components/General/CCloak.vue'
@@ -61,11 +60,11 @@ export default {
     props: {},
     components: {
         CCloak,
-        UPanelMenu,
         UDialogLogin,
         UDropdownMenu,
         CThemeMode,
-        Bottom
+        Bottom,
+        Menu
     },
 
     setup(props) {
@@ -111,13 +110,11 @@ export default {
 
 .container {
     max-width: 1360px;
-    // width: 90%;
     margin: auto;
 }
 
 .navbar {
     width: 100%;
-    // box-shadow: 0 1px 4px rgb(146 161 176 / 15%);
     box-shadow: 0 1px 4px var(--shadow-color-primary);
     background-color: var(--bg-color-primary);
     position: -webkit-sticky; /* Safari */
