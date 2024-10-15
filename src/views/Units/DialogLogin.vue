@@ -106,7 +106,7 @@ HelloJs.init(
 // });
 
 export default {
-    name: 'UDialogLogin',
+    name: 'DialogLogin',
     props: {
         modelValue: {
             type: Boolean,

@@ -19,7 +19,7 @@
                             ></CButton>
                         </div>
                         <div class="navbar-avatar" v-else>
-                            <UDropdownMenu classes="dropdown"></UDropdownMenu>
+                            <DropdownMenu classes="dropdown"></DropdownMenu>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
         </div>
 
         <!-- List Dialog -->
-        <UDialogLogin v-model="visibleLogin" />
+        <DialogLogin v-model="visibleLogin" />
         <CCloak v-model="visibleMenubar" v-if="widthIsMaxMD()"></CCloak>
         <Bottom></Bottom>
     </div>
@@ -46,8 +46,8 @@
 <script lang="ts">
 import { computed, ref } from 'vue'
 import Menu from '../Units/Menu.vue'
-import UDialogLogin from '../Units/UDialogLogin.vue'
-import UDropdownMenu from '../Units/UDropdownMenu.vue'
+import DialogLogin from '../Units/DialogLogin.vue'
+import DropdownMenu from '../Units/DropdownMenu.vue'
 import CCloak from '@/components/General/CCloak.vue'
 import { useScreenSize } from '@/stores/ScreenSize'
 import { storeToRefs } from 'pinia'
@@ -60,8 +60,8 @@ export default {
     props: {},
     components: {
         CCloak,
-        UDialogLogin,
-        UDropdownMenu,
+        DialogLogin,
+        DropdownMenu,
         CThemeMode,
         Bottom,
         Menu
