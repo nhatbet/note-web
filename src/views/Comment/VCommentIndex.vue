@@ -54,7 +54,6 @@ const currentPage = ref(1)
 // TODO: check login thi moi cho tao comment
 const authStore = useAuthStore()
 const { profile } = storeToRefs(authStore)
-console.log('authStore', profile.value)
 
 const user = {
     name: profile.value?.name,
