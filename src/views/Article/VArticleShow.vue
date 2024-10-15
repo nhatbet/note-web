@@ -11,7 +11,13 @@
             <CIcon name="comment" class="cursor-pointer" @click="toggleComment()"></CIcon>
         </div>
         <div class="h-full flex items-center">
-            <CIcon name="bookmark" class="cursor-pointer"></CIcon>
+            <CIcon
+                name="bookmark"
+                @click="toggleBookmark(article.id)"
+                :load="loadBookmark"
+                :classes="{ 'color-red': statusBookmark }"
+                class="cursor-pointer"
+            ></CIcon>
             <CIcon name="share" class="cursor-pointer"></CIcon>
         </div>
     </div>
@@ -49,6 +55,8 @@ const route = useRoute()
 const id = route.params.id as string
 const article = ref({} as ArticleShow)
 const visibleComment = ref(false)
+const loadBookmark = ref(false)
+const statusBookmark = ref(false)
 
 const author = ref({} as Author)
 const toggleComment = () => {
@@ -66,7 +74,55 @@ onMounted(async () => {
         .catch((err: any) => {
             console.log(err)
         })
+
+    await Api.save
+        .getByArticle(article.value.id)
+        .then((res: any) => {
+            statusBookmark.value = res.data
+        })
+        .catch((err: any) => {
+            statusBookmark.value = false
+            console.log(err)
+        })
 })
+
+const bookmark = async (id: number) => {
+    loadBookmark.value = true
+    await Api.save
+        .saveArticle(id)
+        .then((res: any) => {
+            statusBookmark.value = true
+        })
+        .catch((err: any) => {
+            console.log(err)
+        })
+        .finally(() => {
+            loadBookmark.value = false
+        })
+}
+
+const unBookmark = async (id: number) => {
+    loadBookmark.value = true
+    await Api.save
+        .unSaveArticle(id)
+        .then((res: any) => {
+            statusBookmark.value = false
+        })
+        .catch((err: any) => {
+            console.log(err)
+        })
+        .finally(() => {
+            loadBookmark.value = false
+        })
+}
+
+const toggleBookmark = async (articleId: number) => {
+    if (statusBookmark.value) {
+        await unBookmark(articleId)
+    } else {
+        await bookmark(articleId)
+    }
+}
 </script>
 
 <style scoped>

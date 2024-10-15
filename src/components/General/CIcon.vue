@@ -1,5 +1,5 @@
 <template>
-  <span v-html="icon"></span>
+  <span v-html="icon" :class="[{disable: disable, load: load}, classes]"></span>
 </template>
 
 <script lang='ts'>
@@ -12,7 +12,19 @@ export default {
     name: {
       type: String,
       default: ''
-    }
+    },
+    disable: {
+      type: Boolean,
+      default: false
+    },
+    load: {
+      type: Boolean,
+      default: false
+    },
+    classes: {
+      type: String,
+      default: ''
+    },
   },
   methods: {},
   setup(props) {
@@ -24,4 +36,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.color-red {
+  color: red;
+}
+.disable {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.load {
+  color: yellow;
+  cursor: wait;
+}
 </style>

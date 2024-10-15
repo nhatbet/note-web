@@ -143,6 +143,7 @@ const closeComment = () => {
     right: 0;
 }
 .form-create {
+    z-index: 1;
     position: sticky;
     top: 0;
     background-color: var(--bg-color-primary);

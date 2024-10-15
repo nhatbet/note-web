@@ -2,6 +2,7 @@ import Article from './repositories/Article'
 import Auth from './repositories/Auth'
 import Comment from './repositories/Comment'
 import DeviceToken from './repositories/DeviceToken'
+import Save from './repositories/Save'
 import Selection from './repositories/Selection'
 import User from './repositories/User'
 
@@ -11,7 +12,8 @@ const Api = {
     user: User(),
     selection: Selection(),
     comment: Comment(),
-    deviceToken: DeviceToken()
+    deviceToken: DeviceToken(),
+    save: Save(),
 }
 
 // Make them available in the app with this.$api
