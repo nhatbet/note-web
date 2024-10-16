@@ -38,27 +38,30 @@ const router = createRouter({
             component: VCommentIndex
         },
         {
-            path: '/home',
+            path: '',
             name: 'VHome',
             component: VHome,
             children: [
                 {
-                    path: '/home/article',
+                    path: '/article',
                     name: 'VArticleIndex',
                     component: VArticleIndex
                 },
                 {
-                    path: '/home/article/create',
+                    path: '/article/create',
                     name: 'VArticleCreate',
-                    component: VArticleCreate
+                    component: VArticleCreate,
+                    meta: {
+                        auth: true
+                    }
                 },
                 {
-                    path: '/home/article/:id',
+                    path: '/article/:id',
                     name: 'VArticleShow',
                     component: VArticleShow
                 },
                 {
-                    path: '/home/article/:id/update',
+                    path: '/article/:id/update',
                     name: 'VArticleEdit',
                     component: VArticleEdit
                 }
@@ -69,11 +72,15 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore()
-    console.log('route first');
     const isAuthenticated = LocalStorageService.isLoggedIn()
-    authStore.setIsAuthenticated(isAuthenticated)
+    authStore.setAuthenticated(isAuthenticated)
     authStore.setProfile(LocalStorageService.getProfile())
-    
+    // Check chưa login không thể thực hiện
+    if (to.meta.auth && !isAuthenticated) {
+        authStore.setShowLoginForm()
+        next(false)
+    }
+        
     // handle router
     // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
     // else next()

@@ -74,13 +74,14 @@ export default {
     },
 
     setup(props) {
-        const visibleLogin = ref(false)
         const visibleMenubar = ref(false)
         const screenSizeStore = useScreenSize()
         const { screenWidth } = storeToRefs(screenSizeStore)
         const { widthIsMaxMD } = screenSizeStore
         const authStore = useAuthStore()
         const { isAuthenticated } = storeToRefs(authStore)
+        const { isShowLoginForm } = storeToRefs(authStore)
+        const visibleLogin = ref(isShowLoginForm)
         const isLoggedIn = computed(() => !!isAuthenticated.value)
         const navbarHeader: any = ref(null)
 

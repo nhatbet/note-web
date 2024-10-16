@@ -142,7 +142,7 @@ export default {
             await Api.auth.logout().finally(() => {
                 LocalStorageService.clearAuthInfo()
                 console.log('logout')
-                this.authStore.setIsAuthenticated(false)
+                this.authStore.setAuthenticated(false)
                 this.authStore.setProfile()
 
                 this.$router.push({ name: 'VHome' })

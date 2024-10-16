@@ -42,6 +42,7 @@ import Api from '@/network/Api'
 import CUserInfo from '@/components/General/CUserInfo.vue'
 import type { UserInfo } from '@/types/TUser'
 import { useRoute } from 'vue-router'
+import { authService } from '@/services/AuthService'
 
 const props = defineProps({
     parentId: {
@@ -65,6 +66,7 @@ const props = defineProps({
         default: false
     }
 })
+const { checkShowLoginForm } = authService()
 const route = useRoute()
 const articleId = route.params.id
 
@@ -86,8 +88,8 @@ const close = () => {
     emit('closeReplyForm')
 }
 const open = () => {
+    checkShowLoginForm()
     visibleInput.value = true
-    // textarea.value.focus()
 }
 const save = async () => {
     await Api.comment

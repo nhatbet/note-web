@@ -13,7 +13,7 @@ const authStore = useAuthStore()
 const { isAuthenticated } = storeToRefs(authStore)
 const toastMessage = ref('')
 onMounted(async () => {
-    if (isAuthenticated) {
+    if (isAuthenticated.value) {
         const token = await getFCMToken()
         if (token) {
             // Gửi token này đến API của Laravel để lưu trữ

@@ -4,6 +4,7 @@ import { defineStore } from 'pinia'
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     isAuthenticated: false,
+    isShowLoginForm: false,
     profile: {} as UserInfo
   }),
 
@@ -12,8 +13,11 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
-    setIsAuthenticated(auth = true) {
+    setAuthenticated(auth = true) {
       this.isAuthenticated = auth
+    },
+    setShowLoginForm(auth = true) {
+      this.isShowLoginForm = auth
     },
     setProfile(profile = {} as UserInfo) {
       this.profile = profile

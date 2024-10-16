@@ -61,12 +61,12 @@ export default {
                 },
                 {
                     label: 'Filter',
-                    icon: 'filter',
-                    classes: 'mb-[6px]'
+                    icon: 'filter'
                 },
                 {
                     label: 'More',
-                    icon: 'vertical-dot'
+                    icon: 'vertical-dot',
+                    classes: 'mb-[6px]'
                     // toRoute: 'VHome'
                 },
                 {

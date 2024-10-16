@@ -153,7 +153,7 @@ export default {
                 .login(payload)
                 .then((res: any) => {
                     LocalStorageService.saveAuthInfo(res.data)
-                    this.authStore.setIsAuthenticated(true)
+                    this.authStore.setAuthenticated(true)
                     this.authStore.setProfile(res.data)
 
                     if (this.loginData.remember) {
