@@ -166,7 +166,7 @@ export default {
     height: 4px;
     width: 100%;
     border-radius: 10px;
-    background: #979797;
+    background-color: #99A0AC;
 }
 
 .nav-container .hamburger-lines .line1 {
@@ -214,6 +214,8 @@ export default {
 .menu-items {
     width: 290px;
     border-right: 1px solid var(--border-color-primary);
+    position: sticky;
+    top: 56px;
 }
 
 .body {

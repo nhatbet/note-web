@@ -25,7 +25,12 @@
                     @clickCButton="close()"
                     :type="4"
                 ></CButton>
-                <CButton text="Save" classes="px-[15px] radius-cycle" @clickCButton="save()"></CButton>
+                <CButton
+                    text="Save"
+                    classes="px-[15px] radius-cycle"
+                    @clickCButton="save()"
+                    :disable="text.length == 0 ? true : false"
+                ></CButton>
             </div>
         </div>
     </div>

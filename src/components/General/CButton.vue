@@ -3,7 +3,7 @@
         class="text-base cursor-pointer transition-all inline-block text-center h-auto"
         :class="[
             classes,
-            disabled ? 'opacity-50 cursor-not-allowed' : '',
+            { disable: disable },
             type === 4
                 ? ''
                 : type === 3
@@ -42,7 +42,7 @@ export default {
             type: String,
             default: '#'
         },
-        disabled: {
+        disable: {
             type: Boolean,
             default: false
         },
@@ -78,5 +78,10 @@ export default {
 
 .radius-cycle {
     border-radius: 99em;
+}
+
+.disable {
+    opacity: 0.3;
+    cursor: not-allowed;
 }
 </style>

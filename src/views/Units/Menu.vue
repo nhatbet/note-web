@@ -1,6 +1,12 @@
 <template>
-    <div class="panel-menu select-none h-[100vh] text-lg">
-        <MenuItem v-for="(item, index) in menuTree" :key="index" :item="item"></MenuItem>
+    <div class="panel-menu select-none text-lg">
+        <MenuItem
+            v-for="(item, index) in menuTree"
+            :key="index"
+            :item="item"
+            :isFirstItem="index == 0"
+            level="1"
+        ></MenuItem>
     </div>
 </template>
 
@@ -33,7 +39,7 @@ export default {
                 return { label: category.label }
             }) as ItemMenu[]
             const itemsTag = selection?.tags?.map((tag: Option) => {
-                return { label: tag.label }
+                return { label: tag.label, icon: 'tag' }
             }) as ItemMenu[]
             menuTree.value = [
                 {
@@ -43,7 +49,7 @@ export default {
                 },
                 {
                     label: 'My Posts',
-                    icon: 'post',
+                    icon: 'user',
                     toRoute: 'VArticleIndex'
                 },
                 {
@@ -52,16 +58,15 @@ export default {
                     toRoute: 'VHome'
                 },
                 {
-                    label: 'Categories',
+                    label: 'CATEGORIES',
                     icon: 'category',
                     children: itemsCategory,
-                    isShowSubItem: true,
+                    isShowSubItem: true
                 },
                 {
-                    label: 'Tags',
-                    icon: 'tag',
+                    label: 'TAGS',
                     children: itemsTag,
-                    isShowSubItem: true,
+                    isShowSubItem: true
                 }
             ]
         })
@@ -70,4 +75,18 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.panel-menu {
+    overflow-y: scroll;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    padding: 1.5rem 1rem 1rem;
+}
+
+@media (max-width: 768px) {
+    .panel-menu {
+        overflow: auto;
+    }
+}
+</style>

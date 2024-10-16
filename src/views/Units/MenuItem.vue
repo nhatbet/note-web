@@ -1,19 +1,31 @@
 <template>
-    <div
-        class="label-item cursor-pointer flex items-center relative"
-        :class="[{ active: isActive(item) }, classes]"
-        @click="handleClick(item)"
-    >
-        <CIcon class="px-2" v-if="item?.icon" :name="item?.icon" />
-        <span>{{ item.label }}</span>
-        <span class="absolute right-[5px]" v-if="canShowAngleIcon(item)">
-            <CIcon name="angle-down" v-if="canShowSubItem(item)" />
-            <CIcon name="angle-right" v-else />
-        </span>
-    </div>
+    <div :class="{ 'border-top py-[6px]': !isFirstItem && level == 1 && hasChildren(item)}">
+        <div
+            class="label-item cursor-pointer flex items-center relative  text-[16px]"
+            :class="[{ active: isActive(item) }, {'!h-[35px]': level != 1}, classes]"
+            @click="handleClick(item)"
+        >
+            <CIcon
+                name="angle-right"
+                v-if="level == 1 && hasChildren(item)"
+                :classes="['inline-block mr-5 cannot-hover', { rotate: isShowSubItem(item) }]"
+            />
+            <CIcon class="mr-5" v-else-if="item?.icon" :name="item?.icon" />
 
-    <div v-show="canShowSubItem(item)">
-        <MenuItem classes="pl-[20px]" v-for="(subItem, index) in item.children" :key="index" :item="subItem"></MenuItem>
+            <span>{{ item.label }}</span>
+            <!-- <span class="absolute right-[5px]" v-if="hasChildren(item)">
+                <CIcon name="angle-right" :classes="['inline-block', {'rotate': isShowSubItem(item)}]" />
+            </span> -->
+        </div>
+
+        <div v-show="isShowSubItem(item)">
+            <MenuItem
+                classes="pl-[20px]"
+                v-for="(subItem, index) in item.children"
+                :key="index"
+                :item="subItem"
+            ></MenuItem>
+        </div>
     </div>
 </template>
 
@@ -30,7 +42,19 @@ const props = defineProps({
     },
     classes: {
         type: String,
-        default: '',
+        default: ''
+    },
+    isLastItem: {
+        type: Boolean,
+        default: false
+    },
+    isFirstItem: {
+        type: Boolean,
+        default: false
+    },
+    level: {
+        type: [String, Number],
+        default: null
     }
 })
 
@@ -38,10 +62,10 @@ const route = useRoute()
 const router = useRouter()
 const currentRouteName = computed(() => route.name)
 
-const canShowSubItem = (item: ItemMenu) => {
+const isShowSubItem = (item: ItemMenu) => {
     return !!(item?.isShowSubItem && item?.children)
 }
-const canShowAngleIcon = (item: ItemMenu) => {
+const hasChildren = (item: ItemMenu) => {
     return !!item?.children
 }
 const isActive = (item: ItemMenu) => {
@@ -60,14 +84,30 @@ const handleClick = (item: ItemMenu) => {
 
 <style lang="scss" scoped>
 .label-item {
-    height: 48px;
+    padding: 0 16px;
+    height: 35px;
 
-    &:hover {
+    &:not(:has(.cannot-hover)):hover {
         background-color: var(--bg-color-second);
     }
 }
 
 .active {
     background-color: var(--bg-color-second);
+    span {
+        font-weight: bold;
+    }
+}
+
+.border-bottom {
+    border-bottom: 1px solid var(--border-color-primary);
+}
+
+.border-top {
+    border-top: 1px solid var(--border-color-primary);
+}
+
+.rotate {
+    transform: rotate(90deg);
 }
 </style>
