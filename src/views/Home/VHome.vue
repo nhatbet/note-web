@@ -2,11 +2,17 @@
     <div class="app" @scroll="onScroll()">
         <nav class="navbar" ref="navbarHeader">
             <div class="container nav-container">
-                <input class="hamburger-checkbox" type="checkbox" v-model="visibleMenubar" />
-                <div class="hamburger-lines">
-                    <span class="line line1"></span>
-                    <span class="line line2"></span>
-                    <span class="line line3"></span>
+                <div class="navbar-left">
+                    <input class="hamburger-checkbox" type="checkbox" v-model="visibleMenubar" />
+                    <div class="hamburger-lines">
+                        <span class="line line1"></span>
+                        <span class="line line2"></span>
+                        <span class="line line3"></span>
+                    </div>
+                    <div class="title flex">
+                        <img src="/logo-icon.png" class="logo mr-5" alt="logo" /> 
+                        <div class="info pl-5 text-lg flex items-center bold">Share Blog</div>
+                    </div>
                 </div>
                 <div class="navbar-right content-center">
                     <div class="flex">
@@ -123,15 +129,21 @@ export default {
     z-index: 10;
 }
 
+.title {
+    margin-left: 80px;
+    .logo {
+        border-radius: 10px;
+        width: 30px;
+    }
+    .info {
+        border-left: 1px solid var(--border-color-primary);
+    }
+}
+
 .nav-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 62px;
-}
-
-.nav-container {
-    display: block;
     position: relative;
     height: 56px;
 }
@@ -166,7 +178,7 @@ export default {
     height: 4px;
     width: 100%;
     border-radius: 10px;
-    background-color: #99A0AC;
+    background-color: #99a0ac;
 }
 
 .nav-container .hamburger-lines .line1 {
@@ -223,7 +235,6 @@ export default {
     margin: 0 auto;
     max-width: 1360px;
     transition: max-width 0.3s ease-in-out;
-    // height: 100vh;
 }
 
 .app:has(input[type='checkbox'].hamburger-checkbox:checked) {

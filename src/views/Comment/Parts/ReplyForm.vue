@@ -81,6 +81,7 @@ const resize = () => {
     textarea.value.style.height = `${textarea.value.scrollHeight}px`
 }
 const close = () => {
+    text.value = ''
     visibleInput.value = false
     emit('closeReplyForm')
 }

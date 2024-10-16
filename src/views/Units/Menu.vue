@@ -6,6 +6,7 @@
             :item="item"
             :isFirstItem="index == 0"
             level="1"
+            :classes="item.classes"
         ></MenuItem>
     </div>
 </template>
@@ -36,16 +37,17 @@ export default {
         onMounted(async () => {
             const selection = await selectionStore.getData()
             const itemsCategory = selection?.categories?.map((category: Option) => {
-                return { label: category.label }
+                return { label: category.label, color: category.meta?.color }
             }) as ItemMenu[]
             const itemsTag = selection?.tags?.map((tag: Option) => {
-                return { label: tag.label, icon: 'tag' }
+                let labelIcon = tag.meta?.icon ? tag.meta?.icon + '-' : ''
+                return { label: labelIcon + tag.label, icon: 'tag' }
             }) as ItemMenu[]
             menuTree.value = [
                 {
-                    label: 'Top',
-                    icon: 'top',
-                    toRoute: 'VArticleCreate'
+                    label: 'Topics',
+                    icon: 'layer-group',
+                    toRoute: 'VHome'
                 },
                 {
                     label: 'My Posts',
@@ -53,9 +55,19 @@ export default {
                     toRoute: 'VArticleIndex'
                 },
                 {
-                    label: 'Home',
-                    icon: 'home',
-                    toRoute: 'VHome'
+                    label: 'Create Post',
+                    icon: 'plus',
+                    toRoute: 'VArticleCreate'
+                },
+                {
+                    label: 'Filter',
+                    icon: 'filter',
+                    classes: 'mb-[6px]'
+                },
+                {
+                    label: 'More',
+                    icon: 'vertical-dot'
+                    // toRoute: 'VHome'
                 },
                 {
                     label: 'CATEGORIES',
@@ -69,6 +81,7 @@ export default {
                     isShowSubItem: true
                 }
             ]
+            console.log('menuTree.value', menuTree.value)
         })
 
         return { menuTree }
@@ -78,15 +91,23 @@ export default {
 <style lang="scss" scoped>
 .panel-menu {
     overflow-y: scroll;
+    overflow-x: hidden;
+    // --scrollbarBg: transparent;
+    // --scrollbarThumbBg: var(--primary-low);
+    // --scrollbarWidth: 0.5em;
+    scrollbar-color: rgba(0, 0, 0, 0) transparent;
+
     position: sticky;
     top: 0;
     height: 100vh;
-    padding: 1.5rem 1rem 1rem;
+    // padding: 1.5rem 2rem 1rem;
+    padding: 2rem 0.5rem 1rem 2rem;
 }
 
 @media (max-width: 768px) {
     .panel-menu {
         overflow: auto;
+        padding: 2rem;
     }
 }
 </style>

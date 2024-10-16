@@ -1,21 +1,30 @@
 <template>
-    <div :class="{ 'border-top py-[6px]': !isFirstItem && level == 1 && hasChildren(item)}">
+    <div :class="{ 'menu-dropdown': !isFirstItem && level == 1 && hasChildren(item) }">
         <div
-            class="label-item cursor-pointer flex items-center relative  text-[16px]"
-            :class="[{ active: isActive(item) }, {'!h-[35px]': level != 1}, classes]"
+            class="label-item cursor-pointer flex items-center text-[16px]"
+            :class="[{ active: isActive(item) }, { '!h-[35px]': level != 1 }, classes]"
             @click="handleClick(item)"
         >
-            <CIcon
-                name="angle-right"
-                v-if="level == 1 && hasChildren(item)"
-                :classes="['inline-block mr-5 cannot-hover', { rotate: isShowSubItem(item) }]"
-            />
-            <CIcon class="mr-5" v-else-if="item?.icon" :name="item?.icon" />
+            <!-- Display icon -->
+            <div class="mr-[15px] flex items-center">
+                <!-- Display for color bg -->
+                <span
+                    class="bg-icon inline-block"
+                    v-if="item?.color"
+                    :style="{ background: item.color }"
+                >
+                </span>
+                <!-- Display for btn right - down -->
+                <CIcon
+                    name="angle-right"
+                    v-else-if="level == 1 && hasChildren(item)"
+                    :classes="['inline-block cannot-hover icon', { rotate: isShowSubItem(item) }]"
+                />
+                <!-- Display for icon from prop -->
+                <CIcon v-else-if="item?.icon" :name="item?.icon" />
+            </div>
 
-            <span>{{ item.label }}</span>
-            <!-- <span class="absolute right-[5px]" v-if="hasChildren(item)">
-                <CIcon name="angle-right" :classes="['inline-block', {'rotate': isShowSubItem(item)}]" />
-            </span> -->
+            <span>{{ item?.meta?.icon }} {{ item.label }}</span>
         </div>
 
         <div v-show="isShowSubItem(item)">
@@ -90,6 +99,14 @@ const handleClick = (item: ItemMenu) => {
     &:not(:has(.cannot-hover)):hover {
         background-color: var(--bg-color-second);
     }
+
+    .icon svg {
+        width: 22px;
+        height: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 .active {
@@ -99,15 +116,18 @@ const handleClick = (item: ItemMenu) => {
     }
 }
 
-.border-bottom {
-    border-bottom: 1px solid var(--border-color-primary);
-}
-
-.border-top {
+.menu-dropdown {
     border-top: 1px solid var(--border-color-primary);
+    padding-top: 6px;
+    padding-bottom: 6px;
 }
 
 .rotate {
     transform: rotate(90deg);
+}
+.bg-icon {
+    border-radius: 1px;
+    width: 13px;
+    height: 13px;
 }
 </style>
