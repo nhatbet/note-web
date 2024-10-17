@@ -9,8 +9,9 @@ export default () => ({
         return BaseApi.setAuth().post('logout')
     },
 
-    loginWithGoogle(data: any) {
+    loginWithProvider(data: any) {
+        // provider
         // access_token
-        return BaseApi.post('login/google', data)
+        return BaseApi.post('login/provider', data)
     }
 })

@@ -48,16 +48,8 @@
                     <span class="h-px w-16 bg-gray-100"></span>
                 </div>
                 <div class="flex justify-center gap-5 w-full">
-                    <CButton
-                        text="Google"
-                        icon="logo-google"
-                        classes="transition ease-in duration-200 hover:border-gray-900 hover:bg-gray-900"
-                        @clickCButton="loginWithGoogle()"
-                    ></CButton>
-                    <CButton
-                        text="Facebook"
-                        classes="transition ease-in duration-200 hover:border-gray-900 hover:bg-gray-900"
-                    ></CButton>
+                    <GoogleSignIn></GoogleSignIn>
+                    <GithubSignIn></GithubSignIn>
                 </div>
             </div>
             <div class="mt-7 text-center text-xs">
@@ -85,7 +77,8 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { useAuthStore } from '@/stores/auth'
 import Api from '@/network/Api'
-import hello from 'hellojs'
+import GoogleSignIn from './GoogleSignIn.vue'
+import GithubSignIn from './GithubSignIn.vue'
 
 const props = defineProps({
     modelValue: {
@@ -93,13 +86,6 @@ const props = defineProps({
         default: false
     }
 })
-
-hello.init(
-    {
-        google: import.meta.env.VITE_GOOGLE_CLIENT_ID
-    },
-    { redirect_uri: import.meta.env.VITE_GOOGLE_REDIRECT_URI }
-)
 
 library.add({ faEye, faEyeSlash })
 const authStore = useAuthStore()
@@ -124,36 +110,6 @@ const loginErrors = ref<AccountError>({
 })
 
 const passwordVisibility = ref(false)
-
-// Hàm xử lý đăng nhập với Google
-const loginWithGoogle = () => {
-    hello('google')
-        .login({ scope: 'email' })
-        .then((auth) => {
-            // Lấy mã access token từ Google
-            const accessToken = auth?.authResponse?.access_token
-
-            // Sau đó, gửi mã access token đến backend API của bạn để xác thực
-            sendTokenToBackend(accessToken)
-        })
-    // .catch((error: any) => {
-    //     console.error('Login Failed:', error)
-    // })
-}
-
-// Hàm gửi access token đến backend Laravel API
-const sendTokenToBackend = async (accessToken: any) => {
-    await Api.auth
-        .loginWithGoogle({ access_token: accessToken })
-        .then((res: any) => {
-            LocalStorageService.saveAuthInfo(res.data)
-            authStore.setAuthenticated(true)
-            authStore.setProfile(res.data)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-}
 
 const login = async (payload: any) => {
     await Api.auth
