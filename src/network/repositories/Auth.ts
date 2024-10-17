@@ -7,5 +7,10 @@ export default () => ({
 
     logout() {
         return BaseApi.setAuth().post('logout')
+    },
+
+    loginWithGoogle(data: any) {
+        // access_token
+        return BaseApi.post('login/google', data)
     }
 })

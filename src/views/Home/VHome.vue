@@ -43,7 +43,7 @@
         </div>
 
         <!-- List Dialog -->
-        <DialogLogin v-model="visibleLogin" />
+        <Login v-model="visibleLogin" />
         <CCloak v-model="visibleMenubar" v-if="widthIsMaxMD()"></CCloak>
         <Bottom></Bottom>
     </div>
@@ -52,7 +52,7 @@
 <script lang="ts">
 import { computed, ref } from 'vue'
 import Menu from '../Units/Menu.vue'
-import DialogLogin from '../Units/DialogLogin.vue'
+import Login from '../Login/Login.vue'
 import DropdownMenu from '../Units/DropdownMenu.vue'
 import CCloak from '@/components/General/CCloak.vue'
 import { useScreenSize } from '@/stores/ScreenSize'
@@ -66,7 +66,7 @@ export default {
     props: {},
     components: {
         CCloak,
-        DialogLogin,
+        Login,
         DropdownMenu,
         CThemeMode,
         Bottom,

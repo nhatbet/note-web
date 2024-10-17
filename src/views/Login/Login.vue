@@ -52,18 +52,14 @@
                         text="Google"
                         icon="logo-google"
                         classes="transition ease-in duration-200 hover:border-gray-900 hover:bg-gray-900"
-                        :href="socialLoginUrls.google"
-                        v-show="socialLoginUrls.google"
+                        @clickCButton="loginWithGoogle()"
                     ></CButton>
                     <CButton
                         text="Facebook"
                         classes="transition ease-in duration-200 hover:border-gray-900 hover:bg-gray-900"
-                        :href="socialLoginUrls.facebook"
-                        v-show="socialLoginUrls.facebook"
                     ></CButton>
                 </div>
             </div>
-            <div @click="loginWithProvider('google')">login with gg</div>
             <div class="mt-7 text-center text-xs">
                 <span>
                     Copyright © 2021-2024
@@ -81,140 +77,106 @@
     </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { computed, ref } from 'vue'
 import type { Account, AccountError } from '@/types/TUser'
 import LocalStorageService from '@/services/LocalStorageService'
-import CookieService from '@/services/CookieService'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { useAuthStore } from '@/stores/auth'
-import BaseApi from '@/network/BaseApi'
 import Api from '@/network/Api'
-import HelloJs from 'hellojs'
+import hello from 'hellojs'
 
-HelloJs.init(
+const props = defineProps({
+    modelValue: {
+        type: Boolean,
+        default: false
+    }
+})
+
+hello.init(
     {
-        google: '652408377462-4m5i90dnr81rla395gkjdlp1uvv7g9la.apps.googleusercontent.com'
+        google: import.meta.env.VITE_GOOGLE_CLIENT_ID
     },
-    { redirect_uri: 'http://localhost:80/api/login/google/callback' }
+    { redirect_uri: import.meta.env.VITE_GOOGLE_REDIRECT_URI }
 )
 
-// hello.on('auth.login', function(auth: any) {
-//   console.log(auth)
+library.add({ faEye, faEyeSlash })
+const authStore = useAuthStore()
+const emit = defineEmits(['update:modelValue'])
 
-// });
-
-export default {
-    name: 'DialogLogin',
-    props: {
-        modelValue: {
-            type: Boolean,
-            default: false
-        }
-    },
-    components: {},
-    setup(props, { emit }) {
-        library.add({ faEye, faEyeSlash })
-        const authStore = useAuthStore()
-        const canShow = computed({
-            get: () => props.modelValue,
-            set: (value) => {
-                emit('update:modelValue', value)
-            }
-        })
-
-        const loginData = ref<Account>({
-            username: '',
-            password: '',
-            remember: false
-        })
-
-        const loginErrors = ref<AccountError>({
-            username: [],
-            password: []
-        })
-
-        const socialLoginUrls = ref({
-            google: null,
-            facebook: null
-        })
-
-        const passwordVisibility = ref(false)
-
-        return { canShow, loginData, socialLoginUrls, loginErrors, passwordVisibility, authStore }
-    },
-    methods: {
-        togglePassword() {
-            this.passwordVisibility = !this.passwordVisibility
-        },
-        login(payload: any) {
-            Api.auth
-                .login(payload)
-                .then((res: any) => {
-                    LocalStorageService.saveAuthInfo(res.data)
-                    this.authStore.setAuthenticated(true)
-                    this.authStore.setProfile(res.data)
-
-                    if (this.loginData.remember) {
-                        CookieService.rememberMe(payload.username, payload.password)
-                    }
-                    this.canShow = false
-                    this.loginErrors = {} as AccountError
-                })
-                .catch((err: any) => {
-                    if (err?.status == 422) {
-                        this.loginErrors = err.data
-                    } else if (err?.status == 401) {
-                        this.loginErrors.password = [err.message]
-                    }
-                    LocalStorageService.clearAuthInfo()
-                })
-        },
-        getUrlsGoogleSignIn() {
-            BaseApi.get('url-sign-in/google')
-                .then((res: any) => {
-                    this.socialLoginUrls.google = res.data.url
-                })
-                .catch((err: any) => {
-                    this.socialLoginUrls.google = null
-                })
-        },
-        setLoginData() {
-            const account = CookieService.getRememberMe()
-            if (account.username) {
-                this.loginData.username = account.username
-            }
-            if (account.password) {
-                this.loginData.password = account.password
-            }
-        },
-        loginWithProvider(network: string) {
-            HelloJs.login(network).then(
-                () => {
-                    console.log('callback')
-
-                    const authRes = HelloJs(network).getAuthResponse()
-                    // BaseApi.get(`login/${this.$route.params.provider}/callback`, {
-                    //     params: {
-                    //         access_token: authRes.access_token,
-                    //         provider: network
-                    //     }
-                    // })
-                    //     .then((res: any) => {
-                    //         LocalStorageService.saveAuthInfo(res.data)
-                    //         this.$router.push({ name: 'VHome' })
-                    //     })
-                    //     .catch((err: any) => {
-                    //         this.$router.push({ name: 'VLogin' })
-                    //     })
-                },
-                (e: any) => {
-                    console.log(e)
-                }
-            )
-        }
+const canShow = computed({
+    get: () => props.modelValue,
+    set: (value) => {
+        emit('update:modelValue', value)
     }
+})
+
+const loginData = ref<Account>({
+    username: '',
+    password: '',
+    remember: false
+})
+
+const loginErrors = ref<AccountError>({
+    username: [],
+    password: []
+})
+
+const passwordVisibility = ref(false)
+
+// Hàm xử lý đăng nhập với Google
+const loginWithGoogle = () => {
+    hello('google')
+        .login({ scope: 'email' })
+        .then((auth) => {
+            // Lấy mã access token từ Google
+            const accessToken = auth?.authResponse?.access_token
+
+            // Sau đó, gửi mã access token đến backend API của bạn để xác thực
+            sendTokenToBackend(accessToken)
+        })
+    // .catch((error: any) => {
+    //     console.error('Login Failed:', error)
+    // })
+}
+
+// Hàm gửi access token đến backend Laravel API
+const sendTokenToBackend = async (accessToken: any) => {
+    await Api.auth
+        .loginWithGoogle({ access_token: accessToken })
+        .then((res: any) => {
+            LocalStorageService.saveAuthInfo(res.data)
+            authStore.setAuthenticated(true)
+            authStore.setProfile(res.data)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+}
+
+const login = async (payload: any) => {
+    await Api.auth
+        .login(payload)
+        .then((res: any) => {
+            LocalStorageService.saveAuthInfo(res.data)
+            authStore.setAuthenticated(true)
+            authStore.setProfile(res.data)
+            canShow.value = false
+            loginErrors.value = {} as AccountError
+        })
+        .catch((err: any) => {
+            if (err?.status == 422) {
+                loginErrors.value = err.data
+            } else if (err?.status == 401) {
+                loginErrors.value.password = [err.message]
+            }
+            LocalStorageService.clearAuthInfo()
+        })
+}
+
+const togglePassword = () => {
+    passwordVisibility.value = !passwordVisibility.value
 }
 </script>
 <style lang="scss" scoped>

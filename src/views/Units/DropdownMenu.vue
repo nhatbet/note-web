@@ -141,7 +141,6 @@ export default {
         async logout() {
             await Api.auth.logout().finally(() => {
                 LocalStorageService.clearAuthInfo()
-                console.log('logout')
                 this.authStore.setAuthenticated(false)
                 this.authStore.setProfile()
 
