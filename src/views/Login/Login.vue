@@ -49,7 +49,7 @@
                 </div>
                 <div class="flex justify-center gap-5 w-full">
                     <GoogleSignIn></GoogleSignIn>
-                    <GithubSignIn></GithubSignIn>
+                    <!-- <GithubSignIn></GithubSignIn> -->
                 </div>
             </div>
             <div class="mt-7 text-center text-xs">
@@ -78,7 +78,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { useAuthStore } from '@/stores/auth'
 import Api from '@/network/Api'
 import GoogleSignIn from './GoogleSignIn.vue'
-import GithubSignIn from './GithubSignIn.vue'
+// import GithubSignIn from './GithubSignIn.vue'
 
 const props = defineProps({
     modelValue: {
