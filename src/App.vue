@@ -1,33 +1,10 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { onMounted } from 'vue'
 import { getFCMToken, messaging } from './firebase'
-import { useAuthStore } from '@/stores/auth'
-import { storeToRefs } from 'pinia'
-import Api from './network/Api'
 import { onMessage } from 'firebase/messaging'
 import { ref } from 'vue'
 import { toast } from 'vue3-toastify'
-
-const authStore = useAuthStore()
-const { isAuthenticated } = storeToRefs(authStore)
 const toastMessage = ref('')
-onMounted(async () => {
-    if (isAuthenticated.value) {
-        const token = await getFCMToken()
-        if (token) {
-            // Gửi token này đến API của Laravel để lưu trữ
-            await Api.deviceToken
-                .store({ token: token })
-                .then((res: any) => {
-                    console.log('save token: ', res)
-                })
-                .catch((err: any) => {
-                    console.log(err)
-                })
-        }
-    }
-})
 
 onMessage(messaging, (payload: any) => {
     console.log('Thông báo nhận được:', payload)

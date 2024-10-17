@@ -3,10 +3,12 @@ import { storeToRefs } from 'pinia'
 import hello from 'hellojs'
 import Api from '@/network/Api'
 import LocalStorageService from './LocalStorageService'
+import { deviceTokenService } from '@/services/DeviceTokenService'
 
 export const authService = () => {
     const authStore = useAuthStore()
     const { isAuthenticated } = storeToRefs(authStore)
+    const { saveFCMToken } = deviceTokenService()
 
     const checkShowLoginForm = () => {
         if (!isAuthenticated.value) {
@@ -34,6 +36,7 @@ export const authService = () => {
                 LocalStorageService.saveAuthInfo(res.data)
                 authStore.setAuthenticated(true)
                 authStore.setProfile(res.data)
+                saveFCMToken()
             })
             .catch((err) => {
                 console.log(err)

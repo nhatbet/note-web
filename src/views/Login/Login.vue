@@ -77,6 +77,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { useAuthStore } from '@/stores/auth'
 import Api from '@/network/Api'
+import { deviceTokenService } from '@/services/DeviceTokenService'
 import GoogleSignIn from './GoogleSignIn.vue'
 // import GithubSignIn from './GithubSignIn.vue'
 
@@ -90,7 +91,7 @@ const props = defineProps({
 library.add({ faEye, faEyeSlash })
 const authStore = useAuthStore()
 const emit = defineEmits(['update:modelValue'])
-
+const { saveFCMToken } = deviceTokenService()
 const canShow = computed({
     get: () => props.modelValue,
     set: (value) => {
@@ -120,6 +121,7 @@ const login = async (payload: any) => {
             authStore.setProfile(res.data)
             canShow.value = false
             loginErrors.value = {} as AccountError
+            saveFCMToken()
         })
         .catch((err: any) => {
             if (err?.status == 422) {
