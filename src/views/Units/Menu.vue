@@ -79,6 +79,13 @@ export default {
                     label: 'TAGS',
                     children: itemsTag,
                     isShowSubItem: true
+                },
+                {
+                    label: 'CHANNELS',
+                    children: [
+                        {label: 'Share Chat', icon: 'chat'}
+                    ],
+                    isShowSubItem: true
                 }
             ]
             console.log('menuTree.value', menuTree.value)
