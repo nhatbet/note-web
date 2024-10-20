@@ -119,12 +119,6 @@ import { useAuthStore } from '@/stores/auth'
 
 export default {
     name: 'CInput',
-    props: {
-        classes: {
-            type: [String, Array],
-            default: ''
-        }
-    },
     components: {
         CCloak
     },

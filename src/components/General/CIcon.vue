@@ -22,7 +22,7 @@ export default {
       default: false
     },
     classes: {
-      type: [String, Array],
+      type: [String],
       default: ''
     },
   },

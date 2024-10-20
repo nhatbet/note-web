@@ -1,17 +1,23 @@
 <template>
     <div class="search-icon">
-        <CIcon name="search" class="cursor-pointer"></CIcon>
-        <div class="search-body text-base" ref="boxRef">
+        <div
+            class="cursor-pointer w-full h-full flex items-center justify-center"
+            @click="openPopup"
+        >
+            <CIcon name="search"></CIcon>
+        </div>
+        <div v-if="showPopup" class="search-body text-base" ref="popup">
             <CInput
                 v-model="text"
                 placeholder="Search"
                 @keyup.enter="submitSearch"
                 classes="mb-2 relative"
+                ref="commonInput"
             >
                 <template v-slot:RIcon>
                     <CIcon
                         name="xmark"
-                        @click.prevent="clearText()"
+                        @click="clearText()"
                         class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 right-1 cursor-pointer"
                     ></CIcon>
                 </template>
@@ -26,6 +32,12 @@
                 >
                     {{ result.title }}
                 </div>
+                <CButton
+                    v-show="showBtnLoadMore"
+                    text="Load more result"
+                    :type="3"
+                    @clickCButton="getMoreResult()"
+                ></CButton>
                 <div v-show="isShowNoResult">No result</div>
             </div>
         </div>
@@ -33,32 +45,59 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onBeforeUnmount, ref, Ref } from 'vue'
+import { onBeforeUnmount, ref, watch, nextTick } from 'vue'
 import Api from '@/network/Api'
 import type { SearchResult } from '@/types/TSearch'
 import { useRouter } from 'vue-router'
+import CInput from '@/components/General/CInput.vue'
 
 const router = useRouter()
+const showPopup = ref(false)
 const text = ref('')
+const isLastPageResult = ref(false)
+const currentPage = ref(1)
 const results = ref([] as SearchResult[])
 const isShowNoResult = ref(false)
 const isShowInstruct = ref(true)
+const showBtnLoadMore = ref(false)
 const clearText = () => {
     text.value = ''
     isShowNoResult.value = false
+    isShowInstruct.value = true
+    results.value = []
+}
+
+const gotoDetail = async (id: number) => {
+    showPopup.value = false
+
+    await router.push({ name: 'VArticleShow', params: { id } })
 }
 
 const submitSearch = async () => {
-    console.log('enter')
     isShowInstruct.value = false
-    await Api.article
-        .index({ title: text.value })
-        .then((res: any) => {
-            console.log('res', res)
-            results.value = res.data.data
+    await getResult()
+}
 
+const getMoreResult = async () => {
+    if (!isLastPageResult.value) {
+        currentPage.value++
+        await getResult()
+    }
+}
+
+const getResult = async () => {
+    await Api.article
+        .index({ title: text.value, page: currentPage.value })
+        .then((res: any) => {
+            results.value = results.value.concat(res.data.data)
+
+            isLastPageResult.value = res.data.last_page === res.data.current_page
+            showBtnLoadMore.value = !isLastPageResult.value
+
+            isShowNoResult.value = false
             if (results.value.length === 0) {
                 isShowNoResult.value = true
+                showBtnLoadMore.value = false
             }
         })
         .catch((err: any) => {
@@ -66,33 +105,41 @@ const submitSearch = async () => {
         })
 }
 
-const gotoDetail = (id: number) => {
-    router.push({ name: 'VArticleShow', params: { id } })
+// Xử lý click ra ngoài thì đống popup, open thì focus input search
+const popup = ref<HTMLElement | null>(null)
+const commonInput = ref<InstanceType<typeof CInput> | null>(null)
+
+const openPopup = (event: MouseEvent) => {
+    event.stopPropagation()
+    showPopup.value = true
+
+    nextTick(() => {
+        commonInput.value?.focusInput()
+    })
 }
 
-const boxRef: Ref<HTMLDivElement | null> = ref(null)
-
-// Hàm xử lý sự kiện click ra ngoài, kiểu Event
 const handleClickOutside = (event: MouseEvent) => {
-    if (boxRef.value && !boxRef.value.contains(event.target as Node)) {
-        console.log('Bạn đã click ra ngoài phần tử')
+    if (popup.value && !popup.value.contains(event.target as Node)) {
+        showPopup.value = false
     }
 }
 
-onMounted(() => {
-    // Lắng nghe sự kiện click khi component được mounted
-    document.addEventListener('click', handleClickOutside)
+watch(showPopup, (newValue) => {
+    if (newValue) {
+        window.addEventListener('click', handleClickOutside)
+    } else {
+        window.removeEventListener('click', handleClickOutside)
+    }
 })
 
 onBeforeUnmount(() => {
-    // Gỡ bỏ sự kiện khi component bị hủy
-    document.removeEventListener('click', handleClickOutside)
+    window.removeEventListener('click', handleClickOutside)
 })
 </script>
 
 <style lang="scss" scoped>
 .search-icon {
-    width: 38px;
+    width: 43px;
     border-radius: 3px;
     display: flex;
     align-items: center;
@@ -104,10 +151,12 @@ onBeforeUnmount(() => {
     }
 
     .search-body {
+        overflow-y: auto;
         position: absolute;
         top: 45px;
-        right: -88px;
+        right: -103px;
         width: 500px;
+        max-height: 700px;
         padding: 16px;
         background-color: var(--bg-color-primary);
         box-shadow: var(--shadow-color-primary) 0px 4px 12px;
@@ -120,6 +169,13 @@ onBeforeUnmount(() => {
                 background-color: var(--bg-color-third);
             }
         }
+    }
+}
+
+@media (max-width: 500px) {
+    .search-body {
+        width: 100vw !important;
+        max-height: 50%;
     }
 }
 </style>

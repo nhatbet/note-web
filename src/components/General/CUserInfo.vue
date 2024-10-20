@@ -30,7 +30,7 @@ const props = defineProps({
         default: ''
     },
     classes: {
-        type: String,
+        type: [String, Array, Object],
         default: ''
     }
 })

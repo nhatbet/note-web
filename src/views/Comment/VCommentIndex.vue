@@ -61,10 +61,12 @@ const user = {
 }
 
 const comments = ref([] as Comment[])
+
 watch(
-    () => props.showComment,
+    () => props.articleId,
     async (newVal, oldVal) => {
-        if (newVal && comments.value.length === 0) {
+        if (newVal) {
+            currentPage.value = 1;
             await getComments()
             await getCommentCount()
         }

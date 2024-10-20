@@ -13,7 +13,7 @@ export default () => ({
         return BaseApi.setAuth().setNotify().put('articles/' + id, data)
     },
 
-    show(id: string) {
+    show(id: number) {
         return BaseApi.get('articles/' + id)
     },
 

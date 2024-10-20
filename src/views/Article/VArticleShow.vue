@@ -1,7 +1,7 @@
 <template>
     <h2 class="title my-5 px-[20px]">{{ article.title }}</h2>
     <CUserInfo
-        classes="author px-[20px] h-[50px]"
+        :classes="'author px-[20px] h-[50px]'"
         :user="author"
         :info="moment(article.created_at).format('dddd, MMMM Do YYYY')"
     ></CUserInfo>
@@ -34,7 +34,7 @@
 import Api from '@/network/Api'
 import { MdPreview } from 'md-editor-v3'
 import type { Themes } from 'md-editor-v3'
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import type { ArticleShow, Author } from '@/types/TArticle'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -52,7 +52,6 @@ const themeMode = computed(() => {
 })
 library.add({ faHeart, faComment, faBookmark, faShare })
 const route = useRoute()
-const id = route.params.id as string
 const article = ref({} as ArticleShow)
 const visibleComment = ref(false)
 const loadBookmark = ref(false)
@@ -65,8 +64,13 @@ const toggleComment = () => {
 }
 
 onMounted(async () => {
+    await getDetailArticle(route.params.id)
+    await getBookmarkStatus(route.params.id)
+})
+
+const getDetailArticle = async (articleId: number) => {
     await Api.article
-        .show(id)
+        .show(articleId)
         .then((res: any) => {
             article.value = res.data as ArticleShow
             author.value = res.data.author
@@ -74,9 +78,11 @@ onMounted(async () => {
         .catch((err: any) => {
             console.log(err)
         })
+}
 
+const getBookmarkStatus = async (articleId: number) => {
     await Api.save
-        .getByArticle(article.value.id)
+        .getByArticle(articleId)
         .then((res: any) => {
             statusBookmark.value = res.data
         })
@@ -84,7 +90,16 @@ onMounted(async () => {
             statusBookmark.value = false
             console.log(err)
         })
-})
+}
+
+// Sử dụng watch để theo dõi sự thay đổi của route.params.id
+watch(
+    () => route.params.id,
+    async (newId) => {
+        await getDetailArticle(newId)
+        await getBookmarkStatus(newId)
+    }
+)
 
 const bookmark = async (id: number) => {
     loadBookmark.value = true

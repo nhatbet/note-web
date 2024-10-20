@@ -10,7 +10,7 @@
                         <span class="line line3"></span>
                     </div>
                     <div class="title flex">
-                        <img src="/logo-icon.png" class="logo mr-5" alt="logo" /> 
+                        <img src="/logo-icon.png" class="logo mr-5" alt="logo" />
                         <div class="info pl-5 text-lg flex items-center bold">Share Blog</div>
                     </div>
                 </div>
