@@ -16,6 +16,7 @@
                 </div>
                 <div class="navbar-right content-center">
                     <div class="flex">
+                        <Search></Search>
                         <CThemeMode classes="mx-5"></CThemeMode>
                         <div v-if="!isLoggedIn">
                             <CButton
@@ -60,6 +61,7 @@ import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 import CThemeMode from '@/components/General/CThemeMode.vue'
 import Bottom from '../Units/Bottom.vue'
+import Search from '../Search/Search.vue'
 
 export default {
     name: 'VHome',
@@ -70,7 +72,8 @@ export default {
         DropdownMenu,
         CThemeMode,
         Bottom,
-        Menu
+        Menu,
+        Search
     },
 
     setup(props) {

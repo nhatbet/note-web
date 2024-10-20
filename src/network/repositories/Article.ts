@@ -1,8 +1,8 @@
 import BaseApi from '@/network/BaseApi'
 
 export default () => ({
-    index() {
-        return BaseApi.get('articles')
+    index(params: any) {
+        return BaseApi.get('articles', params)
     },
 
     store(data: any) {
