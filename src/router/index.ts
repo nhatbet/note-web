@@ -11,6 +11,7 @@ import VArticleEdit from '@/views/Article/VArticleEdit.vue'
 import VCommentIndex from '@/views/Comment/VCommentIndex.vue'
 import PageNotFound from '@/views/PageNotFound.vue'
 import LocalStorageService from '@/services/LocalStorageService'
+import VMyArticle from '@/views/Article/VMyArticle.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,6 +44,15 @@ const router = createRouter({
             component: VHome,
             children: [
                 {
+                    path: '/article/created/by-me',
+                    name: 'VMyArticle',
+                    component: VMyArticle,
+                    meta: {
+                        auth: true,
+                        title: 'Your article'
+                    }
+                },
+                {
                     path: '/article',
                     name: 'VArticleIndex',
                     component: VArticleIndex
@@ -52,6 +62,7 @@ const router = createRouter({
                     name: 'VArticleCreate',
                     component: VArticleCreate,
                     meta: {
+                        title: 'Create your article',
                         auth: true
                     }
                 },
@@ -80,10 +91,7 @@ router.beforeEach((to, from, next) => {
         authStore.setShowLoginForm()
         next(false)
     }
-        
-    // handle router
-    // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
-    // else next()
+
     next()
 })
 

@@ -37,9 +37,10 @@
             <div class="views w-[10%] content-center text-center">3.0k</div>
             <div class="activity w-[10%] content-center text-center">1h</div>
         </div>
+        <div class="text-base text-center py-5" v-show="articles.length == 0">No have</div>
     </div>
     <!-- pagination -->
-    <div class="paginate text-base flex items-center p-5">
+    <div class="paginate text-base flex items-center p-5" v-show="articles.length > 0">
         <ul class="page mx-auto">
             <li class="page__btn" @click="prePage()">
                 <FontAwesomeIcon :icon="['fas', 'angle-left']" />
@@ -118,7 +119,6 @@ export default {
             await BaseApi.get(props.apiSource, { page })
                 .then((res: any) => {
                     articles.value = res.data.data
-                    console.log('articles.value', articles.value)
                     currentPage.value = res.data.current_page
                     lastPage.value = res.data.last_page
                 })
@@ -140,7 +140,6 @@ export default {
             if (newVal !== oldVal) {
                 await getList(newVal)
             }
-            console.log(`Giá trị mới: ${newVal}, Giá trị cũ: ${oldVal}`)
         })
 
         return {

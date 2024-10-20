@@ -47,12 +47,12 @@ export default {
                 {
                     label: 'Topics',
                     icon: 'layer-group',
-                    toRoute: 'VHome'
+                    toRoute: 'VArticleIndex'
                 },
                 {
                     label: 'My Posts',
                     icon: 'user',
-                    toRoute: 'VArticleIndex'
+                    toRoute: 'VMyArticle'
                 },
                 {
                     label: 'Create Post',
