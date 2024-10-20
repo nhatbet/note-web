@@ -1,9 +1,9 @@
 <template>
-    <div :class="{ 'menu-dropdown': !isFirstItem && level == 1 && hasChildren(item) }">
+    <div :class="{ 'menu-dropdown': !isFirstItem && level == 1 && hasChildren(item as ItemMenu) }">
         <div
             class="label-item cursor-pointer flex items-center text-[16px]"
-            :class="[{ active: isActive(item) }, { '!h-[35px]': level != 1 }, classes]"
-            @click="handleClick(item)"
+            :class="[{ active: isActive(item as ItemMenu) }, { '!h-[35px]': level != 1 }, classes]"
+            @click="handleClick(item as ItemMenu)"
         >
             <!-- Display icon -->
             <div class="mr-[15px] flex items-center">
@@ -17,8 +17,8 @@
                 <!-- Display for btn right - down -->
                 <CIcon
                     name="angle-right"
-                    v-else-if="level == 1 && hasChildren(item)"
-                    :classes="['inline-block cannot-hover icon', { rotate: isShowSubItem(item) }]"
+                    v-else-if="level == 1 && hasChildren(item as ItemMenu)"
+                    :classes="['inline-block cannot-hover icon', { rotate: isShowSubItem(item as ItemMenu) }]"
                 />
                 <!-- Display for icon from prop -->
                 <CIcon v-else-if="item?.icon" :name="item?.icon" />
@@ -27,7 +27,7 @@
             <span>{{ item?.meta?.icon }} {{ item.label }}</span>
         </div>
 
-        <div v-show="isShowSubItem(item)">
+        <div v-show="isShowSubItem(item as ItemMenu)">
             <MenuItem
                 classes="pl-[20px]"
                 v-for="(subItem, index) in item.children"
@@ -50,7 +50,7 @@ const props = defineProps({
         default: {} as ItemMenu
     },
     classes: {
-        type: String,
+        type: [String, Object],
         default: ''
     },
     isLastItem: {

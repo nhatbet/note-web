@@ -88,7 +88,6 @@ export default {
                     isShowSubItem: true
                 }
             ]
-            console.log('menuTree.value', menuTree.value)
         })
 
         return { menuTree }

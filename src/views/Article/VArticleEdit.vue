@@ -50,7 +50,7 @@ export default {
 
         onMounted(async () => {
             selection.value = await selectionStore.getData()
-            await Api.article.show(id)
+            await Api.article.show(id as any)
                 .then((res: any) => {
                     article.value = res.data as ArticleShow
                     console.log('ArticleShow', article.value);

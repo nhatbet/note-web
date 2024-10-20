@@ -49,7 +49,7 @@ const props = defineProps({
         default: false
     },
     classes: {
-        type: String,
+        type: [String, Array, Object],
         default: ''
     }
 })

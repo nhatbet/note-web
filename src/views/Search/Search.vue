@@ -34,7 +34,7 @@
                 </div>
                 <CButton
                     v-show="showBtnLoadMore"
-                    text="Load more result"
+                    text="More..."
                     :type="3"
                     @clickCButton="getMoreResult()"
                 ></CButton>
@@ -146,9 +146,9 @@ onBeforeUnmount(() => {
     justify-content: center;
     transition: all 0.3s ease-in-out;
     position: relative;
-    &:hover {
-        background-color: var(--border-color-primary);
-    }
+    // &:hover {
+    //     background-color: var(--border-color-primary);
+    // }
 
     .search-body {
         overflow-y: auto;

@@ -64,8 +64,8 @@ const toggleComment = () => {
 }
 
 onMounted(async () => {
-    await getDetailArticle(route.params.id)
-    await getBookmarkStatus(route.params.id)
+    await getDetailArticle(route.params.id as any)
+    await getBookmarkStatus(route.params.id as any)
 })
 
 const getDetailArticle = async (articleId: number) => {
@@ -96,8 +96,8 @@ const getBookmarkStatus = async (articleId: number) => {
 watch(
     () => route.params.id,
     async (newId) => {
-        await getDetailArticle(newId)
-        await getBookmarkStatus(newId)
+        await getDetailArticle(newId as any)
+        await getBookmarkStatus(newId as any)
     }
 )
 
