@@ -18,7 +18,7 @@
                 :classes="{ 'color-red': statusBookmark }"
                 class="cursor-pointer"
             ></CIcon>
-            <CIcon name="share" class="cursor-pointer"></CIcon>
+            <Share></Share>
         </div>
     </div>
 
@@ -44,6 +44,7 @@ import CUserInfo from '@/components/General/CUserInfo.vue'
 import moment from 'moment'
 import { useThemeStore } from '@/stores/theme'
 import { storeToRefs } from 'pinia'
+import Share from '@/components/Parts/Share.vue'
 
 const themeStore = useThemeStore()
 const { activeTheme } = storeToRefs(themeStore)
@@ -140,7 +141,7 @@ const toggleBookmark = async (articleId: number) => {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .title {
     font-size: 40px;
     font-weight: bold;
