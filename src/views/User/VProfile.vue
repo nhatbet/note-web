@@ -10,9 +10,8 @@
                 <img v-if="profile.avatar" :src="profile.avatar" alt="" />
             </div>
             <div>change img
-                <ImageUploader @upload="handleUpload"></ImageUploader>
+                <ImageUploader collection="avatar" @upload="handleUpload"></ImageUploader>
             </div>
-            <CButton icon="pen" :type="2"></CButton>
         </div>
         <div>
             <div class="label">Email</div>
@@ -22,11 +21,10 @@
             <div class="label">Name</div>
             <div>{{ profile.name }}</div>
         </div>
-        <CButton text="Save Change" classes="px-[15px]" @clickCButton="close()" :type="1"></CButton>
+        <CButton text="Save Change" classes="px-[15px]" :type="1"></CButton>
         <CButton
             text="Delete My Account"
             classes="px-[15px]"
-            @clickCButton="close()"
             :type="2"
         ></CButton>
     </div>

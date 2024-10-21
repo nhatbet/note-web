@@ -1,26 +1,33 @@
 <template>
-    <div class="container">
-        <h2>Upload and Crop Image</h2>
+    <CIcon name="pen" class="cursor-pointer" @click="openPopup"></CIcon>
+    <PopupCommon ref="popup">
+        <div class="container">
+            <h2>Upload and Crop Image</h2>
+            <div class="upload-container" v-if="!imageUrl">
+                <input type="file" @change="onFileChange" accept="image/*" />
+                <span>Click or drop image to here!</span>
+            </div>
 
-        <div class="upload-container" v-if="!imageUrl">
-            <input type="file" @change="onFileChange" accept="image/*" />
-            <span>Click or drop image to here!</span>
-        </div>
+            <div class="img mx-auto" v-if="imageUrl">
+                <img ref="image" class="crop-img" :src="imageUrl" alt="Image for Cropping" />
+            </div>
 
-        <div class="img mx-auto" v-if="imageUrl">
-            <img ref="image" class="crop-img" :src="imageUrl" alt="Image for Cropping" />
+            <div class="flex justify-between mt-[20px]" v-if="imageUrl">
+                <CButton
+                    text="Save"
+                    classes="px-[15px] h-[30px] btn"
+                    @clickCButton="saveImg()"
+                    :type="1"
+                ></CButton>
+                <CButton
+                    text="Clear"
+                    classes="px-[15px] btn"
+                    @clickCButton="clear"
+                    :type="2"
+                ></CButton>
+            </div>
         </div>
-
-        <div class="flex justify-between mt-[20px]" v-if="imageUrl">
-            <CButton
-                text="Save"
-                classes="px-[15px] h-[30px] btn"
-                @clickCButton="cropImage()"
-                :type="1"
-            ></CButton>
-            <CButton text="Clear" classes="px-[15px] btn" @clickCButton="clear" :type="2"></CButton>
-        </div>
-    </div>
+    </PopupCommon>
 </template>
 
 <script setup lang="ts">
@@ -29,7 +36,20 @@ import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
 import CButton from './CButton.vue'
 import Api from '@/network/Api'
+import PopupCommon from '@/components/Parts/PopupCommon.vue'
+import { toast } from 'vue3-toastify'
 
+const props = defineProps({
+    collection: {
+        type: String,
+        default: ''
+    }
+})
+
+const popup = ref<InstanceType<typeof PopupCommon> | null>(null)
+const openPopup = (event: any) => {
+    popup.value?.showPopup(event) // Gọi phương thức showPopup từ CommonPopup
+}
 const imageUrl = ref<string | null>(null)
 const cropper = ref<Cropper | null>(null)
 const croppedImage = ref<string | null>(null)
@@ -57,12 +77,12 @@ const onFileChange = (event: Event) => {
             })
         }
     } else {
-        alert('Please select a valid image file.')
+        toast.error('Please select a valid image file.')
         imageUrl.value = null
     }
 }
 
-const cropImage = async () => {
+const saveImg = async () => {
     if (cropper.value) {
         const canvas = cropper.value.getCroppedCanvas()
         croppedImage.value = canvas.toDataURL('image/png')
@@ -73,13 +93,15 @@ const cropImage = async () => {
 
     const file = new File([blob], 'avatar.png', { type: 'image/png' })
     await Api.user
-        .upload('avatar', file)
+        .upload(props.collection, file)
         .then((res: any) => {
-            // console.log('res', res)
             emit('upload', res.data.original_url)
+            popup.value?.hidePopup()
+            clear()
         })
         .catch((err: any) => {
             console.log(err)
+            toast.error(err)
         })
 }
 
