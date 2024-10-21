@@ -39,7 +39,7 @@
                 </div>
                 <CButton
                     text="Sign in"
-                    classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold"
+                    classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold w-full h-[40px] flex items-center justify-center"
                     @clickCButton="login(loginData)"
                 ></CButton>
                 <div class="flex items-center justify-center space-x-2 my-5">
@@ -48,29 +48,31 @@
                     <span class="h-px w-16 bg-gray-100"></span>
                 </div>
                 <div class="flex justify-center gap-5 w-full">
-                    <GoogleSignIn></GoogleSignIn>
+                    <GoogleSignIn
+                        class="w-full h-[40px] flex items-center justify-center"
+                    ></GoogleSignIn>
                     <!-- <GithubSignIn></GithubSignIn> -->
                 </div>
             </div>
             <div class="mt-7 text-center text-xs">
                 <span>
                     Copyright © 2021-2024
-                    <a
+                    <!-- <a
                         href="https://codepen.io/uidesignhub"
                         rel=""
                         target="_blank"
                         title="Codepen aji"
                         class="text-purple-500 hover:text-purple-600"
                         >AJI</a
-                    ></span
-                >
+                    > -->
+                </span>
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { Account, AccountError } from '@/types/TUser'
 import LocalStorageService from '@/services/LocalStorageService'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
@@ -79,6 +81,7 @@ import { useAuthStore } from '@/stores/auth'
 import Api from '@/network/Api'
 import { deviceTokenService } from '@/services/DeviceTokenService'
 import GoogleSignIn from './GoogleSignIn.vue'
+import { storeToRefs } from 'pinia'
 // import GithubSignIn from './GithubSignIn.vue'
 
 const props = defineProps({
@@ -90,12 +93,19 @@ const props = defineProps({
 
 library.add({ faEye, faEyeSlash })
 const authStore = useAuthStore()
+const { isAuthenticated } = storeToRefs(authStore)
 const emit = defineEmits(['update:modelValue'])
 const { saveFCMToken } = deviceTokenService()
 const canShow = computed({
     get: () => props.modelValue,
     set: (value) => {
         emit('update:modelValue', value)
+    }
+})
+
+watch(isAuthenticated, (newVal, oldVal) => {
+    if (newVal) {
+        canShow.value = false
     }
 })
 
