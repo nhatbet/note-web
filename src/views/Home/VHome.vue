@@ -297,4 +297,10 @@ export default {
         box-shadow: 0px 0 30px -2px var(--shadow-color-primary);
     }
 }
+
+@media (max-width: 400px) {
+    .info {
+        display: none;
+    }
+}
 </style>

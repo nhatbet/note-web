@@ -1,6 +1,6 @@
 <template>
     <a
-        class="text-base cursor-pointer transition-all inline-block text-center h-auto"
+        class="text-base cursor-pointer transition-all inline-block text-center h-full"
         :class="[
             classes,
             { disable: disable },

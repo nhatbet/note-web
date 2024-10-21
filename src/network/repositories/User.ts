@@ -1,7 +1,7 @@
 import BaseApi from '@/network/BaseApi'
 
 export default () => ({
-    upload(collection: string, file: File) {
+    upload(collection: string, file: any) {
         return BaseApi.setAuth().post('upload', { collection: collection, file: file })
     },
 

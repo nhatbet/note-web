@@ -2,29 +2,24 @@
     <div class="container">
         <h2>Upload and Crop Image</h2>
 
-        <!-- Input để chọn ảnh -->
-        <div class="upload-container">
+        <div class="upload-container" v-if="!imageUrl">
             <input type="file" @change="onFileChange" accept="image/*" />
+            <span>Click or drop image to here!</span>
         </div>
 
-        <!-- Hiển thị ảnh gốc để crop -->
-        <div v-if="imageUrl" class="crop-container">
-            <img ref="image" :src="imageUrl" alt="Image for Cropping" class="image-to-crop" />
+        <div class="img mx-auto" v-if="imageUrl">
+            <img ref="image" class="crop-img" :src="imageUrl" alt="Image for Cropping" />
         </div>
 
-        <!-- Nút crop ảnh -->
-        <button v-if="cropper" @click="cropImage" class="btn">Crop Image</button>
-
-        <!-- Hiển thị ảnh đã crop -->
-        <div v-if="croppedImage" class="preview-container">
-            <h3>Cropped Image Preview:</h3>
-            <img :src="croppedImage" alt="Cropped Image" class="cropped-preview" />
+        <div class="flex justify-between mt-[20px]" v-if="imageUrl">
+            <CButton
+                text="Save"
+                classes="px-[15px] h-[30px] btn"
+                @clickCButton="cropImage()"
+                :type="1"
+            ></CButton>
+            <CButton text="Clear" classes="px-[15px] btn" @clickCButton="clear" :type="2"></CButton>
         </div>
-
-        <!-- Nút submit ảnh -->
-        <button v-if="croppedImage" @click="submitImage" class="btn submit-btn">
-            Submit Cropped Image
-        </button>
     </div>
 </template>
 
@@ -32,10 +27,13 @@
 import { ref, nextTick } from 'vue'
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
+import CButton from './CButton.vue'
+import Api from '@/network/Api'
 
 const imageUrl = ref<string | null>(null)
 const cropper = ref<Cropper | null>(null)
 const croppedImage = ref<string | null>(null)
+const emit = defineEmits(['upload'])
 
 const onFileChange = (event: Event) => {
     const file = (event.target as HTMLInputElement).files?.[0]
@@ -51,7 +49,7 @@ const onFileChange = (event: Event) => {
                 if (cropper.value) {
                     cropper.value.destroy()
                 }
-                const imageElement = document.querySelector('img') as HTMLImageElement
+                const imageElement = document.querySelector('.crop-img') as HTMLImageElement
                 cropper.value = new Cropper(imageElement, {
                     aspectRatio: 1,
                     viewMode: 1
@@ -64,32 +62,31 @@ const onFileChange = (event: Event) => {
     }
 }
 
-const cropImage = () => {
+const cropImage = async () => {
     if (cropper.value) {
         const canvas = cropper.value.getCroppedCanvas()
         croppedImage.value = canvas.toDataURL('image/png')
     }
-}
 
-const submitImage = () => {
     if (!croppedImage.value) return
-
     const blob = dataURLtoBlob(croppedImage.value)
 
-    const formData = new FormData()
-    formData.append('image', blob, 'cropped-image.png')
+    const file = new File([blob], 'avatar.png', { type: 'image/png' })
+    await Api.user
+        .upload('avatar', file)
+        .then((res: any) => {
+            // console.log('res', res)
+            emit('upload', res.data.original_url)
+        })
+        .catch((err: any) => {
+            console.log(err)
+        })
+}
 
-    fetch('/upload-endpoint', {
-        method: 'POST',
-        body: formData
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            alert('Image uploaded successfully!')
-        })
-        .catch((error) => {
-            console.error('Error uploading image:', error)
-        })
+const clear = () => {
+    imageUrl.value = null
+    cropper.value = null
+    croppedImage.value = null
 }
 
 const dataURLtoBlob = (dataurl: string) => {
@@ -105,16 +102,37 @@ const dataURLtoBlob = (dataurl: string) => {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .container {
-    max-width: 600px;
+    max-width: 500px;
     margin: 0 auto;
     text-align: center;
+    background-color: var(--bg-color-primary);
+    box-shadow: var(--shadow-color-primary) 0px 2px 8px;
+    padding: 20px;
 }
 
 .upload-container {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    border: 2px dashed var(--border-color-primary);
+    border-radius: 3px;
+    height: 200px;
+    position: relative;
+
+    input {
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        background-color: transparent;
+    }
+
+    span {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }
 
 h2 {
@@ -122,13 +140,11 @@ h2 {
     color: #2c3e50;
     font-size: 24px;
     margin-bottom: 20px;
+    text-align: left;
 }
 
 .crop-container {
     margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border: 2px dashed #3498db;
     padding: 10px;
     border-radius: 10px;
@@ -140,42 +156,16 @@ h2 {
     max-height: 400px;
     border-radius: 10px;
 }
-
-button {
-    margin-top: 20px;
-    padding: 12px 24px;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-    background-color: #3498db;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.cropper-bg {
+    background: none !important;
+    background-image: none !important;
 }
 
-button:hover {
-    background-color: #2980b9;
-}
-
-.preview-container {
-    margin-top: 30px;
-    text-align: center;
-}
-
-.cropped-preview {
-    max-width: 300px;
-    margin-top: 10px;
-    border: 2px solid #2ecc71;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.submit-btn {
-    background-color: #2ecc71;
-}
-
-.submit-btn:hover {
-    background-color: #27ae60;
+.btn {
+    border-radius: 3px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>

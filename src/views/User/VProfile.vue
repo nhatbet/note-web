@@ -9,7 +9,9 @@
             <div class="avatar">
                 <img v-if="profile.avatar" :src="profile.avatar" alt="" />
             </div>
-            <div>change img</div>
+            <div>change img
+                <ImageUploader @upload="handleUpload"></ImageUploader>
+            </div>
             <CButton icon="pen" :type="2"></CButton>
         </div>
         <div>
@@ -34,11 +36,15 @@
 import CButton from '@/components/General/CButton.vue'
 import { useAuthStore } from '@/stores/auth'
 import { storeToRefs } from 'pinia'
+import ImageUploader from '@/components/General/ImageUploader.vue';
+
 
 const authStore = useAuthStore()
 const { profile } = storeToRefs(authStore)
-console.log('profile', profile.value.avatar);
 
+const handleUpload = (url: string) => {
+    profile.value.avatar = url
+}
 </script>
 
 <style lang="scss" scoped>
