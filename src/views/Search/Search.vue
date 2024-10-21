@@ -64,6 +64,7 @@ const clearText = () => {
     text.value = ''
     isShowNoResult.value = false
     isShowInstruct.value = true
+    showBtnLoadMore.value = false
     results.value = []
 }
 

@@ -69,6 +69,9 @@ const shareToLinkedIn = () => {
 <style lang="scss" scoped>
 .btn-share {
     position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
     .popup-content {
         position: absolute;
         top: 100%;

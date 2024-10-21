@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import VAuthCallback from '../views/Auth/VAuthCallback.vue'
 import VHome from '../views/Home/VHome.vue'
 import TestView from '../views/TestView.vue'
 import VArticleIndex from '@/views/Article/VArticleIndex.vue'
@@ -12,6 +11,12 @@ import VCommentIndex from '@/views/Comment/VCommentIndex.vue'
 import PageNotFound from '@/views/PageNotFound.vue'
 import LocalStorageService from '@/services/LocalStorageService'
 import VMyArticle from '@/views/Article/VMyArticle.vue'
+import TabBarMenu from '@/views/User/TabBarMenu.vue'
+import VProfile from '@/views/User/VProfile.vue'
+import VNotification from '@/views/User/VNotification.vue'
+import VSetting from '@/views/User/VSetting.vue'
+import VSummary from '@/views/User/VSummary.vue'
+import VActivity from '@/views/User/VActivity.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,11 +32,6 @@ const router = createRouter({
             path: '/test',
             name: 'test',
             component: TestView
-        },
-        {
-            path: '/login/:provider/callback',
-            name: 'VAuthCallback',
-            component: VAuthCallback
         },
         {
             path: '/comments',
@@ -75,6 +75,42 @@ const router = createRouter({
                     path: '/article/:id/update',
                     name: 'VArticleEdit',
                     component: VArticleEdit
+                },
+                {
+                    path: '/user',
+                    name: 'VUser',
+                    component: TabBarMenu,
+                    meta: {
+                        auth: true,
+                        title: 'Your article'
+                    },
+                    children: [
+                        {
+                            path: '/user/summary',
+                            name: 'VSummary',
+                            component: VSummary
+                        },
+                        {
+                            path: '/user/profile',
+                            name: 'VProfile',
+                            component: VProfile
+                        },
+                        {
+                            path: '/user/notification',
+                            name: 'VNotification',
+                            component: VNotification
+                        },
+                        {
+                            path: '/user/setting',
+                            name: 'VSetting',
+                            component: VSetting
+                        },
+                        {
+                            path: '/user/activity',
+                            name: 'VActivity',
+                            component: VActivity
+                        }
+                    ]
                 }
             ]
         }

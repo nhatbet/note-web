@@ -48,4 +48,7 @@ export default {
   color: yellow;
   cursor: wait;
 }
+span {
+  color: var(--text-color-fourth);
+}
 </style>

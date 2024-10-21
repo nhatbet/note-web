@@ -15,7 +15,7 @@
             <li class="menu-icon h-[43px] content-center text-center">
                 <div class="relative h-full content-center">
                     <div class="text-base cursor-pointer relative">
-                        <FontAwesomeIcon :icon="['fas', 'bell']" />
+                        <FontAwesomeIcon class="icon" :icon="['fas', 'bell']" />
                         <span
                             class="badge absolute w-[15px] h-[15px] top-[0px] right-[3px] rounded-full bg-lime-300 text-xs content-center"
                             >1
@@ -33,7 +33,7 @@
             <li class="menu-icon h-[43px] content-center text-center">
                 <div class="relative h-full content-center">
                     <span class="text-base cursor-pointer">
-                        <FontAwesomeIcon :icon="['fas', 'reply']"
+                        <FontAwesomeIcon class="icon" :icon="['fas', 'reply']"
                     /></span>
                     <input
                         type="radio"
@@ -46,7 +46,7 @@
             <li class="menu-icon h-[43px] content-center text-center">
                 <div class="relative h-full content-center">
                     <span class="text-zinc-400 text-base cursor-pointer"
-                        ><FontAwesomeIcon :icon="['fas', 'bookmark']"
+                        ><FontAwesomeIcon class="" :icon="['fas', 'bookmark']"
                     /></span>
                     <input
                         type="radio"
@@ -59,7 +59,7 @@
             <li class="menu-icon h-[43px] content-center text-center">
                 <div class="relative h-full content-center">
                     <span class="text-zinc-400 text-base cursor-pointer"
-                        ><FontAwesomeIcon :icon="['fas', 'comment']"
+                        ><FontAwesomeIcon class="" :icon="['fas', 'comment']"
                     /></span>
                     <input
                         type="radio"
@@ -72,7 +72,7 @@
             <li class="menu-icon h-[43px] content-center text-center">
                 <div class="relative h-full content-center">
                     <span class="text-zinc-400 text-base cursor-pointer"
-                        ><FontAwesomeIcon :icon="['fas', 'user']"
+                        ><FontAwesomeIcon class="" :icon="['fas', 'user']"
                     /></span>
                     <input
                         type="radio"
@@ -83,13 +83,13 @@
                 <div class="dropdown-content absolute top-[-1px] text-base right-full p-5 hidden">
                     <div class="account-item">
                         <span class="text-zinc-400 text-base cursor-pointer">
-                            <FontAwesomeIcon :icon="['fas', 'user']" />
+                            <FontAwesomeIcon class="icon" :icon="['fas', 'user']" />
                         </span>
                         Summary
                     </div>
                     <div class="account-item" @click="logout()">
                         <span class="text-zinc-400 text-base cursor-pointer">
-                            <FontAwesomeIcon :icon="['fas', 'right-from-bracket']" />
+                            <FontAwesomeIcon class="icon" :icon="['fas', 'right-from-bracket']" />
                         </span>
                         Log Out
                     </div>
@@ -221,5 +221,11 @@ export default {
         display: inline-block;
         width: 20px;
     }
+}
+
+.icon {
+    color: #99A0AC;
+    width: 16px;
+    height: 16px;
 }
 </style>

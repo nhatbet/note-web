@@ -64,6 +64,11 @@ export default {
                     icon: 'filter'
                 },
                 {
+                    label: 'User',
+                    icon: 'user',
+                    toRoute: 'VUser'
+                },
+                {
                     label: 'More',
                     icon: 'vertical-dot',
                     classes: 'mb-[6px]'
