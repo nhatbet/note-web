@@ -87,7 +87,7 @@ const getMoreResult = async () => {
 
 const getResult = async () => {
     await Api.article
-        .index({ title: text.value, page: currentPage.value })
+        .index({ title: text.value, page: currentPage.value, per_page: 5 })
         .then((res: any) => {
             results.value = results.value.concat(res.data.data)
 
