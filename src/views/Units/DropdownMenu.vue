@@ -4,11 +4,7 @@
         :class="{ active: isShowMenu }"
         @click="isShowMenu = !isShowMenu"
     >
-        <img
-            src="https://picsum.photos/300/300"
-            class="w-[30px] h-[30px] m-auto rounded-full"
-            alt="avatar"
-        />
+        <img :src="profile.avatar" class="w-[30px] h-[30px] m-auto rounded-full" alt="avatar" />
     </div>
     <div class="dropdown-menu w-[43px]" :class="{ 'hidden-dropdown-menu': !isShowMenu }">
         <ul class="pt-2 relative">
@@ -100,7 +96,7 @@
     <CCloak v-model="isShowMenu"></CCloak>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
     faUser,
@@ -116,32 +112,24 @@ import CCloak from '@/components/General/CCloak.vue'
 import Api from '@/network/Api'
 import LocalStorageService from '@/services/LocalStorageService'
 import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
 
-export default {
-    name: 'CInput',
-    components: {
-        CCloak
-    },
-    setup(props, { emit }) {
-        library.add({ faUser, faBell, faBookmark, faReply, faComment, faRightFromBracket })
-        const authStore = useAuthStore()
-        const isShowMenu = ref(false)
-        const { width, height } = useWindowSize()
+library.add({ faUser, faBell, faBookmark, faReply, faComment, faRightFromBracket })
+const isShowMenu = ref(false)
+const router = useRouter()
+const { width, height } = useWindowSize()
+const authStore = useAuthStore()
+const { profile } = storeToRefs(authStore)
 
-        return { isShowMenu, width, authStore }
-    },
+const logout = async () => {
+    await Api.auth.logout().finally(() => {
+        LocalStorageService.clearAuthInfo()
+        authStore.setAuthenticated(false)
+        authStore.setProfile()
 
-    methods: {
-        async logout() {
-            await Api.auth.logout().finally(() => {
-                LocalStorageService.clearAuthInfo()
-                this.authStore.setAuthenticated(false)
-                this.authStore.setProfile()
-
-                this.$router.push({ name: 'VHome' })
-            })
-        }
-    }
+        router.push({ name: 'VHome' })
+    })
 }
 </script>
 
@@ -224,7 +212,7 @@ export default {
 }
 
 .icon {
-    color: #99A0AC;
+    color: #99a0ac;
     width: 16px;
     height: 16px;
 }

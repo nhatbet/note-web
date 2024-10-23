@@ -5,6 +5,10 @@ class LocalStorageService {
         localStorage.setItem('user', JSON.stringify(response.user))
     }
 
+    public saveUser(user: any): void {
+        localStorage.setItem('user', JSON.stringify(user))
+    }
+
     public clearAuthInfo(): void {
         localStorage.removeItem('access_token')
         localStorage.removeItem('refresh_token')

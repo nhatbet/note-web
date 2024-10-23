@@ -1,5 +1,5 @@
 <template>
-    <CIcon name="pen" class="cursor-pointer" @click="openPopup"></CIcon>
+    <CIcon name="pen" :class="classes" class="cursor-pointer" @click="openPopup"></CIcon>
     <PopupCommon ref="popup">
         <div class="container">
             <h2>Upload and Crop Image</h2>
@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, type PropType } from 'vue'
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
 import CButton from './CButton.vue'
@@ -43,6 +43,14 @@ const props = defineProps({
     collection: {
         type: String,
         default: ''
+    },
+    classes: {
+        type: [String, Array, Object],
+        default: ''
+    },
+    aspectRatio: {
+        type: Number as PropType<number>,
+        default: 1 / 1
     }
 })
 
@@ -71,7 +79,7 @@ const onFileChange = (event: Event) => {
                 }
                 const imageElement = document.querySelector('.crop-img') as HTMLImageElement
                 cropper.value = new Cropper(imageElement, {
-                    aspectRatio: 1,
+                    aspectRatio: props.aspectRatio, // Tỷ lệ crop vd 1:2, rộng 1 - cao 2
                     viewMode: 1
                 })
             })
@@ -132,6 +140,10 @@ const dataURLtoBlob = (dataurl: string) => {
     background-color: var(--bg-color-primary);
     box-shadow: var(--shadow-color-primary) 0px 2px 8px;
     padding: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .upload-container {
@@ -178,10 +190,6 @@ h2 {
     max-height: 400px;
     border-radius: 10px;
 }
-.cropper-bg {
-    background: none !important;
-    background-image: none !important;
-}
 
 .btn {
     border-radius: 3px;
@@ -189,5 +197,9 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.bg-second {
+    background-color: var(--bg-color-second);
 }
 </style>
