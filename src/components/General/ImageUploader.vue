@@ -4,7 +4,15 @@
         <div class="container">
             <h2>Upload and Crop Image</h2>
             <div class="upload-container" v-if="!imageUrl">
-                <input type="file" @change="onFileChange" accept="image/*" />
+                <input
+                    type="file"
+                    @change="onFileChange"
+                    accept="image/*"
+                    :class="{ dragging: isDragging }"
+                    @dragenter="onDragEnter"
+                    @dragleave="onDragLeave"
+                    @dragover.prevent
+                />
                 <span>Click or drop image to here!</span>
             </div>
 
@@ -62,6 +70,15 @@ const imageUrl = ref<string | null>(null)
 const cropper = ref<Cropper | null>(null)
 const croppedImage = ref<string | null>(null)
 const emit = defineEmits(['upload'])
+const isDragging = ref(false)
+
+const onDragEnter = () => {
+    isDragging.value = true
+}
+
+const onDragLeave = () => {
+    isDragging.value = false
+}
 
 const onFileChange = (event: Event) => {
     const file = (event.target as HTMLInputElement).files?.[0]
@@ -117,6 +134,7 @@ const clear = () => {
     imageUrl.value = null
     cropper.value = null
     croppedImage.value = null
+    isDragging.value = false
 }
 
 const dataURLtoBlob = (dataurl: string) => {
@@ -145,6 +163,9 @@ const dataURLtoBlob = (dataurl: string) => {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.upload-container:has(.dragging) {
+    border-color: var(--text-color-second);
+}
 
 .upload-container {
     border: 2px dashed var(--border-color-primary);
@@ -156,6 +177,9 @@ const dataURLtoBlob = (dataurl: string) => {
         cursor: pointer;
         width: 100%;
         height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
         opacity: 0;
         background-color: transparent;
     }
@@ -163,8 +187,10 @@ const dataURLtoBlob = (dataurl: string) => {
     span {
         cursor: pointer;
         position: absolute;
+        z-index: 0;
         top: 50%;
         left: 50%;
+        pointer-events: none;
         transform: translate(-50%, -50%);
     }
 }
