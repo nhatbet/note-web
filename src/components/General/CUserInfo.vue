@@ -2,7 +2,7 @@
     <div class="comment__head flex justify-between mb-[15px]" :class="classes">
         <div class="info flex text-base items-center">
             <img
-                src="https://picsum.photos/300/300"
+                :src="user.avatar"
                 class="w-auto h-full mr-5 rounded-full"
                 alt="avatar"
             />

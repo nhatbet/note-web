@@ -26,7 +26,7 @@
                             ></CButton>
                         </div>
                         <div class="navbar-avatar" v-else>
-                            <DropdownMenu classes="dropdown"></DropdownMenu>
+                            <DropdownMenu></DropdownMenu>
                         </div>
                     </div>
                 </div>

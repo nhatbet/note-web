@@ -24,7 +24,7 @@
 
     <MdPreview editorId="show-article" :modelValue="article.content" :theme="themeMode" />
     <VCommentIndex
-        :articleId="article.id"
+        :articleId="articleId"
         :showComment="visibleComment"
         @closeComment="visibleComment = false"
     ></VCommentIndex>
@@ -46,6 +46,9 @@ import { useThemeStore } from '@/stores/theme'
 import { storeToRefs } from 'pinia'
 import Share from '@/components/Parts/Share.vue'
 
+const articleId = computed(() => {
+    return Number(route.params.id)
+})
 const themeStore = useThemeStore()
 const { activeTheme } = storeToRefs(themeStore)
 const themeMode = computed(() => {
@@ -65,8 +68,8 @@ const toggleComment = () => {
 }
 
 onMounted(async () => {
-    await getDetailArticle(route.params.id as any)
-    await getBookmarkStatus(route.params.id as any)
+    await getDetailArticle(articleId.value)
+    await getBookmarkStatus(articleId.value)
 })
 
 const getDetailArticle = async (articleId: number) => {
