@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { ref, computed } from 'vue'
 import Api from '@/network/Api'
 import CUserInfo from '@/components/General/CUserInfo.vue'
 import type { UserInfo } from '@/types/TUser'
@@ -68,17 +68,9 @@ const props = defineProps({
 })
 const { checkShowLoginForm } = authService()
 const route = useRoute()
-const articleId = ref(null)
-
-watch(
-    () => route.params.id,
-    async (newVal, oldVal) => {
-        if (newVal !== oldVal) {
-            articleId.value = newVal as any
-        }
-    }
-)
-
+const articleId = computed(() => {
+    return route.params.id
+})
 const emit = defineEmits(['closeReplyForm', 'createCommentSuccess'])
 const textarea: any = ref(null)
 const text = ref('')
