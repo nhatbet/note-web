@@ -1,11 +1,7 @@
 <template>
     <div class="comment__head flex justify-between mb-[15px]" :class="classes">
         <div class="info flex text-base items-center">
-            <img
-                :src="user.avatar"
-                class="w-auto h-full mr-5 rounded-full"
-                alt="avatar"
-            />
+            <CAvatar :src="user.avatar" :name="user.name" classes="!w-[50px] h-[50px] mr-5"></CAvatar>
             <div>
                 <p class="">{{ user.name }}</p>
                 <p class="">{{ info }}</p>
@@ -19,6 +15,7 @@
 
 <script lang="ts" setup>
 import type { UserInfo } from '@/types/TUser'
+import CAvatar from '@/components/General/CAvatar.vue'
 
 const props = defineProps({
     user: {
@@ -36,4 +33,5 @@ const props = defineProps({
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

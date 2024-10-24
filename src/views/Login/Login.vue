@@ -128,7 +128,7 @@ const login = async (payload: any) => {
         .then((res: any) => {
             LocalStorageService.saveAuthInfo(res.data)
             authStore.setAuthenticated(true)
-            authStore.setProfile(res.data)
+            authStore.setProfile(res.data.user)
             canShow.value = false
             loginErrors.value = {} as AccountError
             saveFCMToken()

@@ -4,7 +4,7 @@
         :class="{ active: isShowMenu }"
         @click="isShowMenu = !isShowMenu"
     >
-        <img :src="profile.avatar" class="w-[30px] h-[30px] m-auto rounded-full" alt="avatar" />
+        <CAvatar :src="profile.avatar" :name="profile.name" classes="w-[30px] h-[30px]"></CAvatar>
     </div>
     <div class="dropdown-menu w-[43px]" :class="{ 'hidden-dropdown-menu': !isShowMenu }">
         <ul class="pt-2 relative">
@@ -114,6 +114,7 @@ import LocalStorageService from '@/services/LocalStorageService'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
+import CAvatar from '@/components/General/CAvatar.vue'
 
 library.add({ faUser, faBell, faBookmark, faReply, faComment, faRightFromBracket })
 const isShowMenu = ref(false)

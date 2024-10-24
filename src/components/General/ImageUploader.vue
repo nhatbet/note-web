@@ -79,7 +79,7 @@ const onFileChange = (event: Event) => {
                 }
                 const imageElement = document.querySelector('.crop-img') as HTMLImageElement
                 cropper.value = new Cropper(imageElement, {
-                    aspectRatio: props.aspectRatio, // Tỷ lệ crop vd 1:2, rộng 1 - cao 2
+                    aspectRatio: props.aspectRatio, // Tỷ lệ crop vd 1/2, rộng 1 - cao 2
                     viewMode: 1
                 })
             })
