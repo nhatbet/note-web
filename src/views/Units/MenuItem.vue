@@ -18,7 +18,10 @@
                 <CIcon
                     name="angle-right"
                     v-else-if="level == 1 && hasChildren(item as ItemMenu)"
-                    :classes="['inline-block cannot-hover icon', { rotate: isShowSubItem(item as ItemMenu) }]"
+                    :classes="[
+                        'inline-block cannot-hover icon',
+                        { rotate: isShowSubItem(item as ItemMenu) }
+                    ]"
                 />
                 <!-- Display for icon from prop -->
                 <CIcon v-else-if="item?.icon" :name="item?.icon" />
@@ -69,7 +72,9 @@ const props = defineProps({
 
 const route = useRoute()
 const router = useRouter()
-const currentRouteName = computed(() => route.name)
+const routeName = computed(() => {
+    return route.query.name
+})
 
 const isShowSubItem = (item: ItemMenu) => {
     return !!(item?.isShowSubItem && item?.children)
@@ -78,11 +83,14 @@ const hasChildren = (item: ItemMenu) => {
     return !!item?.children
 }
 const isActive = (item: ItemMenu) => {
-    return currentRouteName.value == item.toRoute
+    if (item.toRoute?.query?.name) {
+        return routeName.value === item.toRoute?.query?.name
+    }
+    return false
 }
 const handleClick = (item: ItemMenu) => {
     if (item?.toRoute) {
-        router.push({ name: item.toRoute })
+        router.push(item.toRoute)
     } else if (item.isShowSubItem) {
         item.isShowSubItem = !item.isShowSubItem
     } else {

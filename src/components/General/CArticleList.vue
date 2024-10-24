@@ -40,7 +40,10 @@
         <div class="text-base text-center py-5" v-show="articles.length == 0">No have</div>
     </div>
     <!-- pagination -->
-    <div class="paginate text-base flex items-center p-5" v-show="articles.length > 0">
+    <div
+        class="paginate text-base flex items-center p-5"
+        v-show="articles.length > 0 && lastPage !== 1"
+    >
         <ul class="page mx-auto">
             <li class="page__btn" @click="prePage()">
                 <FontAwesomeIcon :icon="['fas', 'angle-left']" />
@@ -61,15 +64,15 @@
     </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
-import Api from '@/network/Api'
 import { useSelectionStore } from '@/stores/selection'
 import type { SelectionType } from '@/types/TSelect'
 import { onMounted, ref, watch } from 'vue'
 import BaseApi from '@/network/BaseApi'
 import { useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 interface TArticle {
     id: number
@@ -81,83 +84,88 @@ interface TArticle {
     comments: []
 }
 
-export default {
-    name: 'VArticleList',
-    props: {
-        apiSource: {
-            type: String,
-            default: '',
-            required: true
-        }
-    },
-    setup(props) {
-        const router = useRouter()
-        library.add({ faAngleLeft, faAngleRight })
-        const items = ref(10)
-        const articles = ref([] as TArticle[])
-        const selectionStore = useSelectionStore()
-        const selection = ref<SelectionType>()
-        const category = ref()
-        const tag = ref()
-        const currentPage = ref()
-        const lastPage = ref()
+const props = defineProps({
+    apiSource: {
+        type: String,
+        default: '',
+        required: true
+    }
+})
 
-        const updateCurrentPage = (value: number) => {
-            currentPage.value = value
-        }
-        const nextPage = () => {
-            if (currentPage.value !== lastPage.value) {
-                currentPage.value++
-            }
-        }
-        const prePage = () => {
-            if (currentPage.value !== 1) {
-                currentPage.value--
-            }
-        }
-        const getList = async (page = 1) =>
-            await BaseApi.get(props.apiSource, { page })
-                .then((res: any) => {
-                    articles.value = res.data.data
-                    currentPage.value = res.data.current_page
-                    lastPage.value = res.data.last_page
-                })
-                .catch((err: any) => {
-                    console.log(err)
-                })
+library.add({ faAngleLeft, faAngleRight })
+const route = useRoute()
+const params = ref({} as any)
+const router = useRouter()
+const articles = ref([] as TArticle[])
+const selectionStore = useSelectionStore()
+const selection = ref<SelectionType>()
+const category = ref()
+const tag = ref()
+const currentPage = ref()
+const lastPage = ref()
 
-        const gotoDetail = (id: any) => {
-            router.push({ name: 'VArticleShow', params: { id } })
-        }
-        const onScroll = () => {}
-
-        onMounted(async () => {
-            selection.value = await selectionStore.getData()
-            await getList()
-        })
-
-        watch(currentPage, async (newVal, oldVal) => {
-            if (newVal !== oldVal) {
-                await getList(newVal)
-            }
-        })
-
-        return {
-            items,
-            articles,
-            selection,
-            category,
-            tag,
-            currentPage,
-            lastPage,
-            updateCurrentPage,
-            gotoDetail,
-            onScroll,
-            nextPage,
-            prePage
-        }
+const updateCurrentPage = (value: number) => {
+    currentPage.value = value
+}
+const nextPage = () => {
+    if (currentPage.value !== lastPage.value) {
+        currentPage.value++
     }
 }
+const prePage = () => {
+    if (currentPage.value !== 1) {
+        currentPage.value--
+    }
+}
+const getList = async (page = 1) =>
+    await BaseApi.get(props.apiSource, {
+        page,
+        ...params.value
+    })
+        .then((res: any) => {
+            articles.value = res.data.data
+            currentPage.value = res.data.current_page
+            lastPage.value = res.data.last_page
+        })
+        .catch((err: any) => {
+            console.log(err)
+        })
+
+const gotoDetail = (id: any) => {
+    router.push({ name: 'VArticleShow', params: { id } })
+}
+const onScroll = () => {}
+
+onMounted(async () => {
+    selection.value = await selectionStore.getData()
+    await getList()
+})
+
+watch(currentPage, async (newVal, oldVal) => {
+    if (newVal !== oldVal) {
+        await getList(newVal)
+    }
+})
+
+watch(
+    () => route.query, // Theo dõi object query
+    async (newQuery, oldQuery) => {
+        const categoriesId = newQuery.categories_id
+        params.value.categories_id = categoriesId
+        if (typeof categoriesId === 'string') {
+            params.value.categories_id = [categoriesId]
+        }
+
+        const tagsId = newQuery.tags_id
+        params.value.tags_id = tagsId
+        if (typeof tagsId === 'string') {
+            params.value.tags_id = [tagsId]
+        }
+
+        await getList()
+    },
+    { immediate: true } // Kích hoạt ngay khi component được mount
+)
 </script>
 
 <style lang="scss" scoped>

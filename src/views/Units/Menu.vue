@@ -37,27 +37,62 @@ export default {
         onMounted(async () => {
             const selection = await selectionStore.getData()
             const itemsCategory = selection?.categories?.map((category: Option) => {
-                return { label: category.label, color: category.meta?.color }
+                return {
+                    label: category.label,
+                    color: category.meta?.color,
+                    toRoute: {
+                        name: 'VArticleIndex',
+                        query: {
+                            categories_id: [category.value],
+                            name: 'article_category_' + category.value
+                        }
+                    }
+                }
             }) as ItemMenu[]
             const itemsTag = selection?.tags?.map((tag: Option) => {
                 let labelIcon = tag.meta?.icon ? tag.meta?.icon + '-' : ''
-                return { label: labelIcon + tag.label, icon: 'tag' }
+                return {
+                    label: labelIcon + tag.label,
+                    icon: 'tag',
+                    toRoute: {
+                        name: 'VArticleIndex',
+                        query: {
+                            tags_id: [tag.value],
+                            name: 'article_tag_' + tag.value
+                        }
+                    }
+                }
             }) as ItemMenu[]
             menuTree.value = [
                 {
                     label: 'Topics',
                     icon: 'layer-group',
-                    toRoute: 'VArticleIndex'
+                    toRoute: {
+                        name: 'VArticleIndex',
+                        query: {
+                            name: 'VArticleIndex'
+                        }
+                    }
                 },
                 {
                     label: 'My Posts',
                     icon: 'user',
-                    toRoute: 'VMyArticle'
+                    toRoute: {
+                        name: 'VMyArticle',
+                        query: {
+                            name: 'VMyArticle'
+                        }
+                    }
                 },
                 {
                     label: 'Create Post',
                     icon: 'plus',
-                    toRoute: 'VArticleCreate'
+                    toRoute: {
+                        name: 'VArticleCreate',
+                        query: {
+                            name: 'VArticleCreate'
+                        }
+                    }
                 },
                 {
                     label: 'Filter',
@@ -66,7 +101,12 @@ export default {
                 {
                     label: 'User',
                     icon: 'user',
-                    toRoute: 'VUser'
+                    toRoute: {
+                        name: 'VUser',
+                        query: {
+                            name: 'VUser'
+                        }
+                    }
                 },
                 {
                     label: 'More',
@@ -87,9 +127,7 @@ export default {
                 },
                 {
                     label: 'CHANNELS',
-                    children: [
-                        {label: 'Share Chat', icon: 'chat'}
-                    ],
+                    children: [{ label: 'Share Chat', icon: 'chat' }],
                     isShowSubItem: true
                 }
             ]
