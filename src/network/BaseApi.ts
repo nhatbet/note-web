@@ -6,7 +6,7 @@ import { toast } from "vue3-toastify";
 class BaseApi {
     public baseURL: string = import.meta.env.VITE_HOST + '/api'
     public method: any = null;
-    public timeout: number = 7000;
+    public timeout: number = 10000; // 10s
     public headers: any = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -14,7 +14,7 @@ class BaseApi {
     }
     public params: object | null = null;
     public data: any = null;
-    public url: any = null
+    public url: any = null;
     public notify: boolean = false;
 
     setHeader(headers: object) {
@@ -41,7 +41,8 @@ class BaseApi {
         return this;
     }
 
-    post(url: string, data: any = null) {
+    // Thêm onUploadProgress vào đây
+    post(url: string, data: any = null, onUploadProgress: (progressEvent: any) => void = () => {}) {
         this.headers['Content-Type'] = 'multipart/form-data';
         this.url = url;
         this.method = 'post';
@@ -49,7 +50,7 @@ class BaseApi {
             this.data = data;
         }
 
-        return this.execute();
+        return this.execute(onUploadProgress);
     }
 
     get(url: string, params: any = null) {
@@ -80,7 +81,8 @@ class BaseApi {
         return this.execute();
     }
 
-    execute() {
+    // Thay đổi hàm execute để nhận thêm onUploadProgress
+    execute(onUploadProgress: (progressEvent: any) => void = () => {}) {
         return new Promise(
             (resolve, reject) => {
                 axios({
@@ -90,7 +92,8 @@ class BaseApi {
                     timeout: this.timeout,
                     headers: this.headers,
                     params: this.params,
-                    data: this.data
+                    data: this.data,
+                    onUploadProgress // Thêm onUploadProgress vào đây
                 }).then(async response => {
                     const data = response.data as ResponseType
                     const status = data?.status
@@ -111,7 +114,7 @@ class BaseApi {
                             if (this.notify) {
                                 toast.error(message)
                             }
-                        // code block
+                            // code block
                     }
 
                     reject(data);

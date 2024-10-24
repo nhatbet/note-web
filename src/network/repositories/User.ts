@@ -1,8 +1,8 @@
 import BaseApi from '@/network/BaseApi'
 
 export default () => ({
-    upload(collection: string, file: any) {
-        return BaseApi.setAuth().post('upload', { collection: collection, file: file })
+    upload(collection: string, file: any, onUploadProgress: (progressEvent: any) => void) {
+        return BaseApi.setAuth().post('upload', { collection: collection, file: file }, onUploadProgress);
     },
 
     getProfile() {

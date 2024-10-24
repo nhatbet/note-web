@@ -18,6 +18,11 @@
 
             <div class="img mx-auto" v-if="imageUrl">
                 <img ref="image" class="crop-img" :src="imageUrl" alt="Image for Cropping" />
+
+                <div class="progress-bar-container mt-5">
+                    <div class="progress-bar" :style="{ width: progress + '%' }"></div>
+                </div>
+                <p>{{ progress }}%</p>
             </div>
 
             <div class="flex justify-between mt-[20px]" v-if="imageUrl">
@@ -62,6 +67,7 @@ const props = defineProps({
     }
 })
 
+const progress = ref(0)
 const popup = ref<InstanceType<typeof PopupCommon> | null>(null)
 const openPopup = (event: any) => {
     popup.value?.showPopup(event) // Gọi phương thức showPopup từ CommonPopup
@@ -118,7 +124,10 @@ const saveImg = async () => {
 
     const file = new File([blob], 'avatar.png', { type: 'image/png' })
     await Api.user
-        .upload(props.collection, file)
+        .upload(props.collection, file, (progressEvent) => {
+            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            progress.value = percentCompleted
+        })
         .then((res: any) => {
             emit('upload', res.data.original_url)
             popup.value?.hidePopup()
@@ -135,6 +144,7 @@ const clear = () => {
     cropper.value = null
     croppedImage.value = null
     isDragging.value = false
+    progress.value = 0
 }
 
 const dataURLtoBlob = (dataurl: string) => {
@@ -227,5 +237,21 @@ h2 {
 
 .bg-second {
     background-color: var(--bg-color-second);
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 30px;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #4caf50; /* Màu xanh lá cây */
+    width: 0%; /* Bắt đầu với chiều rộng là 0 */
+    transition: width 0.4s ease;
 }
 </style>
