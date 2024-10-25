@@ -24,7 +24,7 @@
 
     <MdPreview editorId="show-article" :modelValue="article.content" :theme="themeMode" />
     <VCommentIndex
-        :articleId="articleId"
+        :articleId="article.id"
         :showComment="visibleComment"
         @closeComment="visibleComment = false"
     ></VCommentIndex>
