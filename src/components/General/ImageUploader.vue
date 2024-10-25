@@ -129,9 +129,12 @@ const saveImg = async () => {
             progress.value = percentCompleted
         })
         .then((res: any) => {
-            emit('upload', res.data.original_url)
-            popup.value?.hidePopup()
-            clear()
+            // cho delay 0.7s vì trường hợp load nhanh quá ko nhìn được thanh progress
+            setTimeout(() => {
+                emit('upload', res.data.original_url)
+                popup.value?.hidePopup()
+                clear()
+            }, 700)
         })
         .catch((err: any) => {
             console.log(err)
