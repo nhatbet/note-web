@@ -241,16 +241,16 @@ h2 {
 
 .progress-bar-container {
     width: 100%;
-    height: 30px;
+    height: 5px;
     background-color: #f3f3f3;
-    border-radius: 5px;
+    border-radius: 10px;
     overflow: hidden;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color-primary);
 }
 
 .progress-bar {
     height: 100%;
-    background-color: #4caf50; /* Màu xanh lá cây */
+    background-color: #3787ff; /* Màu xanh lá cây */
     width: 0%; /* Bắt đầu với chiều rộng là 0 */
     transition: width 0.4s ease;
 }
