@@ -9,7 +9,7 @@
                         <span class="line line2"></span>
                         <span class="line line3"></span>
                     </div>
-                    <div class="title flex">
+                    <div class="title flex cursor-pointer" @click="gotoHome">
                         <img src="/logo-icon.png" class="logo mr-5" alt="logo" />
                         <div class="info pl-5 text-lg flex items-center bold">Share Blog</div>
                     </div>
@@ -50,7 +50,7 @@
     </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { computed, ref } from 'vue'
 import Menu from '../Units/Menu.vue'
 import Login from '../Login/Login.vue'
@@ -62,52 +62,28 @@ import { useAuthStore } from '@/stores/auth'
 import CThemeMode from '@/components/General/CThemeMode.vue'
 import Bottom from '../Units/Bottom.vue'
 import Search from '../Search/Search.vue'
+import { useRouter } from 'vue-router'
 
-export default {
-    name: 'VHome',
-    props: {},
-    components: {
-        CCloak,
-        Login,
-        DropdownMenu,
-        CThemeMode,
-        Bottom,
-        Menu,
-        Search
-    },
+const router = useRouter()
+const visibleMenubar = ref(false)
+const screenSizeStore = useScreenSize()
+const { screenWidth } = storeToRefs(screenSizeStore)
+const { widthIsMaxMD } = screenSizeStore
+const authStore = useAuthStore()
+const { isAuthenticated } = storeToRefs(authStore)
+const { isShowLoginForm } = storeToRefs(authStore)
+const visibleLogin = ref(isShowLoginForm)
+const isLoggedIn = computed(() => !!isAuthenticated.value)
+const navbarHeader: any = ref(null)
 
-    setup(props) {
-        const visibleMenubar = ref(false)
-        const screenSizeStore = useScreenSize()
-        const { screenWidth } = storeToRefs(screenSizeStore)
-        const { widthIsMaxMD } = screenSizeStore
-        const authStore = useAuthStore()
-        const { isAuthenticated } = storeToRefs(authStore)
-        const { isShowLoginForm } = storeToRefs(authStore)
-        const visibleLogin = ref(isShowLoginForm)
-        const isLoggedIn = computed(() => !!isAuthenticated.value)
-        const navbarHeader: any = ref(null)
+const onScroll = () => {
+    var height = navbarHeader.value.scrollHeight
+    if (height > 100) height = 100
+    navbarHeader.value.style.transform = `translateY(${-height}px)`
+}
 
-        return {
-            visibleLogin,
-            visibleMenubar,
-            screenWidth,
-            screenSizeStore,
-            widthIsMaxMD,
-            isLoggedIn,
-            navbarHeader
-        }
-    },
-
-    methods: {
-        onScroll() {
-            var height = this.navbarHeader.value.scrollHeight
-            if (height > 100) height = 100
-            this.navbarHeader.value.style.transform = `translateY(${-height}px)`
-        }
-    },
-
-    watch: {}
+const gotoHome = () => {
+    router.push({ name: 'VHome' })
 }
 </script>
 

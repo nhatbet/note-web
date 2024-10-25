@@ -25,8 +25,8 @@ const props = defineProps({
         required: false
     },
     name: {
-        type: String,
-        required: true
+        type: [String],
+        required: false
     },
     classes: {
         type: [String, Array],
@@ -35,7 +35,10 @@ const props = defineProps({
 })
 
 const firstLetterOfName = computed(() => {
-    return props.name.charAt(0).toUpperCase()
+    if (props.name) {
+        return props.name.charAt(0).toUpperCase()
+    }
+    return ''
 })
 
 // Hàm đơn giản để tạo màu từ chữ cái đầu tiên

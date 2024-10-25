@@ -31,11 +31,11 @@ import { storeToRefs } from 'pinia'
 import moment from 'moment'
 
 const tabs = [
-    { name: 'VSummary', label: 'Summary', icon: 'summary' },
     { name: 'VProfile', label: 'Profile', icon: 'user' },
+    { name: 'VSummary', label: 'Summary', icon: 'summary' },
     { name: 'VNotification', label: 'Notifications', icon: 'bell' },
+    { name: 'VActivity', label: 'Activity', icon: 'hourglass' },
     { name: 'VSetting', label: 'Settings', icon: 'setting' },
-    { name: 'VActivity', label: 'Activity', icon: 'hourglass' }
 ]
 
 const authStore = useAuthStore()

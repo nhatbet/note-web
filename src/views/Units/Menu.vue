@@ -102,9 +102,9 @@ export default {
                     label: 'User',
                     icon: 'user',
                     toRoute: {
-                        name: 'VUser',
+                        name: 'VProfile',
                         query: {
-                            name: 'VUser'
+                            name: 'VProfile'
                         }
                     }
                 },
