@@ -65,7 +65,7 @@ import Search from '../Search/Search.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const visibleMenubar = ref(false)
+const visibleMenubar = ref(true)
 const screenSizeStore = useScreenSize()
 const { screenWidth } = storeToRefs(screenSizeStore)
 const { widthIsMaxMD } = screenSizeStore

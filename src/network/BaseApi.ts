@@ -106,7 +106,7 @@ class BaseApi {
                             }
                             break
                         case 401:
-                            LocalStorageService.clearAuthInfo()
+                            // LocalStorageService.clearAuthInfo()
                         case 403:
                         //TODO: handle permission
 
