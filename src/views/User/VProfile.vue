@@ -7,7 +7,7 @@
         <div class="pb-[20px]">
             <div class="label pb-[10px]">Profile Picture</div>
             <div class="relative w-[100px]">
-                <CAvatar v-if="profile.avatar" :src="profile.avatar" :name="profile.name" classes="w-[100px] h-[100px] mr-[30px]"></CAvatar>
+                <CAvatar :src="profile.avatar" :name="profile.name" classes="w-[100px] h-[100px] mr-[30px]"></CAvatar>
                 <ImageUploader
                     classes="bg-second rounded absolute top-[72%] left-[75%] w-[25px] h-[25px] flex items-center justify-center"
                     collection="avatar"
