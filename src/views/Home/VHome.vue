@@ -17,6 +17,7 @@
                 <div class="navbar-right content-center">
                     <div class="flex">
                         <Search></Search>
+                        <Bell></Bell>
                         <CThemeMode classes="mx-5"></CThemeMode>
                         <div v-if="!isLoggedIn">
                             <CButton
@@ -63,6 +64,7 @@ import CThemeMode from '@/components/General/CThemeMode.vue'
 import Bottom from '../Units/Bottom.vue'
 import Search from '../Search/Search.vue'
 import { useRouter } from 'vue-router'
+import Bell from '../Bell/Bell.vue'
 
 const router = useRouter()
 const visibleMenubar = ref(true)
@@ -75,6 +77,10 @@ const { isShowLoginForm } = storeToRefs(authStore)
 const visibleLogin = ref(isShowLoginForm)
 const isLoggedIn = computed(() => !!isAuthenticated.value)
 const navbarHeader: any = ref(null)
+
+if (screenWidth.value < 768) {
+    visibleMenubar.value = false
+}
 
 const onScroll = () => {
     var height = navbarHeader.value.scrollHeight

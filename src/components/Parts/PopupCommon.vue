@@ -8,13 +8,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
+import eventBus from '@/utils/eventBus'
 
 const isVisible = ref(false) // Trạng thái hiển thị popup
 const popup = ref<HTMLElement | null>(null)
+const popupId = Symbol()
 
 const showPopup = (event: MouseEvent) => {
     event.stopPropagation()
+    eventBus.currentPopupId = popupId
     isVisible.value = true
 }
 
@@ -39,6 +42,16 @@ onMounted(() => {
 onBeforeUnmount(() => {
     window.removeEventListener('click', handleClickOutside)
 })
+
+// Lắng nghe sự thay đổi từ event bus để đóng popup khi có popup khác mở
+watch(
+    () => eventBus.currentPopupId,
+    (newPopupId) => {
+        if (newPopupId !== popupId) {
+            hidePopup()
+        }
+    }
+)
 
 // Phơi bày các phương thức để component cha có thể sử dụng
 defineExpose({
