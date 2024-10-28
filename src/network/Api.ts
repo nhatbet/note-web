@@ -5,6 +5,7 @@ import DeviceToken from './repositories/DeviceToken'
 import Save from './repositories/Save'
 import Selection from './repositories/Selection'
 import User from './repositories/User'
+import Notification from './repositories/Notification'
 
 const Api = {
     auth: Auth(),
@@ -14,6 +15,7 @@ const Api = {
     comment: Comment(),
     deviceToken: DeviceToken(),
     save: Save(),
+    notification: Notification(),
 }
 
 // Make them available in the app with this.$api
