@@ -23,7 +23,12 @@
                         <div class="body-notice">{{ getContentNotice(notice.body) }}</div>
                     </div>
                 </div>
-                <div class="text-center cursor-pointer p-2" @click="gotoListNotification">View Detail</div>
+                <div
+                    class="text-center cursor-pointer p-2 border-top view-detail"
+                    @click="gotoListNotification"
+                >
+                    View Detail
+                </div>
             </div>
         </PopupCommon>
     </div>
@@ -38,14 +43,17 @@ import { useRouter } from 'vue-router'
 const notifications = ref([])
 const isLoading = ref(false)
 const router = useRouter()
+const currentPage = ref(0)
+const isLastPage = ref(false)
 
-onMounted(async () => {
+const getNotification = async () => {
     isLoading.value = true
     await Api.notification
-        .index({})
+        .index({ page: currentPage.value + 1 })
         .then((res: any) => {
-            console.log('rr', res.data)
-            notifications.value = res.data.data
+            isLastPage.value = res.data.last_page === res.data.current_page
+            currentPage.value = res.data.current_page
+            notifications.value = notifications.value.concat(res.data.data)
         })
         .catch((err: any) => {
             console.log(err)
@@ -53,6 +61,11 @@ onMounted(async () => {
         .finally(() => {
             isLoading.value = false
         })
+}
+
+onMounted(async () => {
+    isLoading.value = true
+    await getNotification()
 })
 
 const getContentNotice = (text: string) => {
@@ -62,10 +75,8 @@ const getContentNotice = (text: string) => {
 const onScroll = (event: Event) => {
     const target = event.target as HTMLElement
     if (target.scrollTop + target.clientHeight >= target.scrollHeight - 10) {
-        console.log('load mỏe')
-
-        if (!isLoading.value) {
-            //   loadMoreItems()
+        if (!isLoading.value && !isLastPage.value) {
+            getNotification()
         }
     }
 }
@@ -135,5 +146,15 @@ const gotoListNotification = () => {
 
 .border-bottom {
     border-bottom: 1px solid var(--border-color-primary);
+}
+
+.border-top {
+    border-top: 1px solid var(--border-color-primary);
+}
+
+.view-detail {
+    &:hover {
+        color: var(--text-color-second);
+    }
 }
 </style>
