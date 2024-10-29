@@ -1,6 +1,6 @@
 <template>
     <!-- list -->
-    <div class="search-bar text-base flex">
+    <!-- <div class="search-bar text-base flex">
         <CSelectSearch
             v-model="category"
             :options="selection?.categories"
@@ -14,7 +14,7 @@
             classes="w-[150px] mr-5"
         ></CSelectSearch>
         <div class="search-bar__btn px-5 flex items-center cursor-pointer">Latest</div>
-    </div>
+    </div> -->
     <div class="column-header flex items-center text-base h-[56px]">
         <div class="column-header__title w-[70%]">Title</div>
         <div class="column-header__replies w-[10%] text-center">Replies</div>

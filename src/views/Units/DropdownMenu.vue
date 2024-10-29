@@ -2,7 +2,7 @@
     <div
         class="avatar-icon w-[43px] h-[43px] content-center text-center cursor-pointer border-solid border-transparent"
         :class="{ active: isShowMenu }"
-        @click="isShowMenu = !isShowMenu"
+        @click="goToProfile"
     >
         <CAvatar :src="profile.avatar" :name="profile.name" classes="w-[30px] h-[30px]"></CAvatar>
     </div>
@@ -131,6 +131,10 @@ const logout = async () => {
 
         router.push({ name: 'VHome' })
     })
+}
+
+const goToProfile = () => {
+    router.push({ name: 'VProfile' })
 }
 </script>
 

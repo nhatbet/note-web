@@ -17,7 +17,7 @@
                 <div class="navbar-right content-center">
                     <div class="flex">
                         <Search></Search>
-                        <Bell></Bell>
+                        <Bell v-if="isAuthenticated"></Bell>
                         <CThemeMode classes="mx-5"></CThemeMode>
                         <div v-if="!isLoggedIn">
                             <CButton
