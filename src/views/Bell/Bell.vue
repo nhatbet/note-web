@@ -5,6 +5,9 @@
             class="w-[43px] h-full flex items-center justify-center cursor-pointer"
             @click="openPopup"
         ></CIcon>
+        <span class="count-not-read rounded-full flex justify-center items-center cursor-pointer" @click="openPopup">{{
+            count
+        }}</span>
         <PopupCommon ref="popup">
             <div class="bell-content text-base">
                 <div class="head-notice flex justify-between py-3 px-4 border-bottom">
@@ -39,7 +42,7 @@
 
 <script lang="ts" setup>
 import PopupCommon from '@/components/Parts/PopupCommon.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import Api from '@/network/Api'
 import { useRouter } from 'vue-router'
 
@@ -48,6 +51,7 @@ const isLoading = ref(false)
 const router = useRouter()
 const currentPage = ref(0)
 const isLastPage = ref(false)
+const countNotRead = ref(0)
 
 const getNotification = async () => {
     isLoading.value = true
@@ -66,8 +70,24 @@ const getNotification = async () => {
         })
 }
 
+const getCountNotRead = async () => {
+    await Api.notification
+        .countNotReadYet()
+        .then((res: any) => {
+            countNotRead.value = res.data
+        })
+        .catch((err: any) => {
+            console.log(err)
+        })
+}
+
+const count = computed(() => {
+    return countNotRead.value > 9 ? '+9' : countNotRead.value
+})
+
 onMounted(async () => {
     isLoading.value = true
+    await getCountNotRead()
     await getNotification()
 })
 
@@ -104,6 +124,17 @@ const gotoListNotification = () => {
 <style lang="scss" scoped>
 .bell-icon {
     position: relative;
+
+    .count-not-read {
+        position: absolute;
+        top: 50%;
+        left: 60%;
+        width: 15px;
+        height: 15px;
+        line-height: 15px;
+        background-color: var(--text-color-third);
+        color: white;
+    }
 
     .bell-content {
         position: absolute;
