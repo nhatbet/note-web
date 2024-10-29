@@ -22,6 +22,9 @@
                         <div class="title-notice">{{ notice.title }}</div>
                         <div class="body-notice">{{ getContentNotice(notice.body) }}</div>
                     </div>
+                    <div class="h-[58px] w-full" v-show="!isLastPage">
+                        <CLoading></CLoading>
+                    </div>
                 </div>
                 <div
                     class="text-center cursor-pointer p-2 border-top view-detail"

@@ -12,6 +12,7 @@ import CSelect from '@/components/General/CSelect.vue'
 import CIcon from '@/components/General/CIcon.vue'
 import CCheckBox from '@/components/General/CCheckBox.vue'
 import CSelectSearch from '@/components/General/CSelectSearch.vue'
+import CLoading from '@/components/General/CLoading.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Vue3Toasity, { toast, type ToastContainerOptions } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
@@ -40,6 +41,7 @@ app.component('CSelect', CSelect)
 app.component('CIcon', CIcon)
 app.component('CCheckBox', CCheckBox)
 app.component('CSelectSearch', CSelectSearch)
+app.component('CLoading', CLoading)
 app.component('FontAwesomeIcon', FontAwesomeIcon)
 
 app.mount('#app')
