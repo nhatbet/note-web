@@ -45,8 +45,9 @@ import PopupCommon from '@/components/Parts/PopupCommon.vue'
 import { ref, onMounted, computed } from 'vue'
 import Api from '@/network/Api'
 import { useRouter } from 'vue-router'
+import type { Notification } from '@/types/TNotification'
 
-const notifications = ref([])
+const notifications = ref([] as Notification[])
 const isLoading = ref(false)
 const router = useRouter()
 const currentPage = ref(0)
