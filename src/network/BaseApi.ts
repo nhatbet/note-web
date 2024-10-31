@@ -10,6 +10,7 @@ class BaseApi {
     public headers: any = {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
+        'Cache-Control': 'no-cache, must-revalidate',
         'Authorization': 'No auth'
     }
     public params: object | null = null;
