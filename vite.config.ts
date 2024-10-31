@@ -9,10 +9,10 @@ export default defineConfig({
   plugins: [
     vue(),
   ],
-  server: {
-    host: 'localhost',
-    // port: 5173
-  },
+  // server: {
+  //   host: 'localhost',
+  //   // port: 5173
+  // },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
