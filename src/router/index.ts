@@ -28,11 +28,11 @@ const router = createRouter({
             component: HomeView,
             meta: { title: 'Welcome home', permissions: [] }
         },
-        {
-            path: '/test',
-            name: 'test',
-            component: TestView
-        },
+        // {
+        //     path: '/test',
+        //     name: 'test',
+        //     component: TestView
+        // },
         {
             path: '/comments',
             name: 'VCommentIndex',
