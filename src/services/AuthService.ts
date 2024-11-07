@@ -35,7 +35,7 @@ export const authService = () => {
             .then((res: any) => {
                 LocalStorageService.saveAuthInfo(res.data)
                 authStore.setAuthenticated(true)
-                authStore.setProfile(res.data)
+                authStore.setProfile(res.data.user)
                 saveFCMToken()
             })
             .catch((err) => {

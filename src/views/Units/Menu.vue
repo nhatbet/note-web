@@ -151,14 +151,16 @@ const logout = async () => {
         padding: 2rem 0.5rem 1rem 2rem;
         overflow-y: scroll;
         overflow-x: hidden;
+        height: calc(100% - 50px);
         scrollbar-color: rgba(0, 0, 0, 0) transparent;
     }
 
     .bottom-panel {
+        background-color: var(--bg-color-primary);
         height: 50px;
         position: absolute;
         bottom: 0;
-        // box-shadow: 0 0px 6px white;
+        box-shadow: 0 0px 6px white;
     }
 }
 

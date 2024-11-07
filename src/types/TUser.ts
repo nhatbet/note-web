@@ -29,6 +29,10 @@ type UserInfo = {
     id: number
     email: string
     name: string
+    username: string
+    provider_name: string
+    dob: string
+    gender: number
     avatar: string
     created_at: string
 }

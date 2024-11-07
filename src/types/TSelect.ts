@@ -2,7 +2,8 @@ type SelectionType = null | {
     article_status: []
     categories: [],
     tags: [],
-    report_categories: []
+    report_categories: [],
+    genders: []
 }
 
 type Option = {

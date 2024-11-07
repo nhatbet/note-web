@@ -6,7 +6,7 @@
                 class="block w-full p-2 rounded-sm focus:outline-none h-[38px] focus:border-purple-400"
                 @change="model = ($event?.target as HTMLInputElement).value"
             >
-                <option v-show="visibleOptionFirst" :value="null">Nothing selected</option>
+                <option v-show="visibleOptionFirst" :value="null" class="select-placeholder">Nothing selected</option>
                 <option
                     :selected="option?.value == model"
                     v-for="(option, index) in options"
@@ -70,9 +70,13 @@ export default {
 select {
     background-color: var(--bg-color-primary);
     border: 1px solid var(--border-color-primary);
+    border-radius: 8px;
     option {
         height: 38px;
     }
+}
+.select-placeholder {
+    color: #64748b !important;
 }
 .error {
     color: var(--text-color-third);
