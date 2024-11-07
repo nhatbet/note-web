@@ -40,19 +40,6 @@
                     <!-- <GithubSignIn></GithubSignIn> -->
                 </div>
             </div>
-            <div class="mt-7 text-center text-xs">
-                <span>
-                    Copyright © 2021-2024
-                    <!-- <a
-                        href="https://codepen.io/uidesignhub"
-                        rel=""
-                        target="_blank"
-                        title="Codepen aji"
-                        class="text-purple-500 hover:text-purple-600"
-                        >AJI</a
-                    > -->
-                </span>
-            </div>
         </div>
     </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
     <Button severity="secondary" class="custom-button" @click="handleClick" :class="classes">
     {{ text }}
-        <CIcon :name="icon" v-if="!!icon"></CIcon>
+        <!-- <CIcon :name="icon" v-if="!!icon"></CIcon> -->
     </Button>
 </template>
 
