@@ -16,6 +16,8 @@ import CLoading from '@/components/General/CLoading.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Vue3Toasity, { toast, type ToastContainerOptions } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
+import PrimeVue from 'primevue/config'
+import Aura from '@primevue/themes/aura';
 
 const app = createApp(App)
 
@@ -43,5 +45,12 @@ app.component('CCheckBox', CCheckBox)
 app.component('CSelectSearch', CSelectSearch)
 app.component('CLoading', CLoading)
 app.component('FontAwesomeIcon', FontAwesomeIcon)
+
+app.use(PrimeVue, {
+    theme: {
+        preset: Aura
+    }
+});
+
 
 app.mount('#app')
