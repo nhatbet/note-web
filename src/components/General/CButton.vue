@@ -1,61 +1,42 @@
 <template>
-    <a
-        class="text-base cursor-pointer transition-all inline-block text-center h-full"
-        :class="[
-            classes,
-            { disable: disable },
-            type === 4
-                ? ''
-                : type === 3
-                  ? 'style-type-3'
-                  : type === 2
-                    ? 'style-type-2'
-                    : type === 1
-                      ? 'stype-type-1'
-                      : 'border border-purple-700 hover:bg-purple-700 hover:text-white rounded-md'
-        ]"
-        @click="handleClick"
-        :href="href"
-    >
+    <Button severity="secondary" class="custom-button" @click="handleClick" :class="classes">
+    {{ text }}
         <CIcon :name="icon" v-if="!!icon"></CIcon>
-        <span>{{ text }}</span>
-    </a>
+    </Button>
 </template>
 
-<script lang="ts">
-export default {
-    name: 'CButton',
-    props: {
-        text: {
-            type: String,
-            default: ''
-        },
-        icon: {
-            type: String,
-            default: ''
-        },
-        classes: {
-            type: String,
-            default: ''
-        },
-        href: {
-            type: String,
-            default: '#'
-        },
-        disable: {
-            type: Boolean,
-            default: false
-        },
-        type: {
-            type: Number,
-            default: 0
-        }
+<script lang="ts" setup>
+import Button from 'primevue/button'
+
+const props = defineProps({
+    text: {
+        type: String,
+        default: ''
     },
-    methods: {
-        handleClick(event: Event) {
-            this.$emit('clickCButton')
-        }
+    icon: {
+        type: String,
+        default: ''
+    },
+    classes: {
+        type: String,
+        default: ''
+    },
+    href: {
+        type: String,
+        default: '#'
+    },
+    disable: {
+        type: Boolean,
+        default: false
+    },
+    type: {
+        type: Number,
+        default: 0
     }
+})
+const emit = defineEmits(['clickCButton'])
+const handleClick = (event: Event) => {
+    emit('clickCButton')
 }
 </script>
 
@@ -83,5 +64,9 @@ export default {
 .disable {
     opacity: 0.3;
     cursor: not-allowed;
+}
+
+.custom-button {
+  font-size: 1.6rem;
 }
 </style>

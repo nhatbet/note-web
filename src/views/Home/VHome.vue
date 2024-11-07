@@ -22,7 +22,6 @@
                         <div v-if="!isLoggedIn">
                             <CButton
                                 text="Sign in"
-                                classes="w-18 h-8 p-3"
                                 @click="visibleLogin = !visibleLogin"
                             ></CButton>
                         </div>

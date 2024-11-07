@@ -1,34 +1,20 @@
 <template>
     <div class="dialog" v-if="canShow" @click.self="canShow = false">
         <div class="content text-base">
-            <h2 class="text-lg pb-[20px]">Login</h2>
+            <h2 class="pb-[30px] font-bold text-xl">Login</h2>
             <div class="space-y-4">
                 <CInput
                     v-model="loginData.username"
                     :errors="loginErrors?.username"
-                    placeholder="username"
+                    placeholder="Username"
                 ></CInput>
-                <CInput
+                <CPassword
+                    classes="!mt-[15px]"
                     v-model="loginData.password"
                     :errors="loginErrors?.password"
-                    placeholder="password"
-                    class="relative"
-                    :type="passwordVisibility ? 'text' : 'password'"
-                >
-                    <template v-slot:RIcon>
-                        <span
-                            class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 right-2 text-[#9ca3af]"
-                            @click.stop="togglePassword()"
-                        >
-                            <FontAwesomeIcon v-show="passwordVisibility" :icon="['fas', 'eye']" />
-                            <FontAwesomeIcon
-                                v-show="!passwordVisibility"
-                                :icon="['fas', 'eye-slash']"
-                            />
-                        </span>
-                    </template>
-                </CInput>
-                <CCheckBox v-model="loginData.remember" label="Remember me ?"></CCheckBox>
+                    placeholder="Enter password"
+                ></CPassword>
+                <CCheckBox v-model="loginData.remember" name="remember_me" label="Remember me ?"></CCheckBox>
 
                 <div class="flex items-center justify-between">
                     <div class="ml-auto">
@@ -39,7 +25,7 @@
                 </div>
                 <CButton
                     text="Sign in"
-                    classes="bg-purple-800 !text-gray-100 tracking-wide font-semibold w-full h-[40px] flex items-center justify-center"
+                    classes="w-full"
                     @clickCButton="login(loginData)"
                 ></CButton>
                 <div class="flex items-center justify-center space-x-2 my-5">
@@ -82,6 +68,7 @@ import Api from '@/network/Api'
 import { deviceTokenService } from '@/services/DeviceTokenService'
 import GoogleSignIn from './GoogleSignIn.vue'
 import { storeToRefs } from 'pinia'
+import CPassword from '@/components/General/CPassword.vue'
 // import GithubSignIn from './GithubSignIn.vue'
 
 const props = defineProps({
@@ -143,9 +130,6 @@ const login = async (payload: any) => {
         })
 }
 
-const togglePassword = () => {
-    passwordVisibility.value = !passwordVisibility.value
-}
 </script>
 <style lang="scss" scoped>
 .dialog {

@@ -2,7 +2,7 @@
     <CButton
         text="Google"
         icon="logo-google"
-        classes="transition ease-in duration-200 hover:border-gray-900 hover:bg-gray-900"
+        classes="w-full"
         @clickCButton="loginWithProvider(provider)"
     ></CButton>
 </template>

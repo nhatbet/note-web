@@ -15,12 +15,12 @@ export default {
         letterSpacing: '-0.01em',
         // fontWeight: '500',
       }],
-      'lg': ['1.8rem', {
+      'lg': ['2rem', {
         lineHeight: '2rem',
         letterSpacing: '-0.02em',
         // fontWeight: '500',
       }],
-      'xl': ['2rem', {
+      'xl': ['3rem', {
         lineHeight: '2.25rem',
         letterSpacing: '-0.02em',
         // fontWeight: '500',

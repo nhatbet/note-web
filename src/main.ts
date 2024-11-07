@@ -48,7 +48,10 @@ app.component('FontAwesomeIcon', FontAwesomeIcon)
 
 app.use(PrimeVue, {
     theme: {
-        preset: Aura
+        preset: Aura,
+        options: {
+            darkModeSelector: '.dark',
+        }
     }
 });
 
