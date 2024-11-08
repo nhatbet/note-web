@@ -22,12 +22,12 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         { path: '/:pathMatch(.*)*', component: PageNotFound },
-        {
-            path: '/',
-            name: 'home',
-            component: HomeView,
-            meta: { title: 'Welcome home', permissions: [] }
-        },
+        // {
+        //     path: '/',
+        //     name: 'home',
+        //     component: HomeView,
+        //     meta: { title: 'Welcome home', permissions: [] }
+        // },
         {
             path: '/test',
             name: 'test',
@@ -39,7 +39,7 @@ const router = createRouter({
             component: VCommentIndex
         },
         {
-            path: '',
+            path: '/',
             name: 'VHome',
             component: VHome,
             children: [
@@ -53,7 +53,7 @@ const router = createRouter({
                     }
                 },
                 {
-                    path: '/article',
+                    path: '/',
                     name: 'VArticleIndex',
                     component: VArticleIndex
                 },
