@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col gap-1" :class="classes">
-        <Password v-model="model" fluid :placeholder="placeholder">
+        <Password v-model="model" fluid :feedback="feedback" :placeholder="placeholder">
             <template #header>
                 <div class="font-semibold text-base mb-4">Pick a password</div>
             </template>
@@ -52,6 +52,10 @@ const props = defineProps({
     classes: {
         type: [String, Array, Object],
         default: ''
+    },
+    feedback: {
+        type: Boolean,
+        default: false
     }
 })
 
