@@ -1,30 +1,25 @@
 <template>
-    <div class="bottom text-base">
-        <CButton text="Help" :type="4"></CButton>
-        <CButton text="Status" :type="4"></CButton>
-        <CButton text="About" :type="4"></CButton>
-        <CButton text="Privacy" :type="4"></CButton>
-        <CButton text="Terms" :type="4"></CButton>
-    </div>
+    <footer>
+        <div>Home</div>
+        <div>Term & policy</div>
+        <div>Status</div>
+    </footer>
 </template>
 
 <script lang="ts" setup></script>
 
 <style lang="scss" scoped>
-.bottom {
+footer {
     border-top: 1px solid var(--border-color-primary);
-    height: 68px;
+    max-width: 1360px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: center;
-    > * {
-        padding: 30px;
-    }
-}
-
-@media (max-width: 500px) {
-    .bottom > * {
-        padding: 10px;
+    > div {
+        display: inline-block;
+        font-size: 1.6rem;
+        padding: 15px;
+        cursor: pointer;
     }
 }
 </style>

@@ -11,7 +11,7 @@
                     </div>
                     <div class="title flex cursor-pointer" @click="gotoHome">
                         <img src="/logo-icon.png" class="logo mr-5" alt="logo" />
-                        <div class="info pl-5 text-lg flex items-center bold">Share Blog</div>
+                        <div class="info pl-5 text-lg flex items-center bold">Box Blog</div>
                     </div>
                 </div>
                 <div class="navbar-right content-center">
