@@ -1,70 +1,41 @@
 <template>
-    <!-- list -->
-    <!-- <div class="search-bar text-base flex">
-        <CSelectSearch
-            v-model="category"
-            :options="selection?.categories"
-            placeholder="Categories"
-            classes="w-[150px] mr-5"
-        ></CSelectSearch>
-        <CSelectSearch
-            v-model="tag"
-            :options="selection?.tags"
-            placeholder="Tags"
-            classes="w-[150px] mr-5"
-        ></CSelectSearch>
-        <div class="search-bar__btn px-5 flex items-center cursor-pointer">Latest</div>
-    </div> -->
-    <div class="column-header flex items-center text-base h-[56px]">
-        <div class="column-header__title w-[70%]">Title</div>
-        <div class="column-header__replies w-[10%] text-center">Replies</div>
-        <div class="column-header__views w-[10%] text-center">Views</div>
-        <div class="column-header__actions w-[10%] text-center">Action</div>
+    <div v-if="loading" class="loading">
+        <CLoading></CLoading>
     </div>
-    <div class="column-body" @scroll="onScroll()">
-        <div
-            class="article-item flex px-[5px] py-[10px]"
-            v-for="(item, index) in articles"
-            :key="index"
-        >
-            <div class="w-[70%] cursor-pointer" @click="gotoDetail(item.id)">
-                <div class="title text-base">
-                    {{ item.title }}
-                </div>
-                <div class="subtitle text-sm">{{ item.content.substring(0, 20) }}</div>
-            </div>
-            <div class="replies w-[10%] content-center text-center">2</div>
-            <div class="views w-[10%] content-center text-center">3.0k</div>
-            <div class="activity w-[10%] content-center text-center">1h</div>
+
+    <div v-else>
+        <div class="article-list">
+            <CArticleItem v-for="(article, index) in articles" :key="index" :article="article" ></CArticleItem>
         </div>
-        <div class="text-base text-center py-5" v-show="articles.length == 0">No have</div>
-    </div>
-    <!-- pagination -->
-    <div
-        class="paginate text-base flex items-center p-5"
-        v-show="articles.length > 0 && lastPage !== 1"
-    >
-        <ul class="page mx-auto">
-            <li class="page__btn" @click="prePage()">
-                <FontAwesomeIcon :icon="['fas', 'angle-left']" />
-            </li>
-            <li
-                v-for="(page, index) in lastPage"
-                :key="index"
-                class="page__numbers"
-                @click="updateCurrentPage(page)"
-                :class="{ active: currentPage === page }"
-            >
-                {{ page }}
-            </li>
-            <li class="page__btn" @click="nextPage()">
-                <FontAwesomeIcon :icon="['fas', 'angle-right']" />
-            </li>
-        </ul>
+        <!-- pagination -->
+        <div
+            class="paginate text-base flex items-center p-5"
+            v-show="articles.length > 0 && lastPage !== 1"
+        >
+            <ul class="page mx-auto">
+                <li class="page__btn" @click="prePage()">
+                    <FontAwesomeIcon :icon="['fas', 'angle-left']" />
+                </li>
+                <li
+                    v-for="(page, index) in lastPage"
+                    :key="index"
+                    class="page__numbers"
+                    @click="updateCurrentPage(page)"
+                    :class="{ active: currentPage === page }"
+                >
+                    {{ page }}
+                </li>
+                <li class="page__btn" @click="nextPage()">
+                    <FontAwesomeIcon :icon="['fas', 'angle-right']" />
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
 <script lang="ts" setup>
+import CArticleItem from './CArticleItem.vue'
+import CLoading from './CLoading.vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 import { useSelectionStore } from '@/stores/selection'
@@ -73,16 +44,7 @@ import { onMounted, ref, watch } from 'vue'
 import BaseApi from '@/network/BaseApi'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
-
-interface TArticle {
-    id: number
-    title: string
-    content: string
-    author_id: number
-    created_at: string
-    updated_at: string
-    comments: []
-}
+import type { Article } from '@/types/TArticle'
 
 const props = defineProps({
     apiSource: {
@@ -92,11 +54,12 @@ const props = defineProps({
     }
 })
 
+const loading = ref(false)
 library.add({ faAngleLeft, faAngleRight })
 const route = useRoute()
 const params = ref({} as any)
 const router = useRouter()
-const articles = ref([] as TArticle[])
+const articles = ref([] as Article[])
 const selectionStore = useSelectionStore()
 const selection = ref<SelectionType>()
 const category = ref()
@@ -117,7 +80,8 @@ const prePage = () => {
         currentPage.value--
     }
 }
-const getList = async (page = 1) =>
+const getList = async (page = 1) => {
+    loading.value = true
     await BaseApi.get(props.apiSource, {
         page,
         ...params.value
@@ -130,11 +94,13 @@ const getList = async (page = 1) =>
         .catch((err: any) => {
             console.log(err)
         })
-
+        .finally(() => {
+            loading.value = false
+        })
+}
 const gotoDetail = (id: any) => {
     router.push({ name: 'VArticleShow', params: { id } })
 }
-const onScroll = () => {}
 
 onMounted(async () => {
     selection.value = await selectionStore.getData()
@@ -169,10 +135,14 @@ watch(
 </script>
 
 <style lang="scss" scoped>
-.search-bar__btn:hover {
-    background: rgb(235, 235, 235);
-    border-radius: 3px;
+.article-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: left;
+    padding: 20px;
 }
+
 .page {
     display: flex;
     li {
@@ -189,11 +159,5 @@ watch(
         color: white;
         font-weight: bold;
     }
-}
-.column-header {
-    border-bottom: 2px solid var(--border-color-primary);
-}
-.article-item {
-    border-bottom: 1px solid var(--border-color-primary);
 }
 </style>
