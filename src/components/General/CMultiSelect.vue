@@ -1,13 +1,15 @@
 <template>
     <div :class="[classes]">
         <label class="label" for="">{{ label }}</label>
-        <Dropdown
-            v-model="model"
+        <MultiSelect
+            name="city"
             :options="options"
             optionLabel="label"
             optionValue="value"
-            placeholder="Select a Status"
-            class="w-full md:w-14rem"
+            filter
+            placeholder="Select Cities"
+            :maxSelectedLabels="3"
+            class="w-full"
         />
         <small class="error">{{ errors[0] }}</small>
     </div>
@@ -16,12 +18,12 @@
 <script lang="ts">
 import { computed, ref } from 'vue'
 import type { Option } from '@/types/TSelect'
-import Dropdown from 'primevue/dropdown'
+import MultiSelect from 'primevue/multiselect';
 
 export default {
     name: 'CSelect',
     components: {
-        Dropdown
+        MultiSelect
     },
     props: {
         visibleOptionFirst: {
@@ -33,7 +35,7 @@ export default {
             default: null
         },
         modelValue: {
-            type: [String, Number],
+            type: [String, Number, Array],
             default: ''
         },
         options: {

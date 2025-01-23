@@ -66,7 +66,4 @@ const handleClick = (event: Event) => {
     cursor: not-allowed;
 }
 
-.custom-button {
-  font-size: 1.6rem;
-}
 </style>

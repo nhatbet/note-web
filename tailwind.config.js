@@ -5,17 +5,17 @@ export default {
   theme: {
     extend: {},
     fontSize: {
-      'sm': ['1.2rem', {
+      'sm': ['.8rem', {
         lineHeight: '1.5',
         letterSpacing: '-0.01em',
         // fontWeight: '500',
       }],
-      'base': ['1.4rem', {
+      'base': ['1rem', {
         lineHeight: '1.5',
         letterSpacing: '-0.01em',
         // fontWeight: '500',
       }],
-      'lg': ['2rem', {
+      'lg': ['1.5rem', {
         lineHeight: '2rem',
         letterSpacing: '-0.02em',
         // fontWeight: '500',

@@ -9,7 +9,7 @@
             count
         }}</span>
         <PopupCommon ref="popup">
-            <div class="bell-content text-base">
+            <div class="bell-content">
                 <div class="head-notice flex justify-between py-3 px-4 border-bottom">
                     <div>Notification</div>
                     <div class="cursor-pointer">
@@ -127,6 +127,7 @@ const gotoListNotification = () => {
     position: relative;
 
     .count-not-read {
+        font-size: .8rem;
         position: absolute;
         top: 50%;
         left: 60%;

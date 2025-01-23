@@ -29,7 +29,7 @@ if (activeTheme.value === 'dark') {
 <style lang="scss" scoped>
 // magic
 .toggle {
-    --size: 2rem;
+    --size: 1.5rem;
 
     appearance: none;
     outline: none;

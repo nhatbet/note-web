@@ -1,5 +1,6 @@
 <template>
     <div class="flex flex-col gap-1" :class="classes">
+        <label class="label" for="">{{ label }}</label>
         <InputText :type="type" :placeholder="placeholder" v-model="model" />
         <Message v-if="errors.length > 0" severity="error" size="small" variant="simple">
             {{ errors[0] }}
@@ -63,7 +64,4 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
-.p-inputtext {
-    font-size: 1.6rem;
-}
 </style>
