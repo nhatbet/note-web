@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import CIcon from './CIcon.vue';
+import CIcon from './CIcon.vue'
 
 // Reactive state
 const visible = ref(false)
@@ -56,7 +56,6 @@ defineExpose({
 
 <style lang="scss" scoped>
 .confirm-dialog-overlay {
-    font-size: 1.5rem;
     position: fixed;
     z-index: 100;
     top: 0;
@@ -82,7 +81,7 @@ defineExpose({
     margin-top: 10px;
 
     .confirm {
-        background-color: #5046E4;
+        background-color: #5046e4;
         color: white;
         padding: 5px;
         padding-left: 10px;
@@ -115,12 +114,24 @@ defineExpose({
         justify-content: center;
         align-items: center;
         border-radius: 15px;
-        color: #473EC9;
-        background-color: #EDF2FE;
+        color: #473ec9;
+        background-color: #edf2fe;
     }
 
     .close {
         cursor: pointer;
+        width: 28px;
+        height: 28px;
+        border-radius: 14px;
+        color: #473ec9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease-in-out; /* Hiệu ứng trượt mượt */
+
+        &:hover {
+            background-color: #edf2fe;
+        }
     }
 }
 </style>

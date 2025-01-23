@@ -1,6 +1,6 @@
 <template>
     <div class="app" @scroll="onScroll()">
-        <nav class="navbar" ref="navbarHeader">
+        <nav class="navbar" ref="navbarHeader" :class="{ 'hidden-transaction': isMenuHidden }">
             <div class="container nav-container">
                 <div class="navbar-left">
                     <input class="hamburger-checkbox" type="checkbox" v-model="visibleMenubar" />
@@ -31,11 +31,11 @@
         </nav>
         <div class="body">
             <div class="menu">
-                <div class="menu-items">
+                <div class="menu-items" :class="{ 'hidden-transaction-menu': isMenuHidden }">
                     <Menu classes="" />
                 </div>
             </div>
-            <div class="main p-3">
+            <div class="main p-3 mt-[60px]">
                 <Breadcrumb class="px-5" />
                 <RouterView />
             </div>
@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import Menu from '../Units/Menu.vue'
 import Login from '../Login/Login.vue'
 import DropdownMenu from '../Units/DropdownMenu.vue'
@@ -79,12 +79,28 @@ const navbarHeader: any = ref(null)
 if (screenWidth.value < 768) {
     visibleMenubar.value = false
 }
+const isMenuHidden = ref(false) // Trạng thái hiển thị của menu
+let lastScrollY = 0 // Vị trí cuộn trước đó
+const handleScroll = () => {
+    const currentScrollY = window.scrollY
+    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        isMenuHidden.value = true
+    } else {
+        isMenuHidden.value = false
+    }
+
+    lastScrollY = currentScrollY
+}
 
 const onScroll = () => {
     var height = navbarHeader.value.scrollHeight
     if (height > 100) height = 100
     navbarHeader.value.style.transform = `translateY(${-height}px)`
 }
+
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll) // Lắng nghe sự kiện cuộn
+})
 
 const gotoHome = () => {
     router.push({ name: 'VHome' })
@@ -107,10 +123,16 @@ const gotoHome = () => {
     width: 100%;
     box-shadow: 0 1px 4px var(--shadow-color-primary);
     background-color: var(--bg-color-primary);
-    position: -webkit-sticky; /* Safari */
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 10;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    transition: transform 0.5s ease-in-out; /* Hiệu ứng trượt mượt */
+}
+
+.hidden-transaction {
+    transform: translateY(-100%); /* Kéo menu lên */
 }
 
 .title {
@@ -212,6 +234,10 @@ const gotoHome = () => {
     border-right: 1px solid var(--border-color-primary);
     position: sticky;
     top: 56px;
+    transition: top 0.5s ease-in-out; /* Hiệu ứng trượt mượt */
+}
+.hidden-transaction-menu {
+    top: 0;
 }
 
 .body {

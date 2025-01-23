@@ -10,9 +10,9 @@
         }}</span>
         <PopupCommon ref="popup">
             <div class="bell-content">
-                <div class="head-notice flex justify-between py-3 px-4 border-bottom">
+                <div class="head-notice flex justify-between py-2 px-3 border-bottom">
                     <div>Notification</div>
-                    <div class="cursor-pointer">
+                    <div class="cursor-pointer flex items-center">
                         <CIcon name="setting" @click="gotoSetting"></CIcon>
                     </div>
                 </div>
@@ -20,7 +20,7 @@
                     <div
                         v-for="(notice, index) in notifications"
                         :key="index"
-                        class="item-notice cursor-pointer py-3 px-4 border-bottom"
+                        class="item-notice cursor-pointer py-2 px-3 border-bottom"
                     >
                         <div class="title-notice">{{ notice.title }}</div>
                         <div class="body-notice">{{ getContentNotice(notice.body) }}</div>
@@ -30,10 +30,10 @@
                     </div>
                 </div>
                 <div
-                    class="text-center cursor-pointer p-2 border-top view-detail"
+                    class="text-center cursor-pointer  border-top view-detail"
                     @click="gotoListNotification"
                 >
-                    View Detail
+                    View all
                 </div>
             </div>
         </PopupCommon>
@@ -152,7 +152,8 @@ const gotoListNotification = () => {
 
             .item-notice {
                 &:hover {
-                    background-color: var(--bg-color-third);
+                    background-color: var(--bg-color-fourth);
+                    color: white;
                 }
             }
         }
@@ -190,7 +191,8 @@ const gotoListNotification = () => {
 
 .view-detail {
     &:hover {
-        color: var(--text-color-second);
+        color: white;
+        background-color: var(--bg-color-fourth);
     }
 }
 </style>
