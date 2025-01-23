@@ -2,6 +2,9 @@
     <div v-if="loading" class="loading">
         <CLoading></CLoading>
     </div>
+    <div v-else-if="articles.length == 0" class="loading">
+        Không có bài viết nào
+    </div>
 
     <div v-else>
         <div class="article-list">
@@ -97,9 +100,6 @@ const getList = async (page = 1) => {
         .finally(() => {
             loading.value = false
         })
-}
-const gotoDetail = (id: any) => {
-    router.push({ name: 'VArticleShow', params: { id } })
 }
 
 onMounted(async () => {

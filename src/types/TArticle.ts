@@ -21,15 +21,19 @@ type Article = {
     title: string
     content: string
     author_id: number
-    created_at: string
-    updated_at: string
-    comments: []
+    created_at: number
+    updated_at: number
+    author: Author
 }
 
 type Author = {
     id: number,
     name: string,
-    email: string
+    email: string,
+    dob: string|null,
+    gender: string,
+    created_at: string,
+    avatar: string|null
 }
 
 export type { ArticleStore, ArticleShow, Article, Author }

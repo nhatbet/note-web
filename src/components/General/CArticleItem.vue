@@ -9,8 +9,8 @@
         <div class="user-info">
             <img class="avatar" src="/images/default-avatar.png" alt="avatar" />
             <div>
-                <p>name</p>
-                <p>12 th12 2024 • 2 min read</p>
+                <p>{{ article.author.name }}</p>
+                <p>{{ moment.unix(article.created_at).format('DD MMM YYYY') }} • 2 min read</p>
             </div>
         </div>
     </div>
@@ -21,12 +21,13 @@ import { extractFirstImageUrl } from '@/utils/functions'
 import { computed } from 'vue'
 import type { Article } from '@/types/TArticle'
 import { useRouter } from 'vue-router'
+import moment from 'moment'
 
 const props = defineProps<{
     article: Article
 }>()
 
-const router = useRouter();
+const router = useRouter()
 const getImageSrc = computed(() => {
     return extractFirstImageUrl(props.article.content) ?? '/images/default-article.png'
 })
@@ -47,6 +48,18 @@ const gotoDetail = (id: number) => {
     }
 }
 
+@media (max-width: 768px) {
+    .article-item {
+        width: calc(50% - 10px);
+    }
+}
+
+@media (max-width: 500px) {
+    .article-item {
+        width: 100%;
+    }
+}
+
 .article-content {
     h3 {
         font-size: 2rem;
@@ -54,6 +67,7 @@ const gotoDetail = (id: number) => {
     }
     p {
         font-size: 1.6rem;
+        line-height: 1.3em;
         display: -webkit-box; /* Thêm hiển thị dạng box linh hoạt */
         -webkit-line-clamp: 3; /* Giới hạn tối đa 3 dòng hiển thị */
         -webkit-box-orient: vertical; /* Hiển thị theo chiều dọc */
@@ -63,10 +77,11 @@ const gotoDetail = (id: number) => {
 }
 
 .user-info {
+    margin-top: 5px;
     display: flex;
     .avatar {
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
         display: inline-block;
         border-radius: 50%;
         margin-right: 7px;
