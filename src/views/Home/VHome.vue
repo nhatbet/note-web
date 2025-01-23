@@ -219,6 +219,7 @@ const gotoHome = () => {
 
 .main {
     width: 100%;
+    min-height: 100vh;
     z-index: 1;
     background-color: var(--bg-color-primary);
 }

@@ -10,7 +10,7 @@
                 :classes="item.classes"
             ></MenuItem>
         </div>
-        <div class="bottom-panel flex items-center cursor-pointer" @click="logout">
+        <div class="bottom-panel flex items-center cursor-pointer w-full" @click="logout">
             <CIcon name="logout" class="px-5"></CIcon>
             <p class="pl-2 w-full">Logout</p>
         </div>
@@ -76,7 +76,7 @@ onMounted(async () => {
         },
         {
             label: 'My Posts',
-            icon: 'user',
+            icon: 'folder-shared',
             toRoute: {
                 name: 'VMyArticle',
                 query: {

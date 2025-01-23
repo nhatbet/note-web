@@ -14,10 +14,10 @@
                     classes="mb-2 relative"
                     ref="commonInput"
                 >
-                    <template v-slot:RIcon>
+                    <template v-slot:lastIcon>
                         <CIcon
-                            name="xmark"
-                            @click="resetData()"
+                            name="tune"
+                            @click="gotoSearchDetail()"
                             class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 right-1 cursor-pointer"
                         ></CIcon>
                     </template>
@@ -124,6 +124,11 @@ const openPopup = (event: any) => {
     nextTick(() => {
         commonInput.value?.focusInput()
     })
+}
+
+const gotoSearchDetail = () => {
+    popup.value?.hidePopup()
+    router.push({ name: 'SearchDetail' })
 }
 </script>
 

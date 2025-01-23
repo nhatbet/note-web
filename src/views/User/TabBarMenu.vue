@@ -31,7 +31,7 @@ import { storeToRefs } from 'pinia'
 import moment from 'moment'
 
 const tabs = [
-    { name: 'VProfile', label: 'Profile', icon: 'user' },
+    { name: 'VProfile', label: 'Profile', icon: 'badge' },
     { name: 'VSummary', label: 'Summary', icon: 'summary' },
     { name: 'VNotification', label: 'Notifications', icon: 'bell' },
     { name: 'VActivity', label: 'Activity', icon: 'hourglass' },

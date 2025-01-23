@@ -1,7 +1,11 @@
 <template>
     <div class="flex flex-col gap-1" :class="classes">
         <label class="label" for="">{{ label }}</label>
-        <InputText :type="type" :placeholder="placeholder" v-model="model" />
+        <IconField>
+            <slot name="firstIcon"></slot>
+            <InputText class="w-full" v-model="model" :type="type" :placeholder="placeholder" />
+            <slot name="lastIcon"></slot>
+        </IconField>
         <Message v-if="errors.length > 0" severity="error" size="small" variant="simple">
             {{ errors[0] }}
         </Message>
@@ -11,6 +15,7 @@
 <script lang="ts" setup>
 import { computed, ref, type PropType } from 'vue'
 import InputText from 'primevue/inputtext'
+import IconField from 'primevue/iconfield'
 
 const props = defineProps({
     modelValue: {
@@ -63,5 +68,4 @@ defineExpose({
 })
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
