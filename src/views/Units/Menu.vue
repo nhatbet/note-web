@@ -27,7 +27,9 @@ import Api from '@/network/Api'
 import LocalStorageService from '@/services/LocalStorageService'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import { useConfirm } from '@/useConfirm'
 
+const confirm = useConfirm()
 const authStore = useAuthStore()
 const router = useRouter()
 const selectionStore = useSelectionStore()
@@ -132,12 +134,15 @@ onMounted(async () => {
 })
 
 const logout = async () => {
-    await Api.auth.logout().finally(() => {
-        LocalStorageService.clearAuthInfo()
-        authStore.setAuthenticated(false)
-        authStore.setProfile()
-        router.push({ name: 'VHome' })
-    })
+    const result = await confirm('Are you sure you want to log out?')
+    if (result) {
+        await Api.auth.logout().finally(() => {
+            LocalStorageService.clearAuthInfo()
+            authStore.setAuthenticated(false)
+            authStore.setProfile()
+            router.push({ name: 'VHome' })
+        })
+    }
 }
 </script>
 <style lang="scss" scoped>
