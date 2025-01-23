@@ -20,10 +20,7 @@
                         <Bell v-if="isAuthenticated"></Bell>
                         <CThemeMode classes="mx-5"></CThemeMode>
                         <div v-if="!isLoggedIn">
-                            <CButton
-                                text="Sign in"
-                                @click="visibleLogin = !visibleLogin"
-                            ></CButton>
+                            <CButton text="Sign in" @click="visibleLogin = !visibleLogin"></CButton>
                         </div>
                         <div class="navbar-avatar" v-else>
                             <DropdownMenu></DropdownMenu>
@@ -39,6 +36,7 @@
                 </div>
             </div>
             <div class="main p-3">
+                <Breadcrumb class="px-5" />
                 <RouterView />
             </div>
         </div>
@@ -64,6 +62,7 @@ import Bottom from '../Units/Footer.vue'
 import Search from '../Search/Search.vue'
 import { useRouter } from 'vue-router'
 import Bell from '../Bell/Bell.vue'
+import Breadcrumb from '@/components/Parts/Breadcrumb.vue'
 
 const router = useRouter()
 const visibleMenubar = ref(true)

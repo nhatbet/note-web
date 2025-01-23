@@ -62,11 +62,10 @@ const gotoDetail = (id: number) => {
 
 .article-content {
     h3 {
-        font-size: 2rem;
+        font-size: 1.3rem;
         font-weight: 700;
     }
     p {
-        font-size: 1.6rem;
         line-height: 1.3em;
         display: -webkit-box; /* Thêm hiển thị dạng box linh hoạt */
         -webkit-line-clamp: 3; /* Giới hạn tối đa 3 dòng hiển thị */
@@ -74,6 +73,7 @@ const gotoDetail = (id: number) => {
         overflow: hidden; /* Ẩn nội dung vượt quá */
         text-overflow: ellipsis; /* Thêm dấu "..." ở cuối nếu tràn */
     }
+    padding-bottom: 5px;
 }
 
 .user-info {
@@ -88,7 +88,7 @@ const gotoDetail = (id: number) => {
     }
     div {
         line-height: 1.3em;
-        font-size: 1.3rem;
+        font-size: 0.8rem;
     }
 }
 </style>

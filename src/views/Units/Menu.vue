@@ -153,7 +153,7 @@ const logout = async () => {
     position: relative;
 
     .menu-item {
-        padding: 2rem 0.5rem 1rem 2rem;
+        padding: 1rem;
         overflow-y: scroll;
         overflow-x: hidden;
         height: calc(100% - 50px);
@@ -174,7 +174,6 @@ const logout = async () => {
         height: 100vh;
         .menu-item {
             overflow: auto;
-            padding: 2rem;
         }
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <footer>
+    <footer class="footer">
         <div>Home</div>
         <div>Term & policy</div>
         <div>Status</div>
@@ -15,9 +15,9 @@ footer {
     margin: 0 auto;
     display: flex;
     align-items: center;
+    justify-content: center;
     > div {
         display: inline-block;
-        font-size: 1.6rem;
         padding: 15px;
         cursor: pointer;
     }
