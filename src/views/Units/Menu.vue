@@ -10,9 +10,9 @@
                 :classes="item.classes"
             ></MenuItem>
         </div>
-        <div class="bottom-panel flex items-center w-full cursor-pointer" @click="logout">
+        <div class="bottom-panel flex items-center cursor-pointer" @click="logout">
             <CIcon name="logout" class="px-5"></CIcon>
-            <span class="pl-2">Logout</span>
+            <p class="pl-2 w-full">Logout</p>
         </div>
     </div>
 </template>
@@ -157,7 +157,7 @@ const logout = async () => {
         overflow-y: scroll;
         overflow-x: hidden;
         height: calc(100% - 50px);
-        scrollbar-color: rgba(0, 0, 0, 0) transparent;
+        // scrollbar-color: rgba(0, 0, 0, 0) transparent;
     }
 
     .bottom-panel {
@@ -165,7 +165,7 @@ const logout = async () => {
         height: 50px;
         position: absolute;
         bottom: 0;
-        box-shadow: 0 0px 6px white;
+        box-shadow: 0 0px 6px var(--bg-color-second);
     }
 }
 
