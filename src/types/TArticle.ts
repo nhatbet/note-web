@@ -2,7 +2,7 @@ type ArticleStore = {
     title: string,
     content: string,
     status: number,
-    category: number,
+    category_id: number,
     tags: []
 }
 

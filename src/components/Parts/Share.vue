@@ -27,8 +27,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import PopupCommon from '@/components/Parts/PopupCommon.vue'
-import { toast } from 'vue3-toastify'
+import { useToast } from "primevue/usetoast";
 
+const toast = useToast();
 const popup = ref<InstanceType<typeof PopupCommon> | null>(null)
 // Function open popup
 const openPopup = (event: any) => {
@@ -39,9 +40,9 @@ const openPopup = (event: any) => {
 const copyLink = async () => {
     try {
         await navigator.clipboard.writeText(window.location.href) // Sao chép văn bản vào clipboard
-        toast.success('Copy success')
+        toast.add({ severity: 'success', summary: 'Success', detail: 'Copy success', life: 3000 });
     } catch (err) {
-        toast.success('Copy fail')
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Copy fail', life: 3000 });
     }
     popup.value?.hidePopup()
 }

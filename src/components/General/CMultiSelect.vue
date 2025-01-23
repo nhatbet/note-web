@@ -10,6 +10,7 @@
             placeholder="Select Cities"
             :maxSelectedLabels="3"
             class="w-full"
+            v-model="model"
         />
         <small class="error">{{ errors[0] }}</small>
     </div>
@@ -48,7 +49,7 @@ export default {
         },
         errors: {
             type: [Array],
-            default: []
+            default: () => []
         }
     },
     setup(props, { emit }) {

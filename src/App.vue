@@ -3,13 +3,15 @@ import { RouterView } from 'vue-router'
 import { getFCMToken, messaging } from './firebase'
 import { onMessage } from 'firebase/messaging'
 import { ref } from 'vue'
-import { toast } from 'vue3-toastify'
-const toastMessage = ref('')
+import { useToast } from "primevue/usetoast";
+import Toast from 'primevue/toast'
 
+const toastMessage = ref('')
+const toast = useToast();
 onMessage(messaging, (payload: any) => {
     console.log('Thông báo nhận được:', payload)
     toastMessage.value = `${payload.notification.title} - ${payload.notification.body}`
-    toast.success(toastMessage.value)
+    toast.add({ severity: 'success', summary: 'Success', detail: toastMessage.value, life: 3000 });
 })
 
 </script>
@@ -17,7 +19,7 @@ onMessage(messaging, (payload: any) => {
 <template>
 
     <RouterView />
-
+    <Toast />
 </template>
 
 <style scoped>

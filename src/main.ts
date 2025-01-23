@@ -14,27 +14,15 @@ import CCheckBox from '@/components/General/CCheckBox.vue'
 import CSelectSearch from '@/components/General/CSelectSearch.vue'
 import CLoading from '@/components/General/CLoading.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import Vue3Toasity, { toast, type ToastContainerOptions } from 'vue3-toastify'
-import 'vue3-toastify/dist/index.css'
 import PrimeVue from 'primevue/config'
-import Aura from '@primevue/themes/aura';
+import Aura from '@primevue/themes/aura'
+import ToastService from 'primevue/toastservice'
 
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
-app.use(Vue3Toasity, {
-    autoClose: 3000,
-    position: toast.POSITION.TOP_RIGHT,
-    closeButton: false,
-    theme: 'auto',
-    bodyClassName: 'text-base',
-    style: {
-        opacity: '1',
-        userSelect: 'initial'
-    }
-    // ...
-} as ToastContainerOptions)
+app.use(ToastService)
 
 // Define component
 app.component('CInput', CInput)
@@ -50,10 +38,9 @@ app.use(PrimeVue, {
     theme: {
         preset: Aura,
         options: {
-            darkModeSelector: '.dark',
+            darkModeSelector: '.dark'
         }
     }
-});
-
+})
 
 app.mount('#app')

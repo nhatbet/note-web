@@ -10,7 +10,7 @@
 
         <div class="flex">
             <CSelect
-                v-model="articleData.category"
+                v-model="articleData.category_id"
                 :options="selection?.categories"
                 classes="mb-2 mr-4"
                 label="Category"
@@ -38,6 +38,7 @@
 </template>
 
 <script lang="ts">
+import { useToast } from "primevue/usetoast";
 import { onMounted, ref } from 'vue'
 import MDEditor from '@/components/Editor/MDEditor.vue'
 import type { ArticleStore } from '@/types/TArticle'
@@ -54,20 +55,21 @@ export default {
         MDEditor
     },
     setup(props, { emit }) {
+        const toast = useToast();
         const selectionStore = useSelectionStore()
         const selection = ref<SelectionType>()
         const articleData = ref<ArticleStore>({
             title: '',
             content: '',
             status: 1,
-            category: 1,
+            category_id: 1,
             tags: []
         })
         const articleErrors = ref({
             title: [],
             content: [],
             status: [],
-            category: [],
+            category_id: [],
             tags: []
         })
         const selectSearch = ref(1)
@@ -77,7 +79,7 @@ export default {
             console.log('selection?.article_status', selection.value?.article_status)
         })
 
-        return { articleData, articleErrors, selection, selectSearch }
+        return { articleData, articleErrors, selection, selectSearch, toast }
     },
 
     methods: {
@@ -88,8 +90,6 @@ export default {
                     console.log('created', res.message)
                 })
                 .catch((err: any) => {
-                    console.log('err', err)
-
                     if (err?.status == 422) {
                         this.articleErrors = err.data
                     }
@@ -99,7 +99,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.article-create {
-    // margin-top: 0px;
-}
+
 </style>

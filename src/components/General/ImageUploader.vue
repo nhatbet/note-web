@@ -50,7 +50,7 @@ import 'cropperjs/dist/cropper.css'
 import CButton from './CButton.vue'
 import Api from '@/network/Api'
 import PopupCommon from '@/components/Parts/PopupCommon.vue'
-import { toast } from 'vue3-toastify'
+import { useToast } from "primevue/usetoast";
 
 const props = defineProps({
     collection: {
@@ -66,7 +66,7 @@ const props = defineProps({
         default: 1 / 1
     }
 })
-
+const toast = useToast();
 const progress = ref(0)
 const popup = ref<InstanceType<typeof PopupCommon> | null>(null)
 const openPopup = (event: any) => {
@@ -108,7 +108,7 @@ const onFileChange = (event: Event) => {
             })
         }
     } else {
-        toast.error('Please select a valid image file.')
+        toast.add({ severity: 'error', summary: 'Error', detail: 'Please select a valid image file.', life: 3000 });
         imageUrl.value = null
     }
 }
@@ -138,7 +138,7 @@ const saveImg = async () => {
         })
         .catch((err: any) => {
             console.log(err)
-            toast.error(err)
+            toast.add({ severity: 'error', summary: 'Error', detail: err, life: 3000 });
         })
 }
 

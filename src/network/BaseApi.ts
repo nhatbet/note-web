@@ -1,8 +1,7 @@
 import axios from "axios";
 import LocalStorageService from '@/services/LocalStorageService'
 import type { ResponseType } from "@/types/TResponse";
-import { toast } from "vue3-toastify";
-
+import { useToast } from "primevue/usetoast";
 class BaseApi {
     public baseURL: string = import.meta.env.VITE_HOST + '/api'
     public method: any = null;
@@ -101,23 +100,25 @@ class BaseApi {
                     const data = response.data as ResponseType
                     const status = data?.status
                     const message = data?.message
+                    const toast = useToast();
                     switch (status) {
                         case 200:
                             resolve(data);
                             if (this.notify) {
-                                toast.success(message)
+                                toast.add({ severity: 'success', summary: 'Success', detail: message, life: 3000 });
                             }
                             break
                         case 401:
                             // LocalStorageService.clearAuthInfo()
+                            break;
                         case 403:
+                            break;
                         //TODO: handle permission
 
                         default:
                             if (this.notify) {
-                                toast.error(message)
+                                toast.add({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
                             }
-                            // code block
                     }
 
                     reject(data);
