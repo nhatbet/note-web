@@ -18,7 +18,7 @@
                     <div class="flex">
                         <Search></Search>
                         <Bell v-if="isAuthenticated"></Bell>
-                        <CThemeMode classes="mx-5"></CThemeMode>
+                        <CThemeMode classes="px-3"></CThemeMode>
                         <div v-if="!isLoggedIn">
                             <CButton text="Sign in" @click="visibleLogin = !visibleLogin"></CButton>
                         </div>

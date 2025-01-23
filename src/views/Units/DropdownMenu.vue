@@ -1,6 +1,6 @@
 <template>
     <div
-        class="avatar-icon w-[43px] h-[43px] content-center text-center cursor-pointer border-solid border-transparent"
+        class="avatar-icon w-[43px] h-[43px] content-center text-center cursor-pointer border-solid border-transparent flex items-center justify-center"
         :class="{ active: isShowMenu }"
         @click="goToProfile"
     >

@@ -6,7 +6,7 @@
             <h3>{{ article.title }}</h3>
             <p>{{ article.content }}</p>
         </div>
-        <div class="user-info">
+        <div class="user-info" v-if="article.author">
             <img class="avatar" src="/images/default-avatar.png" alt="avatar" />
             <div>
                 <p>{{ article.author.name }}</p>
@@ -39,7 +39,7 @@ const gotoDetail = (id: number) => {
 
 <style lang="scss" scoped>
 .article-item {
-    width: calc(33.333% - 20px);
+    // width: calc(33.333% - 20px);
     img {
         cursor: pointer;
         width: 100%;
@@ -50,7 +50,7 @@ const gotoDetail = (id: number) => {
 
 @media (max-width: 768px) {
     .article-item {
-        width: calc(50% - 10px);
+        // width: calc(50% - 10px);
     }
 }
 

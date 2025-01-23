@@ -1,5 +1,5 @@
 <template>
-    <div class="profile text-base px-[20px] pt-[20px]">
+    <div class="profile px-[20px] pt-[20px]">
         <div class="pb-[20px]">
             <div class="label">Account</div>
             <div>
@@ -41,13 +41,7 @@
             :variant="'outlined'"
             :severity="'help'"
             classes="px-[15px] py-[7px] rounded mb-[20px]"
-            :type="1"
         ></CButton>
-        <!-- <CButton
-                text="Delete My Account"
-                classes="px-[15px] py-[7px] rounded"
-                :type="2"
-            ></CButton> -->
     </div>
 </template>
 

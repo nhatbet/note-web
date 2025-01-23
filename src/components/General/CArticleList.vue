@@ -2,15 +2,17 @@
     <div v-if="loading" class="loading">
         <CLoading></CLoading>
     </div>
-    <div v-else-if="articles.length == 0" class="loading">
-        Không có bài viết nào
-    </div>
+    <div v-else-if="articles.length == 0" class="loading">Không có bài viết nào</div>
 
     <div v-else>
-        <div class="article-list">
-            <CArticleItem v-for="(article, index) in articles" :key="index" :article="article" ></CArticleItem>
+        <div class="article-list" ref="collection">
+            <CArticleItem
+                v-for="(article, index) in articles"
+                :key="index"
+                :article="article"
+                :style="childStyle"
+            ></CArticleItem>
         </div>
-        <!-- pagination -->
         <div
             class="paginate text-base flex items-center p-5"
             v-show="articles.length > 0 && lastPage !== 1"
@@ -43,9 +45,8 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 import { useSelectionStore } from '@/stores/selection'
 import type { SelectionType } from '@/types/TSelect'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, reactive } from 'vue'
 import BaseApi from '@/network/BaseApi'
-import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
 import type { Article } from '@/types/TArticle'
 
@@ -61,13 +62,10 @@ const loading = ref(false)
 library.add({ faAngleLeft, faAngleRight })
 const route = useRoute()
 const params = ref({} as any)
-const router = useRouter()
 const articles = ref([] as Article[])
 const selectionStore = useSelectionStore()
 const selection = ref<SelectionType>()
-const category = ref()
-const tag = ref()
-const currentPage = ref()
+const currentPage = ref(1)
 const lastPage = ref()
 
 const updateCurrentPage = (value: number) => {
@@ -105,6 +103,9 @@ const getList = async (page = 1) => {
 onMounted(async () => {
     selection.value = await selectionStore.getData()
     await getList()
+
+    window.addEventListener('resize', updateChildStyle)
+    updateChildStyle() // Gọi một lần khi component được mount
 })
 
 watch(currentPage, async (newVal, oldVal) => {
@@ -127,11 +128,26 @@ watch(
         if (typeof tagsId === 'string') {
             params.value.tags_id = [tagsId]
         }
-
-        await getList()
     },
     { immediate: true } // Kích hoạt ngay khi component được mount
 )
+
+const childStyle = reactive({
+    width: '33.3333%' // Giá trị mặc định
+})
+const collection = ref<HTMLDivElement | null>(null)
+const updateChildStyle = () => {
+    if (collection.value) {
+        const width = collection.value.offsetWidth // Lấy chiều rộng của thẻ cha
+        if (width < 500) {
+            childStyle.width = '100%'
+        } else if (width < 768) {
+            childStyle.width = 'calc(50% - 10px)'
+        } else {
+            childStyle.width = 'calc(33.3333% - 20px)'
+        }
+    }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -140,7 +156,8 @@ watch(
     flex-wrap: wrap;
     gap: 20px;
     justify-content: left;
-    padding: 20px;
+    padding-bottom: 20px;
+    padding-top: 20px;
 }
 
 .page {
