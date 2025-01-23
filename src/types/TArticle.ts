@@ -11,6 +11,7 @@ type ArticleShow = {
     title: string,
     content: string,
     status: number,
+    category_id: number,
     tags: [],
     comments: [],
     author: Author,

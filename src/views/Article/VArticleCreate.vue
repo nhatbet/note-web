@@ -87,12 +87,13 @@ export default {
             await Api.article
                 .store(this.articleData)
                 .then((res: any) => {
-                    console.log('created', res.message)
+                    this.toast.add({ severity: 'success', summary: 'Success', detail: res.message, life: 3000 });
                 })
                 .catch((err: any) => {
                     if (err?.status == 422) {
                         this.articleErrors = err.data
                     }
+                    this.toast.add({ severity: 'error', summary: 'Error', detail: err.message, life: 3000 });
                 })
         }
     }

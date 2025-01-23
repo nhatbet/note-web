@@ -43,6 +43,7 @@ import CUserInfo from '@/components/General/CUserInfo.vue'
 import type { UserInfo } from '@/types/TUser'
 import { useRoute } from 'vue-router'
 import { authService } from '@/services/AuthService'
+import { useToast } from 'primevue/usetoast'
 
 const props = defineProps({
     parentId: {
@@ -74,6 +75,7 @@ const articleId = computed(() => {
 const emit = defineEmits(['closeReplyForm', 'createCommentSuccess'])
 const textarea: any = ref(null)
 const text = ref('')
+const toast = useToast()
 // check show input and userinfo
 var visibleInput = ref(false)
 if (props.defaultShow) {
@@ -104,10 +106,16 @@ const save = async () => {
                 visibleInput.value = false
 
                 emit('createCommentSuccess')
+                toast.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: res.message,
+                    life: 3000
+                })
             }
         })
         .catch((err) => {
-            console.log(err)
+            toast.add({ severity: 'error', summary: 'Error', detail: err.message, life: 3000 })
         })
 }
 </script>

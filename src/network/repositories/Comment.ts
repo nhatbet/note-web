@@ -2,7 +2,7 @@ import BaseApi from '@/network/BaseApi'
 
 export default () => ({
     createForArticle(articleId: any, data: any) {
-        return BaseApi.setAuth().setNotify().post(`articles/${articleId}/comments`, data)
+        return BaseApi.setAuth().post(`articles/${articleId}/comments`, data)
     },
 
     update(id: any, data: any) {
@@ -14,19 +14,19 @@ export default () => ({
     },
 
     getByArticleId(articleId: any, page: number) {
-        return BaseApi.setAuth().setNotify(false).get('comments/get-by-article', { article_id: articleId, page })
+        return BaseApi.setAuth().get('comments/get-by-article', { article_id: articleId, page })
     },
 
     getCountByArticleId(articleId: any) {
-        return BaseApi.setAuth().setNotify(false).get('comments/articles-count', { article_id: articleId })
+        return BaseApi.setAuth().get('comments/articles-count', { article_id: articleId })
     },
 
     index(params: any) {
         // parent_id
-        return BaseApi.setNotify(false).get('comments', params)
+        return BaseApi.get('comments', params)
     },
 
     report(id: number, data: any) {
-        return BaseApi.setNotify(false).setNotify().post('comments/' + id + '/report', data)
+        return BaseApi.setAuth().post('comments/' + id + '/report', data)
     }
 })

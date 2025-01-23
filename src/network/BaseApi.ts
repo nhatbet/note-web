@@ -1,7 +1,6 @@
 import axios from "axios";
 import LocalStorageService from '@/services/LocalStorageService'
 import type { ResponseType } from "@/types/TResponse";
-import { useToast } from "primevue/usetoast";
 class BaseApi {
     public baseURL: string = import.meta.env.VITE_HOST + '/api'
     public method: any = null;
@@ -17,7 +16,6 @@ class BaseApi {
     public params: object | null = null;
     public data: any = null;
     public url: any = null;
-    public notify: boolean = false;
 
     setHeader(headers: object) {
         this.headers = headers;
@@ -33,12 +31,6 @@ class BaseApi {
 
     setAuth() {
         this.headers['Authorization'] = LocalStorageService.getBearerToken();
-
-        return this;
-    }
-
-    setNotify(status = true) {
-        this.notify = status;
 
         return this;
     }
@@ -99,14 +91,10 @@ class BaseApi {
                 }).then(async response => {
                     const data = response.data as ResponseType
                     const status = data?.status
-                    const message = data?.message
-                    const toast = useToast();
+                    
                     switch (status) {
                         case 200:
                             resolve(data);
-                            if (this.notify) {
-                                toast.add({ severity: 'success', summary: 'Success', detail: message, life: 3000 });
-                            }
                             break
                         case 401:
                             // LocalStorageService.clearAuthInfo()
@@ -116,9 +104,6 @@ class BaseApi {
                         //TODO: handle permission
 
                         default:
-                            if (this.notify) {
-                                toast.add({ severity: 'error', summary: 'Error', detail: message, life: 3000 });
-                            }
                     }
 
                     reject(data);

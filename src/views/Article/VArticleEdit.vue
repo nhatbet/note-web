@@ -1,14 +1,26 @@
 <template>
     <CInput v-model="article.title" :errors="articleErrors?.title" placeholder="Username" label="Title"
         classes="mb-2"></CInput>
-    <CSelect v-model="article.status" :options="selection?.article_status" classes="mb-2" label="Status"></CSelect>
-    <!-- <CSelectSearch
-        v-model="articleData.tags"
-        :multipleSelect="true"
-        label="Tags"
-        :options="selection.article_status"
-        placeholder="Select tag"
-    ></CSelectSearch> -->
+        <div class="flex">
+            <CSelect
+                v-model="article.category_id"
+                :options="selection?.categories"
+                classes="mb-2 mr-4"
+                label="Category"
+            ></CSelect>
+            <CMultiSelect
+                v-model="article.tags"
+                :options="selection?.tags"
+                classes="mb-2 mr-4"
+                label="Tags"
+            ></CMultiSelect>
+            <CSelect
+                v-model="article.status"
+                :options="selection?.article_status"
+                classes="mb-2"
+                label="Status"
+            ></CSelect>
+        </div>
     <MDEditor v-model="article.content" :errors="articleErrors?.content"></MDEditor>
     <CButton text="Update" classes="!w-[100px] my-5 mt-[200px]" @clickCButton="submitArticleUpdate()"></CButton>
 </template>
@@ -21,14 +33,18 @@ import { useRoute } from 'vue-router';
 import { useSelectionStore } from '@/stores/selection';
 import Api from '@/network/Api';
 import type { SelectionType } from '@/types/TSelect';
+import CMultiSelect from '@/components/General/CMultiSelect.vue';
+import { useToast } from "primevue/usetoast";
 
 export default {
     name: 'VArticleEdit',
     props: {},
     components: {
-        MDEditor
+        MDEditor,
+        CMultiSelect
     },
     setup(props, { emit }) {
+        const toast = useToast();
         const selectionStore = useSelectionStore()
         const selection = ref<SelectionType>();
         const route = useRoute()
@@ -38,12 +54,14 @@ export default {
             title: '',
             content: '',
             status: 1,
+            category_id: 1,
             tags: []
         })
         const articleErrors = ref({
             title: [],
             content: [],
             status: [],
+            category_id: [],
             tags: []
         })
         const selectSearch = ref(1)
@@ -53,30 +71,25 @@ export default {
             await Api.article.show(id as any)
                 .then((res: any) => {
                     article.value = res.data as ArticleShow
-                    console.log('ArticleShow', article.value);
                 })
                 .catch((err: any) => {
-                    console.log(err)
                 })
         })
 
-        return { article, articleErrors, selection, selectSearch, id }
+        return { article, articleErrors, selection, selectSearch, id, toast }
     },
 
     methods: {
         async submitArticleUpdate() {
-            console.log('this.article', this.article);
-            
             await Api.article.update(this.id, this.article)
                 .then((res: any) => {
-                    console.log('ress', res);
+                    this.toast.add({ severity: 'success', summary: 'Success', detail: res.message, life: 3000 });
                 })
                 .catch((err: any) => {
-                    console.log('err', err)
-
                     if (err?.status == 422) {
                         this.articleErrors = err.data
                     }
+                    this.toast.add({ severity: 'error', summary: 'Error', detail: err.message, life: 3000 });
                 })
         }
     }
