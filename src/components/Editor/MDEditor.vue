@@ -15,6 +15,7 @@
         :footers="footers"
         :maxLength="maxLength"
         :autoDetectCode="true"
+        :preview="false"
     />
     <small class="text-sm text-rose-600">{{ errors[0] }}</small>
 </template>
@@ -188,7 +189,7 @@ const props = defineProps({
     },
     errors: {
         type: [Array],
-        default: []
+        default: () => []
     }
 })
 
@@ -263,6 +264,6 @@ const onBlur = (e: Event) => {
 
 <style lang="scss" scoped>
 .md-editor {
-    height: calc(100vh - 170px);
+    height: calc(100vh - 200px);
 }
 </style>

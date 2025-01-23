@@ -37,12 +37,13 @@ const breadcrumbs = computed<Breadcrumb[]>(() => {
 })
 </script>
 
-<style>
+<style lang="scss" scoped>
 .breadcrumb {
     display: flex;
     list-style: none;
     padding: 0;
     margin: 0;
+    color: #9629fc;
 }
 .breadcrumb-item {
     margin-right: 8px;

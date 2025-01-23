@@ -37,7 +37,9 @@
             label="Status"
         ></CSelect>
         <CButton
-            text="Save Change"
+            text="Save"
+            :variant="'outlined'"
+            :severity="'help'"
             classes="px-[15px] py-[7px] rounded mb-[20px]"
             :type="1"
         ></CButton>
@@ -56,9 +58,9 @@ import { storeToRefs } from 'pinia'
 import ImageUploader from '@/components/General/ImageUploader.vue'
 import LocalStorageService from '@/services/LocalStorageService'
 import CAvatar from '@/components/General/CAvatar.vue'
-import { useSelectionStore } from '@/stores/selection';
+import { useSelectionStore } from '@/stores/selection'
 import { onMounted, ref } from 'vue'
-import type { SelectionType } from '@/types/TSelect';
+import type { SelectionType } from '@/types/TSelect'
 
 const selectionStore = useSelectionStore()
 const selection = ref<SelectionType>()
@@ -66,10 +68,9 @@ const authStore = useAuthStore()
 const { profile } = storeToRefs(authStore)
 console.log('profile.value', profile.value)
 
-onMounted(async() => {
+onMounted(async () => {
     selection.value = await selectionStore.getData()
 })
-
 
 const handleUpload = (url: string) => {
     profile.value.avatar = url

@@ -1,7 +1,7 @@
 <template>
     <div class="comment__head flex justify-between mb-[15px]" :class="classes">
         <div class="info flex text-base items-center">
-            <CAvatar :src="user.avatar" :name="user.name" classes="!w-[50px] h-[50px] mr-5"></CAvatar>
+            <CAvatar :src="user.avatar" :name="user.name" classes="!w-[40px] h-[40px] mr-5"></CAvatar>
             <div>
                 <p class="">{{ user.name }}</p>
                 <p class="">{{ info }}</p>

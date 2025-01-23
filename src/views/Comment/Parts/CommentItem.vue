@@ -2,7 +2,11 @@
     <div class="mt-5 comment-item" :class="{ 'border-bottom-gray': !isLastItem }">
         <CUserInfo :user="user" :info="createdAtFormated" classes="h-[34px] mb-5">
             <template v-slot:actionRight>
-                <CIcon name="horizontal-dot" class="cursor-pointer" @click="toggleBtnReport()"></CIcon>
+                <CIcon
+                    name="horizontal-dot"
+                    class="cursor-pointer"
+                    @click="toggleBtnReport()"
+                ></CIcon>
                 <CButton
                     text="Report this response"
                     classes="px-[15px] absolute top-[100%] right-[0] w-[170px]"
@@ -14,11 +18,11 @@
         <div class="comment__body">
             {{ comment.content }}
         </div>
-        <div class="comment__action flex justify-between my-5">
-            <div>
+        <div class="comment__action flex justify-between mt-3">
+            <div class="flex items-end">
                 <div class="flex" v-show="commentCount > 0">
                     <CIcon name="comment" class="cursor-pointer"></CIcon>
-                    <p class="content-center cursor-pointer">
+                    <p class="content-center reply-count cursor-pointer">
                         {{ commentCount }}
                         <span v-if="!isShowSubComment" @click="showSubComments()">
                             {{ commentCount > 1 ? 'replies' : 'reply' }}
@@ -28,9 +32,13 @@
                 </div>
             </div>
             <div>
-                <span class="reply content-center cursor-pointer" @click="showReplyForm"
-                    >Reply</span
-                >
+                <CButton
+                    text="Reply"
+                    :variant="'text'"
+                    :severity="'help'"
+                    classes="h-[32px]"
+                    @clickCButton="showReplyForm()"
+                ></CButton>
             </div>
         </div>
         <ReplyForm
@@ -59,7 +67,12 @@
             ></CButton>
         </div>
     </div>
-    <CDialogReport :isShow="isShowDialogReport" :id="comment.id" @close="isShowDialogReport = false" name="Response"></CDialogReport>
+    <CDialogReport
+        :isShow="isShowDialogReport"
+        :id="comment.id"
+        @close="isShowDialogReport = false"
+        name="Response"
+    ></CDialogReport>
 </template>
 
 <script setup lang="ts">
@@ -184,5 +197,8 @@ const handleReport = async () => {
 
 .child {
     border-left: 3px solid var(--border-color-primary);
+}
+.reply-count {
+    font-size: .9rem;
 }
 </style>

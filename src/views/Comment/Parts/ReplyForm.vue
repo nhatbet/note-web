@@ -21,13 +21,14 @@
             <div class="w-1/2 flex justify-end">
                 <CButton
                     text="Close"
-                    classes="px-[15px] mr-5"
                     @clickCButton="close()"
-                    :type="4"
+                    classes="h-[32px] mr-2"
                 ></CButton>
                 <CButton
                     text="Save"
-                    classes="px-[15px]"
+                    :variant="'outlined'"
+                    :severity="'help'"
+                    classes="h-[32px]"
                     @clickCButton="save()"
                     :disable="text.length == 0 ? true : false"
                 ></CButton>

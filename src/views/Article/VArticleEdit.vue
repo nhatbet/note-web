@@ -22,7 +22,14 @@
             ></CSelect>
         </div>
     <MDEditor v-model="article.content" :errors="articleErrors?.content"></MDEditor>
-    <CButton text="Update" classes="!w-[100px] my-5 mt-[200px]" @clickCButton="submitArticleUpdate()"></CButton>
+    <CButton
+        text="Update"
+        class="btn-submit mt-5"
+        classes="!w-[100px] my-4"
+        :variant="'outlined'"
+        :severity="'help'"
+        @click="submitArticleUpdate()"
+    />
 </template>
 
 <script lang='ts'>
@@ -95,3 +102,11 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.btn-submit {
+    position: sticky;
+    position: -webkit-sticky;
+    bottom: 30px;
+}
+</style>

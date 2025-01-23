@@ -31,14 +31,18 @@
         <MDEditor v-model="articleData.content" :errors="articleErrors?.content"></MDEditor>
         <CButton
             text="Create"
-            classes="!w-[100px] my-5 mt-[200px]"
+            class="btn-submit mt-5"
+            classes="!w-[100px] my-4"
+            :variant="'outlined'"
+            :severity="'help'"
             @clickCButton="submitArticleCreate()"
         ></CButton>
+        <Button label="Info" severity="info" variant="text" raised />
     </div>
 </template>
 
 <script lang="ts">
-import { useToast } from "primevue/usetoast";
+import { useToast } from 'primevue/usetoast'
 import { onMounted, ref } from 'vue'
 import MDEditor from '@/components/Editor/MDEditor.vue'
 import type { ArticleStore } from '@/types/TArticle'
@@ -55,7 +59,7 @@ export default {
         MDEditor
     },
     setup(props, { emit }) {
-        const toast = useToast();
+        const toast = useToast()
         const selectionStore = useSelectionStore()
         const selection = ref<SelectionType>()
         const articleData = ref<ArticleStore>({
@@ -87,18 +91,32 @@ export default {
             await Api.article
                 .store(this.articleData)
                 .then((res: any) => {
-                    this.toast.add({ severity: 'success', summary: 'Success', detail: res.message, life: 3000 });
+                    this.toast.add({
+                        severity: 'success',
+                        summary: 'Success',
+                        detail: res.message,
+                        life: 3000
+                    })
                 })
                 .catch((err: any) => {
                     if (err?.status == 422) {
                         this.articleErrors = err.data
                     }
-                    this.toast.add({ severity: 'error', summary: 'Error', detail: err.message, life: 3000 });
+                    this.toast.add({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: err.message,
+                        life: 3000
+                    })
                 })
         }
     }
 }
 </script>
 <style lang="scss" scoped>
-
+.btn-submit {
+    position: sticky;
+    position: -webkit-sticky;
+    bottom: 30px;
+}
 </style>

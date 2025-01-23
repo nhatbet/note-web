@@ -1,5 +1,5 @@
 <template>
-    <Button severity="secondary" class="custom-button" @click="handleClick" :class="classes">
+    <Button :severity="severity" class="custom-button" @click="handleClick" :variant="variant" :class="classes">
     {{ text }}
         <!-- <CIcon :name="icon" v-if="!!icon"></CIcon> -->
     </Button>
@@ -7,6 +7,7 @@
 
 <script lang="ts" setup>
 import Button from 'primevue/button'
+import type { PropType } from 'vue';
 
 const props = defineProps({
     text: {
@@ -32,6 +33,14 @@ const props = defineProps({
     type: {
         type: Number,
         default: 0
+    },
+    severity: {
+        type: String,
+        default: 'secondary'
+    },
+    variant: {
+        type: String as PropType<'undefined' | 'text' | 'outlined'>,
+        default: 'undefined'
     }
 })
 const emit = defineEmits(['clickCButton'])
@@ -41,26 +50,6 @@ const handleClick = (event: Event) => {
 </script>
 
 <style lang="scss" scoped>
-.style-type-3 {
-    line-height: 12px;
-    color: var(--text-color-second);
-    border-bottom: 1px solid transparent;
-    &:hover {
-        border-bottom: 1px solid var(--text-color-second);
-    }
-}
-.stype-type-1 {
-    background-color: var(--text-color-second);
-    color: white;
-}
-.style-type-2 {
-    border: 1px solid var(--border-color-primary);
-}
-
-.radius-cycle {
-    border-radius: 99em;
-}
-
 .disable {
     opacity: 0.3;
     cursor: not-allowed;

@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="main p-3 mt-[60px]">
-                <Breadcrumb class="px-5" />
+                <Breadcrumb />
                 <RouterView />
             </div>
         </div>
